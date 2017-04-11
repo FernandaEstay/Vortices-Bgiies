@@ -1,0 +1,100 @@
+﻿using Gamelogic;
+using UnityCallbacks;
+using UnityEngine;
+
+namespace Memoria
+{
+	public class LookPointerRaycasting : GLMonoBehaviour, IOnValidate, IUpdate
+	{
+		public float maxDistance;
+		public LayerMask ignoredLayerMask;
+		public bool debugOutput;
+
+		private DIOManager _dioManager;
+		private RaycastHit _raycastHit;
+		private Ray _ray;
+		private Vector3 _forwardVector;
+		private PitchGrabObject _actualPitchGrabObject;
+
+		public void Initialize(DIOManager dioManager)
+		{
+			_dioManager = dioManager;
+		}
+
+		public void OnValidate()
+		{
+			maxDistance = Mathf.Max(0.0f, maxDistance);
+		}
+
+		public void Update()
+		{
+            if (_dioManager.bgiiesMode)
+            {
+                if (_dioManager.mouseInput)
+                {
+                    _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                }
+            }
+            else
+            {
+                _forwardVector = transform.TransformDirection(Vector3.forward);
+                _ray = new Ray(transform.position, _forwardVector);
+            }
+			    
+            if(Physics.Raycast(_ray, out _raycastHit, maxDistance, ignoredLayerMask))
+            {
+				var posiblePitcheGrabObject = _raycastHit.transform.gameObject.GetComponent<PitchGrabObject>();
+
+				if (posiblePitcheGrabObject == null)
+					return;
+
+				if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
+				{
+                    if (_actualPitchGrabObject != null)
+                    {
+                        _actualPitchGrabObject.OnUnDetect();    //funcion para ignorar las imagenes que se encuentren en otras vistas
+                    }
+                        
+                    return;
+				}
+
+				if (_actualPitchGrabObject == null)
+				{
+					_actualPitchGrabObject = posiblePitcheGrabObject;   //en una primera instancia actualPitch es null, la primera vez que toca una foto valida toma el valor de posiblePitch
+				}
+				else
+				{
+					if (_actualPitchGrabObject.idName != posiblePitcheGrabObject.idName)    //si actualPitch no coincide con posiblePitch se actualiza actualPitch
+					{
+						_actualPitchGrabObject.OnUnDetect();            // actualPitch se hace null
+						_actualPitchGrabObject = posiblePitcheGrabObject;   //se le asigna el valor de posiblePitch
+					}
+				}
+
+				DebugLog(posiblePitcheGrabObject);
+
+				_actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
+			}
+			else
+			{
+				if (_actualPitchGrabObject == null)
+				{
+					_dioManager.buttonPanel.DisableZoomIn();        //si no se apunta a ninguna foto se oscurece la foto
+					return;
+				}
+
+				_actualPitchGrabObject.OnUnDetect();        //si actualPitch no era nulo se hace null
+			}
+		}
+
+		private void DebugLog(PitchGrabObject posiblePitcheGrabObject)
+        { 
+            if (!debugOutput)
+				return;
+
+			print("Tag: " + _raycastHit.collider.tag);
+			print(string.Format("ID Name: {0}, Visualization ID: {1}",posiblePitcheGrabObject.idName, posiblePitcheGrabObject.dioController.visualizationController.id));
+			print("Actual Visualization: " + posiblePitcheGrabObject.dioController.DioManager.actualVisualization);
+		}
+	}
+}
