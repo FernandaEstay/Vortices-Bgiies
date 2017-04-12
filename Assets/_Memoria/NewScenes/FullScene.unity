@@ -1852,9 +1852,13 @@ MonoBehaviour:
   dioManager: {fileID: 0}
   txtTime: {fileID: 52763642}
   bt1: {fileID: 2140336728}
+  bt1ClicAction: {fileID: 2140336731}
   bt2: {fileID: 365244481}
+  bt2ClicAction: {fileID: 365244484}
   bt3: {fileID: 707578360}
+  bt3ClicAction: {fileID: 707578363}
   bt4: {fileID: 1332172444}
+  bt4ClicAction: {fileID: 1332172447}
   aceptBt1: {r: 1, g: 0, b: 0, a: 0}
   aceptBt2: {r: 1, g: 0.32156864, b: 0, a: 1}
   aceptBt3: {r: 1, g: 0.654902, b: 0, a: 1}
@@ -1870,6 +1874,7 @@ GameObject:
   - component: {fileID: 365244483}
   - component: {fileID: 365244482}
   - component: {fileID: 365244481}
+  - component: {fileID: 365244484}
   m_Layer: 5
   m_Name: Superficies
   m_TagString: Untagged
@@ -1970,6 +1975,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 365244479}
+--- !u!114 &365244484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 365244479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 314314998}
+          m_MethodName: SelectBt2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &368542849
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,6 +2762,8 @@ MonoBehaviour:
   panelBgiies: {fileID: 314314998}
   lookPointerBgiiesPrefab: {fileID: 114851576237576286, guid: 9eacaa21d3863eb449f3fe1246fd2d3d,
     type: 2}
+  childPrefab: {fileID: 1488183635635926, guid: f1f7664df4909424c93df53f6193fbb0,
+    type: 2}
   informationPrefab: {fileID: 11437288, guid: 0caad4431c801b047862966bf4f719a4, type: 2}
   spherePrefab: {fileID: 11406576, guid: c5d4ca7511fd15c498687c26efdf7b4e, type: 2}
   sphereControllers:
@@ -3253,6 +3290,7 @@ GameObject:
   - component: {fileID: 707578362}
   - component: {fileID: 707578361}
   - component: {fileID: 707578360}
+  - component: {fileID: 707578363}
   m_Layer: 5
   m_Name: Mitigacion
   m_TagString: Untagged
@@ -3353,6 +3391,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 707578358}
+--- !u!114 &707578363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707578358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 314314998}
+          m_MethodName: SelectBt3
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &719475219
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,6 +5114,7 @@ GameObject:
   - component: {fileID: 1332172446}
   - component: {fileID: 1332172445}
   - component: {fileID: 1332172444}
+  - component: {fileID: 1332172447}
   m_Layer: 5
   m_Name: Estructuras
   m_TagString: Untagged
@@ -5146,6 +5215,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1332172442}
+--- !u!114 &1332172447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332172442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 314314998}
+          m_MethodName: SelectBt4
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1339662487 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 194374, guid: 8b10486b9212d9f4badcf6c992af0a47, type: 2}
@@ -9236,6 +9335,7 @@ GameObject:
   - component: {fileID: 2140336730}
   - component: {fileID: 2140336729}
   - component: {fileID: 2140336728}
+  - component: {fileID: 2140336731}
   m_Layer: 5
   m_Name: FloraYFauna
   m_TagString: Untagged
@@ -9336,3 +9436,33 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2140336726}
+--- !u!114 &2140336731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2140336726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 314314998}
+          m_MethodName: SelectBt1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []

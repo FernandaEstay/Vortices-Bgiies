@@ -25,7 +25,8 @@ namespace Memoria.Editor
         private GLSerializedProperty _MouseInput;
         private GLSerializedProperty _KinectInput;
         private GLSerializedProperty _PanelBGIIES;
-       
+        private GLSerializedProperty _childPrefab;
+
 
         private GLSerializedProperty _csvCreatorPath;
 
@@ -83,6 +84,7 @@ namespace Memoria.Editor
             _visualizationPlane = FindProperty("visualizationPlane");
 
             _BGIIESMode = FindProperty("bgiiesMode");
+            _childPrefab = FindProperty("childPrefab");
             _MouseInput = FindProperty("mouseInput");
             _KinectInput = FindProperty("kinectInput");
 
@@ -171,6 +173,7 @@ namespace Memoria.Editor
             EditorHelper.AddLabel("BGIIES MODE", true);
             AddField(_PanelBGIIES);
             AddField(_lookPointerBgiiesPrefab);
+            AddField(_childPrefab);
             AddField(_BGIIESMode);
 
             if (_BGIIESMode.boolValue)

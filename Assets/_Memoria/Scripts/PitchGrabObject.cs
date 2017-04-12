@@ -62,6 +62,11 @@ namespace Memoria
 			enabled = true;
 			isSelected = false;
 
+            if (DioManager.bgiiesMode)
+            {
+                isSelectedCat1 = isSelectedCat2 = isSelectedCat3 = isSelectedCat4 = false;
+            }
+
 			hapticDetector.Initialize(fatherDioController.DioManager);
 
 			objectMeshRender = GetComponent<MeshRenderer>();

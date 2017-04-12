@@ -17,9 +17,16 @@ namespace Memoria
         float seg;
 
         public Button bt1;
+        public EventTrigger bt1ClicAction;
+
         public Button bt2;
+        public EventTrigger bt2ClicAction;
+
         public Button bt3;
+        public EventTrigger bt3ClicAction;
+
         public Button bt4;
+        public EventTrigger bt4ClicAction;
 
         public Color aceptBt1;
         public Color aceptBt2;
@@ -32,7 +39,12 @@ namespace Memoria
             EnableMoveCameraInside();
             EnableMoveCameraOutside();
 
-
+            /*
+            DisableButton(bt1, bt1ClicAction);
+            DisableButton(bt2, bt2ClicAction);
+            DisableButton(bt3, bt3ClicAction);
+            DisableButton(bt4, bt4ClicAction);
+            */
         }
         public override void Inside()
         {
@@ -42,6 +54,23 @@ namespace Memoria
         public override void Outside()
         {
             dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+        }
+
+        public void SelectBt1()
+        {
+            dioManager.lookPointerInstanceBgiies.SelectCat1();
+        }
+        public void SelectBt2()
+        {
+            dioManager.lookPointerInstanceBgiies.SelectCat2();
+        }
+        public void SelectBt3()
+        {
+            dioManager.lookPointerInstanceBgiies.SelectCat3();
+        }
+        public void SelectBt4()
+        {
+            dioManager.lookPointerInstanceBgiies.SelectCat4();
         }
         public void Update()
         {

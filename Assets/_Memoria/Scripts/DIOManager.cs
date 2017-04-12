@@ -76,6 +76,7 @@ namespace Memoria
         public bool kinectInput;
         public ButtonPanelBGIIES panelBgiies;
         public LookPointerBGIIES lookPointerBgiiesPrefab;
+        public GameObject childPrefab;
 
         //Sphere Configuration
         public DIOController informationPrefab;
