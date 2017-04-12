@@ -21,16 +21,21 @@ namespace Memoria
         public Button bt3;
         public Button bt4;
 
+        public Color aceptBt1;
+        public Color aceptBt2;
+        public Color aceptBt3;
+        public Color aceptBt4;
+
         public override void Initialize(DIOManager dioManager)
         {
             base.dioManager = dioManager;
             EnableMoveCameraInside();
             EnableMoveCameraOutside();
 
+
         }
         public override void Inside()
         {
-            Debug.Log("llega aca a hacer inside");
             dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
         }
 

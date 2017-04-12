@@ -40,8 +40,11 @@ namespace Memoria
                 _forwardVector = transform.TransformDirection(Vector3.forward);
                 _ray = new Ray(transform.position, _forwardVector);
             }
-			    
-            if(Physics.Raycast(_ray, out _raycastHit, maxDistance, ignoredLayerMask))
+
+            maxDistance = 1f;
+            Debug.DrawLine(_ray.origin, _ray.direction * maxDistance, Color.red);
+
+            if (Physics.Raycast(_ray, out _raycastHit, maxDistance, ignoredLayerMask))
             {
 				var posiblePitcheGrabObject = _raycastHit.transform.gameObject.GetComponent<PitchGrabObject>();
 

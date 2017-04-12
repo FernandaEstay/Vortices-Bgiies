@@ -29,7 +29,15 @@ namespace Memoria
 		[HideInInspector]
 		public bool isSelected;
 
-		protected DIOManager DioManager
+        [HideInInspector]
+        public bool isSelectedCat1;
+        [HideInInspector]
+        public bool isSelectedCat2;
+        [HideInInspector]
+        public bool isSelectedCat3;
+        [HideInInspector]
+        public bool isSelectedCat4;
+        protected DIOManager DioManager
 		{
 			get { return dioController.DioManager; }
 		}
@@ -77,9 +85,15 @@ namespace Memoria
 			if (!_isLookPointerOn)
 			{
 				_isLookPointerOn = true;
-				DioManager.lookPointerInstance.LookPointerEnter(this);
-                if (!DioManager.bgiiesMode)     //activa los botones de ButtonPanel para que la imagen pueda ser seleccionada
+                if (DioManager.bgiiesMode)
                 {
+                    DioManager.lookPointerInstanceBgiies.LookPointerEnter(this);
+                    if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
+                        DioManager.buttonPanel.EnableZoomIn();
+                }
+                else
+                {
+                    DioManager.lookPointerInstance.LookPointerEnter(this);
                     DioManager.buttonPanel.EnableAccept();
 
                     if (DioManager.lookPointerInstance.actualPitchGrabObject == null)
@@ -88,7 +102,15 @@ namespace Memoria
 			}
 			else
 			{
-                DioManager.lookPointerInstance.LookPointerStay(this);
+                if (DioManager.bgiiesMode)
+                {
+                    DioManager.lookPointerInstanceBgiies.LookPointerStay(this);
+                }
+                else
+                {
+                    DioManager.lookPointerInstance.LookPointerStay(this);
+                }
+                
 			}
 		}
 
@@ -96,15 +118,28 @@ namespace Memoria
 		{
 			if (_isLookPointerOn)
 			{
-				DioManager.lookPointerInstance.LookPointerExit(this);
+                if (DioManager.bgiiesMode){
+                    DioManager.lookPointerInstanceBgiies.LookPointerExit(this);
+                    if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
+                    {
+                        _isLookPointerOn = false;
+                    }
+                    DioManager.buttonPanel.DisableZoomIn();
+                }
+                else
+                {
+                    DioManager.lookPointerInstance.LookPointerExit(this);
+                    if (DioManager.lookPointerInstance.actualPitchGrabObject == null)
+                    {
+                        _isLookPointerOn = false;
+                        DioManager.buttonPanel.DisableAccept();
+                    }
 
-				if (DioManager.lookPointerInstance.actualPitchGrabObject == null)
-				{
-					_isLookPointerOn = false;
-					DioManager.buttonPanel.DisableAccept();
-				}
+                    DioManager.buttonPanel.DisableZoomIn();
+                }
+                
 
-				DioManager.buttonPanel.DisableZoomIn();
+
 
 			}
 		}
@@ -118,11 +153,18 @@ namespace Memoria
 
 			if (!dioController.DioManager.usePitchGrab)
 				return;
-
-			if (DioManager.lookPointerInstance.actualPitchGrabObject != null)
-				if (!DioManager.lookPointerInstance.actualPitchGrabObject.Equals(this))
-					return;
-
+            if (!DioManager.bgiiesMode)
+            {
+                if (DioManager.lookPointerInstance.actualPitchGrabObject != null)
+                    if (!DioManager.lookPointerInstance.actualPitchGrabObject.Equals(this))
+                        return;
+            }
+            else
+            {
+                if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject != null)
+                    if (!DioManager.lookPointerInstanceBgiies.actualPitchGrabObject.Equals(this))
+                        return;
+            }
 			if (!tagTriggers.Contains(other.tag))
 				return;
 

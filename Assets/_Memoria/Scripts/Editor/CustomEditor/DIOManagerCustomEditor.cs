@@ -31,6 +31,7 @@ namespace Memoria.Editor
 
         private GLSerializedProperty _rayCastingDetector;
         private GLSerializedProperty _lookPointerPrefab;
+        private GLSerializedProperty _lookPointerBgiiesPrefab;
         private GLSerializedProperty _lookPointerScale;
         private GLSerializedProperty _closeRange;
 
@@ -89,6 +90,7 @@ namespace Memoria.Editor
 
             _rayCastingDetector = FindProperty("rayCastingDetector");
             _lookPointerPrefab = FindProperty("lookPointerPrefab");
+            _lookPointerBgiiesPrefab = FindProperty("lookPointerBgiiesPrefab");
             _lookPointerScale = FindProperty("lookPointerScale");
             _closeRange = FindProperty("closeRange");
 
@@ -168,6 +170,7 @@ namespace Memoria.Editor
 
             EditorHelper.AddLabel("BGIIES MODE", true);
             AddField(_PanelBGIIES);
+            AddField(_lookPointerBgiiesPrefab);
             AddField(_BGIIESMode);
 
             if (_BGIIESMode.boolValue)

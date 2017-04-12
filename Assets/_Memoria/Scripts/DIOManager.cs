@@ -75,6 +75,7 @@ namespace Memoria
         public bool mouseInput;
         public bool kinectInput;
         public ButtonPanelBGIIES panelBgiies;
+        public LookPointerBGIIES lookPointerBgiiesPrefab;
 
         //Sphere Configuration
         public DIOController informationPrefab;
@@ -95,6 +96,8 @@ namespace Memoria
         public List<Tuple<float, float>> radiusAlphaVisualizationList;
         [HideInInspector]
         public LookPointerVortices lookPointerInstance;
+        [HideInInspector]
+        public LookPointerBGIIES lookPointerInstanceBgiies;
         [HideInInspector]
         public bool movingSphere;
         [HideInInspector]
@@ -200,14 +203,27 @@ namespace Memoria
                 }
             }
 
-            if (lookPointerPrefab != null && !(useKeyboard && useMouse))
+            if (bgiiesMode)
             {
-                var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
-                lookPointerInstance = Instantiate(lookPointerPrefab, leapMotionRig.centerEyeAnchor, lookPointerPosition, Quaternion.identity);
-                lookPointerInstance.transform.localScale = lookPointerScale;
+                if (lookPointerBgiiesPrefab != null)
+                {
+                    var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
+                    lookPointerInstanceBgiies = Instantiate(lookPointerBgiiesPrefab, leapMotionRig.centerEyeAnchor, lookPointerPosition, Quaternion.identity);
+                    lookPointerInstanceBgiies.transform.localScale = lookPointerScale;
 
-                lookPointerInstance.Initialize(this);
+                    lookPointerInstanceBgiies.Initialize(this);
+                }
             }
+            else {
+                if (lookPointerPrefab != null && !(useKeyboard && useMouse))
+                {
+                    var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
+                    lookPointerInstance = Instantiate(lookPointerPrefab, leapMotionRig.centerEyeAnchor, lookPointerPosition, Quaternion.identity);
+                    lookPointerInstance.transform.localScale = lookPointerScale;
+
+                    lookPointerInstance.Initialize(this);
+                }
+            }            
 
             rayCastingDetector.Initialize(this);
 
@@ -480,8 +496,11 @@ namespace Memoria
 
         public void MoveSphereInside(float insideAxis, Action initialAction, Action finalAction)
         {
-            if (insideAxis == 1.0f && !movingSphere && lookPointerInstance.actualPitchGrabObject == null &&
-                !lookPointerInstance.zoomingIn && !lookPointerInstance.zoomingOut && AreAllDioOnSphere)
+            var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
+            var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
+            var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+            if (insideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
+                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
             {
                 StartCoroutine(MoveSphereInside(initialAction, finalAction));
             }
@@ -493,8 +512,11 @@ namespace Memoria
         }
         public void MovePlaneInside(float insideAxis, Action initialAction, Action finalAction)
         {
-            if (insideAxis == 1.0f && !movingPlane && lookPointerInstance.actualPitchGrabObject == null &&
-                !lookPointerInstance.zoomingIn && !lookPointerInstance.zoomingOut && AreAllDioOnSphere)
+            var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
+            var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
+            var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+            if (insideAxis == 1.0f && !movingPlane && actualPitchGrabObject == null &&
+                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
             {
                 StartCoroutine(MovePlaneInside(initialAction, finalAction));
             }
@@ -506,8 +528,12 @@ namespace Memoria
         }
         public void MoveSphereOutside(float outsideAxis, Action initialAction, Action finalAction)
         {
-            if (outsideAxis == 1.0f && !movingSphere && lookPointerInstance.actualPitchGrabObject == null &&
-                !lookPointerInstance.zoomingIn && !lookPointerInstance.zoomingOut && AreAllDioOnSphere)
+            var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
+            var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
+            var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+
+            if (outsideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
+                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
             {
                 StartCoroutine(MoveSphereOutside(initialAction, finalAction));
             }
@@ -519,8 +545,11 @@ namespace Memoria
         }
         public void MovePlaneOutside(float outsideAxis, Action initialAction, Action finalAction)
         {
-            if (outsideAxis == 1.0f && !movingPlane && lookPointerInstance.actualPitchGrabObject == null &&
-                !lookPointerInstance.zoomingIn && !lookPointerInstance.zoomingOut && AreAllDioOnSphere)
+            var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
+            var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
+            var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+            if (outsideAxis == 1.0f && !movingPlane && actualPitchGrabObject == null &&
+                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
             {
                 StartCoroutine(MovePlaneOutside(initialAction, finalAction));
             }

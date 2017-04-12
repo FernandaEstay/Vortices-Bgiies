@@ -26,6 +26,12 @@ namespace Memoria
         public Quaternion _actualPitchObjectOriginalRotation;
         public Vector3 _actualPitchObjectOriginalScale;
 
+        [SerializeField]
+        public float _positionSteps = 1.0f;
+
+        [SerializeField]
+        public float _scaleSteps = 0.2f;
+
         public void Initialize(DIOManager fatherDioManager)
         {
             dioManager = fatherDioManager;
@@ -41,7 +47,34 @@ namespace Memoria
             posibleActualPitchGrabObject = pitchGrabObject;
         }
 
+        public void LookPointerExit(PitchGrabObject pitchGrabObject)
+        {
+            if (actualPitchGrabObject == null)
+            {
+                var objectColor = pitchGrabObject.objectMeshRender.material.color;
+                objectColor.a = _initialAlpha;
+                pitchGrabObject.objectMeshRender.material.color = objectColor;
+            }
+
+            posibleActualPitchGrabObject = null;
+        }
+        public abstract void LookPointerStay(PitchGrabObject pitchGrabObject);
+        public abstract void SetZoomInInitialStatus(PitchGrabObject pitchGrabObject);
+        public abstract void DirectZoomInCall(Action finalAction);
+        public abstract void DirectZoomInCall(PitchGrabObject pitchGrabObject, Action finalAction);
+        public abstract IEnumerator ZoomingIn(PitchGrabObject pitchGrabObject, Action finalAction);
+        public abstract void DirectZoomOutCall(Action finalAction);
+        public abstract IEnumerator ZoomingOut(Action finalAction);
 
 
+        public bool ZoomInKeyboardInput()
+        {
+            //if (dioManager.useKeyboard && !dioManager.useMouse)
+            //{
+            //	return Input.GetKeyDown(dioManager.action1Key);
+            //}
+
+            return false;
+        }
     }
 }
