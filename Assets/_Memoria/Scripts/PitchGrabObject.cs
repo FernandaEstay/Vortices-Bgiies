@@ -94,7 +94,10 @@ namespace Memoria
                 {
                     DioManager.lookPointerInstanceBgiies.LookPointerEnter(this);
                     if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
+                    {
                         DioManager.buttonPanel.EnableZoomIn();
+                    }
+
                 }
                 else
                 {

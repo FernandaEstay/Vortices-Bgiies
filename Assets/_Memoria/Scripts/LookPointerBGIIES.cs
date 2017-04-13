@@ -35,6 +35,7 @@ namespace Memoria
                 if (!zoomingOut && !zoomingIn)
                 {
                     StartCoroutine(ZoomingOut(null));
+                    dioManager.panelBgiies.noInteractableButtons();
                 }
             }
 
@@ -49,6 +50,7 @@ namespace Memoria
                 if (!zoomingIn && !zoomingOut)
                 {
                     StartCoroutine(ZoomingIn(pitchGrabObject, null));
+                    dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
                 }
             }
         }
@@ -100,7 +102,6 @@ namespace Memoria
 
             if (finalAction != null)
                 finalAction();
-
             zoomingIn = false;
         }
 
@@ -175,35 +176,13 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat1)
             {
-
-
-                GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
-                obj.transform.parent = actualPitchGrabObject.transform;
-
-                int i = actualPitchGrabObject.transform.childCount;
-
-                actualPitchGrabObject.transform.GetChild(i - 1).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + ((i - 1) * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                obj.transform.GetComponent<Renderer>().material.color = dioManager.panelBgiies.aceptBt1;
-
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es seleccionado por categoria 1");
+                createMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
             }
             else
             {
-                int child = actualPitchGrabObject.transform.childCount;
-                int index = 0;
-                for (int i = 0; i < child; i++)
-                {
-                    if (actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().material.color == dioManager.panelBgiies.aceptBt1)
-                    {
-                        Destroy(actualPitchGrabObject.transform.GetChild(i).gameObject);
-                    }
-                    else
-                    {
-                        actualPitchGrabObject.transform.GetChild(i).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + (index * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                        index += 1;
-                    }
-                }
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es deseleccionado por categoria 1");
+                deleteMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
             }
 
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select categoria 1" : "Deselect categoria 1";
@@ -230,34 +209,13 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat2)
             {
-                GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
-                obj.transform.parent = actualPitchGrabObject.transform;
-
-                int i = actualPitchGrabObject.transform.childCount;
-
-                actualPitchGrabObject.transform.GetChild(i - 1).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + ((i - 1) * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                obj.transform.GetComponent<Renderer>().material.color = dioManager.panelBgiies.aceptBt2;
-
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es seleccionado por categoria 2");
+                createMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
             }
             else
             {
-                int child = actualPitchGrabObject.transform.childCount;
-                int index = 0;
-                for (int i = 0; i < child; i++)
-                {
-                    if (actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().material.color == dioManager.panelBgiies.aceptBt2)
-                    {
-                        Destroy(actualPitchGrabObject.transform.GetChild(i).gameObject);
-                    }
-                    else
-                    {
-                        actualPitchGrabObject.transform.GetChild(i).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + (index * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                        //actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().enabled = false;
-                        index += 1;
-                    }
-                }
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es deseleccionado por categoria 2");
+                deleteMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt2);
             }
 
             var action = actualPitchGrabObject.isSelectedCat2 ? "Select categoria 2" : "Deselect categoria 2";
@@ -278,37 +236,18 @@ namespace Memoria
                 unPitchedAccept = true;
                 actualPitchGrabObject = posibleActualPitchGrabObject;
             }
-
+            
             actualPitchGrabObject.isSelectedCat3 = !actualPitchGrabObject.isSelectedCat3;
 
             if (actualPitchGrabObject.isSelectedCat3)
             {
-                GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
-                obj.transform.parent = actualPitchGrabObject.transform;
-
-                int i = actualPitchGrabObject.transform.childCount;
-
-                actualPitchGrabObject.transform.GetChild(i - 1).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + ((i - 1) * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                obj.transform.GetComponent<Renderer>().material.color = dioManager.panelBgiies.aceptBt3;
+                createMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
             }
             else
             {
-                int child = actualPitchGrabObject.transform.childCount;
-                int index = 0;
-                for (int i = 0; i < child; i++)
-                {
-                    if (actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().material.color == dioManager.panelBgiies.aceptBt3)
-                    {
-                        Destroy(actualPitchGrabObject.transform.GetChild(i).gameObject);
-                    }
-                    else
-                    {
-                        actualPitchGrabObject.transform.GetChild(i).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + (index * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                        //actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().enabled = false;
-                        index += 1;
-                    }
-                }
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es deseleccionado por categoria 3");
+                deleteMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt3);
             }
 
             var action = actualPitchGrabObject.isSelectedCat3 ? "Select categoria 3" : "Deselect categoria 3";
@@ -334,33 +273,14 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat4)
             {
-                GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
-                obj.transform.parent = actualPitchGrabObject.transform;
-
-                int i = actualPitchGrabObject.transform.childCount;
-
-                actualPitchGrabObject.transform.GetChild(i - 1).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + ((i - 1) * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                obj.transform.GetComponent<Renderer>().material.color = dioManager.panelBgiies.aceptBt4;
+                createMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
 
             }
             else
             {
-                int child = actualPitchGrabObject.transform.childCount;
-                int index = 0;
-                for (int i = 0; i < child; i++)
-                {
-                    if (actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().material.color == dioManager.panelBgiies.aceptBt4)
-                    {
-                        Destroy(actualPitchGrabObject.transform.GetChild(i).gameObject);
-                    }
-                    else
-                    {
-                        actualPitchGrabObject.transform.GetChild(i).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + (index * 0.095f), actualPitchGrabObject.transform.position.y - 0.09f, actualPitchGrabObject.transform.position.z - 0.001f);
-                        //actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().enabled = false;
-                        index += 1;
-                    }
-                }
-                Debug.Log("objeto " + actualPitchGrabObject.idName + " es deseleccionado por categoria 4");
+                deleteMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt4);
             }
 
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select categoria 4" : "Deselect categoria 4";
@@ -368,6 +288,43 @@ namespace Memoria
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
+        }
+
+        public void createMarcador(Color color, Button boton)
+        {
+            GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
+            obj.transform.parent = actualPitchGrabObject.transform;
+
+            int i = actualPitchGrabObject.transform.childCount;
+
+            actualPitchGrabObject.transform.GetChild(i - 1).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + ((i - 1) * 0.095f), actualPitchGrabObject.transform.position.y - 0.12f, actualPitchGrabObject.transform.position.z - 0.001f);
+            obj.transform.GetComponent<Renderer>().material.color = color;
+
+            string[] textBt = boton.GetComponentInChildren<Text>().text.ToString().Split(':');
+            int contador = Int32.Parse(textBt[1].Trim()) + 1;
+            boton.GetComponentInChildren<Text>().text = textBt[0] + ": " + contador.ToString();
+        }
+
+        public void deleteMarcador(Color color, Button boton)
+        {
+            int child = actualPitchGrabObject.transform.childCount;
+            int index = 0;
+            for (int i = 0; i < child; i++)
+            {
+                if (actualPitchGrabObject.transform.GetChild(i).transform.GetComponent<Renderer>().material.color == color)
+                {
+                    Destroy(actualPitchGrabObject.transform.GetChild(i).gameObject);
+                }
+                else
+                {
+                    actualPitchGrabObject.transform.GetChild(i).transform.position = new Vector3(actualPitchGrabObject.transform.position.x - 0.142f + (index * 0.095f), actualPitchGrabObject.transform.position.y - 0.12f, actualPitchGrabObject.transform.position.z - 0.001f);
+                    index += 1;
+                }
+            }
+
+            string[] textBt = boton.GetComponentInChildren<Text>().text.ToString().Split(':');
+            int contador = Int32.Parse(textBt[1].Trim()) - 1;
+            boton.GetComponentInChildren<Text>().text = textBt[0] + ": " + contador.ToString();
         }
     }
 }

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
-
-
+using System;
 
 namespace Memoria
 {
@@ -39,12 +38,11 @@ namespace Memoria
             EnableMoveCameraInside();
             EnableMoveCameraOutside();
 
-            /*
-            DisableButton(bt1, bt1ClicAction);
-            DisableButton(bt2, bt2ClicAction);
-            DisableButton(bt3, bt3ClicAction);
-            DisableButton(bt4, bt4ClicAction);
-            */
+            bt1.name = "floraYfauna";
+            bt2.name = "superficies";
+            bt3.name = "mitigaciones";
+            bt4.name = "estructuras";
+            noInteractableButtons();
         }
         public override void Inside()
         {
@@ -93,6 +91,102 @@ namespace Memoria
         {
             Renderer rend = obj.GetComponent<MeshRenderer>();
             rend.material.color = color;
+        }
+        public void noInteractableButtons()
+        {
+            bt1.interactable = false;
+            bt2.interactable = false;
+            bt3.interactable = false;
+            bt4.interactable = false;
+        }
+
+
+        public void interactableButtons(PitchGrabObject pitchGrabObject)
+        {
+
+            bt1.interactable = true;
+            bt2.interactable = true;
+            bt3.interactable = true;
+            bt4.interactable = true;
+
+            if (pitchGrabObject == null)
+            {
+                if (pitchGrabObject.isSelectedCat1)
+                    NegativeCatButton(bt1);
+                else
+                    PositiveCatButton(bt1);
+                if (pitchGrabObject.isSelectedCat2)
+                    NegativeCatButton(bt2);
+                else
+                    PositiveCatButton(bt2);
+                if (pitchGrabObject.isSelectedCat3)
+                    NegativeCatButton(bt3);
+                else
+                    PositiveCatButton(bt3);
+                if (pitchGrabObject.isSelectedCat4)
+                    NegativeCatButton(bt4);
+                else
+                    PositiveCatButton(bt4);
+            }
+            else
+            {
+                if (pitchGrabObject.isSelectedCat1)
+                    NegativeCatButton(bt1);
+                else
+                    PositiveCatButton(bt1);
+                if (pitchGrabObject.isSelectedCat2)
+                    NegativeCatButton(bt2);
+                else
+                    PositiveCatButton(bt2);
+                if (pitchGrabObject.isSelectedCat3)
+                    NegativeCatButton(bt3);
+                else
+                    PositiveCatButton(bt3);
+                if (pitchGrabObject.isSelectedCat4)
+                    NegativeCatButton(bt4);
+                else
+                    PositiveCatButton(bt4);
+            }
+        }
+    
+        public void PositiveCatButton(Button boton)
+        {
+            ColorBlock cb = boton.colors;
+            if (boton.name == "floraYfauna")
+            {
+                Debug.Log("rojo");
+                cb.normalColor = aceptBt1;
+            }
+            else if (boton.name == "superficies")
+                cb.normalColor = aceptBt2;
+            else if (boton.name == "mitigaciones")
+                cb.normalColor = aceptBt3;
+            else if (boton.name == "estructuras")
+                cb.normalColor = aceptBt4;
+            else
+                Debug.Log("error botones Panel BGIIES");
+            boton.colors = cb;
+        }
+
+        public void NegativeCatButton(Button boton)
+        {
+            ColorBlock cb = boton.colors;
+            if (boton.name == "floraYfauna")
+                cb.normalColor = Color.grey;
+            else if (boton.name == "superficies")
+                cb.normalColor = Color.grey;
+            else if (boton.name == "mitigaciones")
+                cb.normalColor = Color.grey;
+            else if (boton.name == "estructuras")
+                cb.normalColor = Color.grey;
+            else
+                Debug.Log("error botones Panel BGIIES");
+            boton.colors = cb;
+            /*
+            Debug.Log("llega boton " + boton.name);
+            ColorBlock cb = boton.colors;
+            cb.normalColor = Color.gray;
+            boton.colors = cb;*/
         }
     }
 }
