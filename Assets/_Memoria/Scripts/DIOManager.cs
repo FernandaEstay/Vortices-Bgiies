@@ -41,7 +41,7 @@ namespace Memoria
         public LookPointerRaycasting rayCastingDetector;
         public LookPointerVortices lookPointerPrefab;
         public Vector3 lookPointerScale = Vector3.one;
-        public float closeRange = 2.0f;
+        public float closeRange = 6.0f;
 
         //LeapMotion Configuration
         public LeapHeadMountedRig leapMotionRig;
@@ -77,6 +77,8 @@ namespace Memoria
         public ButtonPanelBGIIES panelBgiies;
         public LookPointerBGIIES lookPointerBgiiesPrefab;
         public GameObject childPrefab;
+        public GameObject bodySrcManager;
+        public KinectDetectGestures kinectGestures;
 
         //Sphere Configuration
         public DIOController informationPrefab;
@@ -232,6 +234,13 @@ namespace Memoria
             {
                 buttonPanel.gameObject.SetActive(false);
                 panelBgiies.Initialize(this);
+
+                if (kinectInput)
+                {
+                    Debug.Log("inicializa");
+                    kinectGestures.Initialize(this);
+                }
+
             }
             else
             {

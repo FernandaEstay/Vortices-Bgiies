@@ -26,7 +26,8 @@ namespace Memoria.Editor
         private GLSerializedProperty _KinectInput;
         private GLSerializedProperty _PanelBGIIES;
         private GLSerializedProperty _childPrefab;
-
+        private GLSerializedProperty _BodySrcManager;
+        private GLSerializedProperty _KinectGestures;
 
         private GLSerializedProperty _csvCreatorPath;
 
@@ -80,6 +81,7 @@ namespace Memoria.Editor
             _useMouse = FindProperty("useMouse");
             _useJoystick = FindProperty("useJoystick");
             _PanelBGIIES = FindProperty("panelBgiies");
+            _KinectGestures = FindProperty("kinectGestures");
 
             _visualizationPlane = FindProperty("visualizationPlane");
 
@@ -87,6 +89,7 @@ namespace Memoria.Editor
             _childPrefab = FindProperty("childPrefab");
             _MouseInput = FindProperty("mouseInput");
             _KinectInput = FindProperty("kinectInput");
+            _BodySrcManager = FindProperty("bodySrcManager");
 
             _csvCreatorPath = FindProperty("csvCreatorPath");
 
@@ -174,6 +177,8 @@ namespace Memoria.Editor
             AddField(_PanelBGIIES);
             AddField(_lookPointerBgiiesPrefab);
             AddField(_childPrefab);
+            AddField(_BodySrcManager);
+            AddField(_KinectGestures);
             AddField(_BGIIESMode);
 
             if (_BGIIESMode.boolValue)

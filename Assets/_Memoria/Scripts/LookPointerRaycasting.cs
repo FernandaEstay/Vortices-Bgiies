@@ -34,6 +34,10 @@ namespace Memoria
                 {
                     _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 }
+                else
+                {
+
+                }
             }
             else
             {

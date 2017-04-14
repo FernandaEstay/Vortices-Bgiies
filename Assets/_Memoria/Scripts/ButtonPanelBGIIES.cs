@@ -112,59 +112,47 @@ namespace Memoria
             if (pitchGrabObject == null)
             {
                 if (pitchGrabObject.isSelectedCat1)
-                    NegativeCatButton(bt1);
-                else
                     PositiveCatButton(bt1);
+                else
+                    NegativeCatButton(bt1);
                 if (pitchGrabObject.isSelectedCat2)
-                    NegativeCatButton(bt2);
-                else
                     PositiveCatButton(bt2);
+                else
+                    NegativeCatButton(bt2);
                 if (pitchGrabObject.isSelectedCat3)
-                    NegativeCatButton(bt3);
-                else
                     PositiveCatButton(bt3);
-                if (pitchGrabObject.isSelectedCat4)
-                    NegativeCatButton(bt4);
                 else
+                    NegativeCatButton(bt3);
+                if (pitchGrabObject.isSelectedCat4)
                     PositiveCatButton(bt4);
+                else
+                    NegativeCatButton(bt4);
             }
             else
             {
                 if (pitchGrabObject.isSelectedCat1)
-                    NegativeCatButton(bt1);
-                else
                     PositiveCatButton(bt1);
+                else
+                    NegativeCatButton(bt1);
                 if (pitchGrabObject.isSelectedCat2)
-                    NegativeCatButton(bt2);
-                else
                     PositiveCatButton(bt2);
+                else
+                    NegativeCatButton(bt2);
                 if (pitchGrabObject.isSelectedCat3)
-                    NegativeCatButton(bt3);
-                else
                     PositiveCatButton(bt3);
-                if (pitchGrabObject.isSelectedCat4)
-                    NegativeCatButton(bt4);
                 else
+                    NegativeCatButton(bt3);
+                if (pitchGrabObject.isSelectedCat4)
                     PositiveCatButton(bt4);
+                else
+                    NegativeCatButton(bt4);
             }
         }
     
         public void PositiveCatButton(Button boton)
         {
             ColorBlock cb = boton.colors;
-            if (boton.name == "floraYfauna")
-            {
-                Debug.Log("rojo");
-                cb.normalColor = aceptBt1;
-            }
-            else if (boton.name == "superficies")
-                cb.normalColor = aceptBt2;
-            else if (boton.name == "mitigaciones")
-                cb.normalColor = aceptBt3;
-            else if (boton.name == "estructuras")
-                cb.normalColor = aceptBt4;
-            else
-                Debug.Log("error botones Panel BGIIES");
+            cb.normalColor = cb.highlightedColor;
             boton.colors = cb;
         }
 
@@ -172,13 +160,13 @@ namespace Memoria
         {
             ColorBlock cb = boton.colors;
             if (boton.name == "floraYfauna")
-                cb.normalColor = Color.grey;
+                cb.normalColor = aceptBt1;
             else if (boton.name == "superficies")
-                cb.normalColor = Color.grey;
+                cb.normalColor = aceptBt2;
             else if (boton.name == "mitigaciones")
-                cb.normalColor = Color.grey;
+                cb.normalColor = aceptBt3;
             else if (boton.name == "estructuras")
-                cb.normalColor = Color.grey;
+                cb.normalColor = aceptBt4;
             else
                 Debug.Log("error botones Panel BGIIES");
             boton.colors = cb;

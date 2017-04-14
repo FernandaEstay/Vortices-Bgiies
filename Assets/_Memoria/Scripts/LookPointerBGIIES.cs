@@ -11,6 +11,9 @@ namespace Memoria
 {
     public class LookPointerBGIIES : LookPointerController, IAwake, IUpdate
     {
+        public bool zoomInActive = true;
+        public bool zoomOutActive = false;
+         
         public void Awake()
         {
 
@@ -30,7 +33,7 @@ namespace Memoria
         }
         public void Update()
         {
-            if (Input.GetMouseButtonDown(1) && actualPitchGrabObject != null && !dioManager.movingPlane)
+            if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut())&& actualPitchGrabObject != null && !dioManager.movingPlane)
             {
                 if (!zoomingOut && !zoomingIn)
                 {
@@ -45,7 +48,7 @@ namespace Memoria
         {
             posibleActualPitchGrabObject = pitchGrabObject;
 
-            if (Input.GetMouseButtonDown(0) && actualPitchGrabObject == null && !dioManager.movingPlane)
+            if ((Input.GetMouseButtonDown(0) || dioManager.kinectGestures.kinectGestureZoomIn())  && actualPitchGrabObject == null && !dioManager.movingPlane)
             {
                 if (!zoomingIn && !zoomingOut)
                 {
@@ -82,6 +85,7 @@ namespace Memoria
         public override IEnumerator ZoomingIn(PitchGrabObject pitchGrabObject, Action finalAction)
         {
             zoomingIn = true;
+            zoomInActive = true;
             SetZoomInInitialStatus(pitchGrabObject);
 
             dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
@@ -177,15 +181,16 @@ namespace Memoria
             if (actualPitchGrabObject.isSelectedCat1)
             {
                 createMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
             }
             else
             {
                 deleteMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
             }
 
-            var action = actualPitchGrabObject.isSelectedCat1 ? "Select categoria 1" : "Deselect categoria 1";
+            var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
+            action = action + dioManager.panelBgiies.bt1.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
@@ -210,15 +215,16 @@ namespace Memoria
             if (actualPitchGrabObject.isSelectedCat2)
             {
                 createMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt2);
             }
             else
             {
                 deleteMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt2);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
             }
 
-            var action = actualPitchGrabObject.isSelectedCat2 ? "Select categoria 2" : "Deselect categoria 2";
+            var action = actualPitchGrabObject.isSelectedCat2 ? "Select " : "Deselect ";
+            action = action + dioManager.panelBgiies.bt2.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
@@ -242,15 +248,16 @@ namespace Memoria
             if (actualPitchGrabObject.isSelectedCat3)
             {
                 createMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt3);
             }
             else
             {
                 deleteMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt3);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
             }
 
-            var action = actualPitchGrabObject.isSelectedCat3 ? "Select categoria 3" : "Deselect categoria 3";
+            var action = actualPitchGrabObject.isSelectedCat3 ? "Select " : "Deselect ";
+            action = action + dioManager.panelBgiies.bt3.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
@@ -274,16 +281,17 @@ namespace Memoria
             if (actualPitchGrabObject.isSelectedCat4)
             {
                 createMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
+                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt4);
 
             }
             else
             {
                 deleteMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt4);
+                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
             }
 
-            var action = actualPitchGrabObject.isSelectedCat1 ? "Select categoria 4" : "Deselect categoria 4";
+            var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
+            action = action + dioManager.panelBgiies.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
