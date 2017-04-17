@@ -4,10 +4,11 @@ using UnityCallbacks;
 using UnityEngine;
 using Windows.Kinect;
 using Microsoft.Kinect.Face;
+using System;
 
 namespace Memoria
 {
-    public class KinectDetectFace : GLMonoBehaviour
+    public class KinectDetectFace : GLMonoBehaviour, IFixedUpdate
     {
         private KinectSensor kinectSensor;
         private int bodyCount;
@@ -19,8 +20,12 @@ namespace Memoria
 
         private const double FaceRotationIncrementInDegrees = 1.0f;
 
-        private float multX = -1.42f;
-        private float multY = 2.6f;
+        private float deltaX = -5f;
+        private float deltaY = 8.5f;
+
+        private float multX = -0.02216f;
+        private float multY = 0.0233f;
+
 
         public GameObject BodySrcManager;
         private BodySourceManager bodyManager;
@@ -28,11 +33,15 @@ namespace Memoria
         private Vector3 posRay;
         private Vector3 posWorld;
 
-        public DIOManager dioManager;
+        DIOManager dioManager;
+
+        public Ray ray;
 
         public void Initialize(DIOManager dioManager)
         {
             this.dioManager = dioManager;
+            this.BodySrcManager = dioManager.bodySrcManager;
+
             updateFrame = 0;
 
             // one sensor is currently supported
@@ -81,5 +90,89 @@ namespace Memoria
                 faceFrameReaders[i] = faceFrameSources[i].OpenReader();
             }
         }
+        public void FixedUpdate()
+        {
+            if (dioManager.lookPointerInstanceBgiies.zoomActive)
+            {
+                return;
+            }
+            if (updateFrame < 1)
+            {
+                updateFrame++;
+                return;
+            }
+            updateFrame = 0;
+            // get bodies either from BodySourceManager object get them from a BodyReader
+            var bodySourceManager = bodyManager.GetComponent<BodySourceManager>();
+            bodies = bodySourceManager.GetData();
+            if (bodies == null)
+            {
+                return;
+            }
+
+
+            // iterate through each body and update face source
+            for (int i = 0; i < bodyCount; i++)
+            {
+                // check if a valid face is tracked in this face source				
+                if (faceFrameSources[i].IsTrackingIdValid)
+                {
+                    using (FaceFrame frame = faceFrameReaders[i].AcquireLatestFrame())
+                    {
+                        if (frame != null)
+                        {
+                            if (frame.TrackingId == 0)
+                            {
+                                continue;
+                            }
+
+                            // do something with result
+                            var result = frame.FaceFrameResult;
+
+                            // extract face rotation in degrees as Euler angles
+                            if (result.FaceRotationQuaternion != null)
+                            {
+                                int pitch, yaw, roll;
+                                ExtractFaceRotationInDegrees(result.FaceRotationQuaternion, out pitch, out yaw, out roll);
+
+                                posRay = new Vector3(yaw * multX, pitch * multY , 0.45f);
+                                posWorld = Camera.main.WorldToScreenPoint(posRay);
+                                ray = Camera.main.ScreenPointToRay(posWorld);                                
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    // check if the corresponding body is tracked 
+                    if (bodies[i].IsTracked)
+                    {
+                        // update the face frame source to track this body
+                        faceFrameSources[i].TrackingId = bodies[i].TrackingId;
+                    }
+                }
+            }
+        }
+        private static void ExtractFaceRotationInDegrees(Windows.Kinect.Vector4 rotQuaternion, out int pitch, out int yaw, out int roll)
+        {
+            double x = rotQuaternion.X;
+            double y = rotQuaternion.Y;
+            double z = rotQuaternion.Z;
+            double w = rotQuaternion.W;
+
+            // convert face rotation quaternion to Euler angles in degrees
+            double yawD, pitchD, rollD;
+            pitchD = Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / Math.PI * 180.0;
+            yawD = Math.Asin(2 * ((w * y) - (x * z))) / Math.PI * 180.0;
+            rollD = Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / Math.PI * 180.0;
+
+            // clamp the values to a multiple of the specified increment to control the refresh rate
+            double increment = FaceRotationIncrementInDegrees;
+            pitch = (int)(Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            yaw = (int)(Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            roll = (int)(Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
+        }
+
     }
 }

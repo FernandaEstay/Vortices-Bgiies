@@ -79,6 +79,7 @@ namespace Memoria
         public GameObject childPrefab;
         public GameObject bodySrcManager;
         public KinectDetectGestures kinectGestures;
+        public KinectDetectFace kinectFace;
 
         //Sphere Configuration
         public DIOController informationPrefab;
@@ -237,8 +238,8 @@ namespace Memoria
 
                 if (kinectInput)
                 {
-                    Debug.Log("inicializa");
                     kinectGestures.Initialize(this);
+                    kinectFace.Initialize(this);
                 }
 
             }

@@ -36,7 +36,9 @@ namespace Memoria
                 }
                 else
                 {
-
+                    if (_dioManager.lookPointerInstanceBgiies.zoomActive)
+                        return;
+                    _ray = _dioManager.kinectFace.ray;
                 }
             }
             else

@@ -11,8 +11,7 @@ namespace Memoria
 {
     public class LookPointerBGIIES : LookPointerController, IAwake, IUpdate
     {
-        public bool zoomInActive = true;
-        public bool zoomOutActive = false;
+        public bool zoomActive = false;
          
         public void Awake()
         {
@@ -39,6 +38,8 @@ namespace Memoria
                 {
                     StartCoroutine(ZoomingOut(null));
                     dioManager.panelBgiies.noInteractableButtons();
+                    zoomActive = false;
+                    Debug.Log("zoomOut " + zoomActive);
                 }
             }
 
@@ -54,6 +55,8 @@ namespace Memoria
                 {
                     StartCoroutine(ZoomingIn(pitchGrabObject, null));
                     dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
+                    zoomActive = true;
+                    Debug.Log("zoomIN" + zoomActive);
                 }
             }
         }
@@ -85,7 +88,6 @@ namespace Memoria
         public override IEnumerator ZoomingIn(PitchGrabObject pitchGrabObject, Action finalAction)
         {
             zoomingIn = true;
-            zoomInActive = true;
             SetZoomInInitialStatus(pitchGrabObject);
 
             dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
@@ -153,6 +155,7 @@ namespace Memoria
                     break;
 
                 yield return new WaitForFixedUpdate();
+                
             }
 
             actualPitchGrabObject.OnUnDetect();

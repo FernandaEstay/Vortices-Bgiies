@@ -51,7 +51,6 @@ namespace Memoria
             {
                 return;
             }
-            Debug.Log("detectando cuerpo");
             foreach (var body in bodies)
             {
                 if (body == null)
