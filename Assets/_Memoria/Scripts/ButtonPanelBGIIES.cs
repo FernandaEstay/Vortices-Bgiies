@@ -170,11 +170,8 @@ namespace Memoria
             else
                 Debug.Log("error botones Panel BGIIES");
             boton.colors = cb;
-            /*
-            Debug.Log("llega boton " + boton.name);
-            ColorBlock cb = boton.colors;
-            cb.normalColor = Color.gray;
-            boton.colors = cb;*/
+            boton.enabled = false;
+            boton.enabled = true;
         }
     }
 }

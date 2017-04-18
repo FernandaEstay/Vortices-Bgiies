@@ -21,14 +21,7 @@ namespace Memoria
 
             zoomingOut = false;
             zoomingIn = false;
-            /*
-            ColorBlock cb = dioManager.panelBgiies.bt1.colors;
-            cb.normalColor = Color.gray;
-            dioManager.panelBgiies.bt1.colors = cb;
-            dioManager.panelBgiies.bt2.colors = cb;
-            dioManager.panelBgiies.bt3.colors = cb;
-            dioManager.panelBgiies.bt4.colors = cb;
-            */
+
         }
         public void Update()
         {
@@ -39,7 +32,6 @@ namespace Memoria
                     StartCoroutine(ZoomingOut(null));
                     dioManager.panelBgiies.noInteractableButtons();
                     zoomActive = false;
-                    Debug.Log("zoomOut " + zoomActive);
                 }
             }
 
@@ -56,7 +48,6 @@ namespace Memoria
                     StartCoroutine(ZoomingIn(pitchGrabObject, null));
                     dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
                     zoomActive = true;
-                    Debug.Log("zoomIN" + zoomActive);
                 }
             }
         }
@@ -192,6 +183,8 @@ namespace Memoria
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
             }
 
+            //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
+
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
             action = action + dioManager.panelBgiies.bt1.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
@@ -226,6 +219,8 @@ namespace Memoria
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
             }
 
+            //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
+
             var action = actualPitchGrabObject.isSelectedCat2 ? "Select " : "Deselect ";
             action = action + dioManager.panelBgiies.bt2.GetComponentInChildren<Text>().text.ToString();
             dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
@@ -258,6 +253,8 @@ namespace Memoria
                 deleteMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
             }
+
+            //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat3 ? "Select " : "Deselect ";
             action = action + dioManager.panelBgiies.bt3.GetComponentInChildren<Text>().text.ToString();
@@ -292,6 +289,8 @@ namespace Memoria
                 deleteMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
             }
+
+            //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
             action = action + dioManager.panelBgiies.GetComponentInChildren<Text>().text.ToString();

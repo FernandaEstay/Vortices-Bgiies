@@ -2733,8 +2733,8 @@ MonoBehaviour:
   loadImageController: {fileID: 1042025247}
   visualizationCounter: {fileID: 1084468299}
   bgiiesMode: 1
-  mouseInput: 0
-  kinectInput: 1
+  mouseInput: 1
+  kinectInput: 0
   panelBgiies: {fileID: 314314998}
   lookPointerBgiiesPrefab: {fileID: 114851576237576286, guid: 9eacaa21d3863eb449f3fe1246fd2d3d,
     type: 2}

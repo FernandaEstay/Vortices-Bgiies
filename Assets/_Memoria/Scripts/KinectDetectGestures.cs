@@ -23,6 +23,7 @@ namespace Memoria
 
         DIOManager dioManager;
 
+        bool initialize = false;
 
         public void Initialize(DIOManager dioManager)
         {
@@ -37,11 +38,17 @@ namespace Memoria
             {
                 bodyManager = BodySrcManager.GetComponent<BodySourceManager>();
             }
+
+            initialize = true;
         }
 
         // Update is called once per frame
         public void FixedUpdate()
         {
+            if (!initialize)
+            {
+                return;
+            }
             if (bodyManager == null)
             {
                 return;
@@ -59,6 +66,7 @@ namespace Memoria
                 }
                 if (body.IsTracked)
                 {
+                    Debug.Log(body.HandRightConfidence);
                     switch (body.HandRightState)
                     {
                         case HandState.Lasso:

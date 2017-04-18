@@ -36,7 +36,7 @@ namespace Memoria
         DIOManager dioManager;
 
         public Ray ray;
-
+        bool initialize = false;
         public void Initialize(DIOManager dioManager)
         {
             this.dioManager = dioManager;
@@ -89,12 +89,18 @@ namespace Memoria
                 // open the corresponding reader
                 faceFrameReaders[i] = faceFrameSources[i].OpenReader();
             }
+            initialize = true;
         }
         public void FixedUpdate()
         {
-            if (dioManager.lookPointerInstanceBgiies.zoomActive)
-            {
+            if (!initialize)
                 return;
+            else
+            {
+                if (dioManager.lookPointerInstanceBgiies.zoomActive)
+                {
+                    return;
+                }
             }
             if (updateFrame < 1)
             {

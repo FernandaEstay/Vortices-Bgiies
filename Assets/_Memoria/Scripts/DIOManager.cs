@@ -238,6 +238,7 @@ namespace Memoria
 
                 if (kinectInput)
                 {
+                    Debug.Log("inicializa kinect input");
                     kinectGestures.Initialize(this);
                     kinectFace.Initialize(this);
                 }
