@@ -2,87 +2,436 @@
 using Gamelogic;
 using UnityCallbacks;
 using UnityEngine;
-using Windows.Kinect;
 using Microsoft.Kinect.VisualGestureBuilder;
 using System;
+using System.Collections.Generic;
+using Microsoft.Kinect;
+using Windows.Kinect;
 
 namespace Memoria
 {
 
     public class KinectGestureManager : GLMonoBehaviour
     {
-        VisualGestureBuilderDatabase _gestureDatabase;
-        VisualGestureBuilderFrameSource _gestureFrameSource;
-        VisualGestureBuilderFrameReader _gestureFrameReader;
-        KinectSensor _kinect;
-        Gesture handUp;
-        Gesture handUpProgress;
-
-        /*
-        public void SetTrackingId(ulong id)
+        public struct EventArgs
         {
-            _gestureFrameReader.IsPaused = false;
-            _gestureFrameSource.TrackingId = id;
-            _gestureFrameReader.FrameArrived += _gestureFrameReader_FrameArrived;
-        }
-        void Start()
-        {
+            public string name;
+            public float confidence;
 
-            _kinect = KinectSensor.GetDefault();
-
-            _gestureDatabase = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/HandUp.gbd");
-            _gestureFrameSource = VisualGestureBuilderFrameSource.Create(_kinect, 0);
-
-            foreach (var gesture in _gestureDatabase.AvailableGestures)
+            public EventArgs(string _name, float _confidence)
             {
-                _gestureFrameSource.AddGesture(gesture);
-
-                if (gesture.Name == "HandUp")
-                {
-                    handUp = gesture;
-                }
-                if (gesture.Name == "HandUpProgress")
-                {
-                    handUpProgress = gesture;
-                }
+                name = _name;
+                confidence = _confidence;
             }
-            _gestureFrameReader = _gestureFrameSource.OpenReader();
-            _gestureFrameReader.IsPaused = true;
+        }
+
+        private VisualGestureBuilderFrameSource vgbFrameSource = null;
+        private VisualGestureBuilderFrameReader vgbFrameReader = null;
+        VisualGestureBuilderDatabase database;
+
+        DIOManager dioManager;
+
+        bool HandUpActive = true;
+        bool HandDownActive = true;
+        bool HandRightActive = true;
+        bool HandLeftActive = true;
+        bool zoomInActive = true;
+        bool zoomOutActive = true;
+
+        KinectSensor kinectSensor;
+        private Body[] bodies;
+        public GameObject BodySrcManager;
+        public BodySourceManager bodyManager;
+        private ulong _trackingId = 0;
+
+        bool initialize = false;
+
+        // Gesture Detection Events
+        public delegate void GestureAction(EventArgs e);
+        public event GestureAction OnGesture;
+
+        public void Initialize(DIOManager dioManager)
+        {
+            this.dioManager = dioManager;
+            this.BodySrcManager = dioManager.bodySrcManager;
+
+            if (BodySrcManager == null)
+            {
+                Debug.Log("Falta asignar Game Object as BodySrcManager");
+            }
+            else
+            {
+                bodyManager = BodySrcManager.GetComponent<BodySourceManager>();
+            }
+
+            kinectSensor = KinectSensor.GetDefault();
+
+            vgbFrameSource = VisualGestureBuilderFrameSource.Create(kinectSensor, 0);
+            vgbFrameSource.TrackingIdLost += Source_TrackingIdLost;
+
+            vgbFrameReader = vgbFrameSource.OpenReader();
+            if (vgbFrameReader != null)
+            {
+                vgbFrameReader.IsPaused = true;
+                Debug.Log("vgb frame reader esta pausado");
+                vgbFrameReader.FrameArrived += this.GestureFrameArrived;
+            }
+
+            database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/kinectBDGestures.gbd");
+            foreach (Gesture gesture in database.AvailableGestures)
+            {
+                Debug.Log(gesture.Name);
+                this.vgbFrameSource.AddGesture(gesture);
+            }
+
+            initialize = true;
 
         }
-    }
 
-    void _gestureFrameReader_FrameArrived(object sender, VisualGestureBuilderFrameArrivedEventArgs e)
-    {
-        VisualGestureBuilderFrameReference frameReference = e.FrameReference;
-        using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
+        // Public setter for Body ID to track
+        public void SetBody(ulong id)
         {
-            if (frame != null && frame.DiscreteGestureResults != null)
+            if (id > 0)
             {
-                if (AttachedObject == null)
-                    return;
+                vgbFrameSource.TrackingId = id;
+                vgbFrameReader.IsPaused = false;
+            }
+            else
+            {
+                vgbFrameSource.TrackingId = 0;
+                vgbFrameReader.IsPaused = true;
+            }
+        }
 
-                DiscreteGestureResult result = null;
 
-                if (frame.DiscreteGestureResults.Count > 0)
-                    result = frame.DiscreteGestureResults[handUp];
-                if (result == null)
-                    return;
+        public void FixedUpdate()
+        {
+            if (!initialize)
+                return;
+            if (!vgbFrameSource.IsTrackingIdValid)
+            {
+                FindValidBody();
+            }
+        }
 
-                if (result.Detected == true)
+        void FindValidBody()
+        {
+
+            if (bodyManager != null)
+            {
+                Body[] bodies = bodyManager.GetData();
+                if (bodies != null)
                 {
-                    var progressResult = frame.ContinuousGestureResults[_saluteProgress];
-                    if (AttachedObject != null)
+                    foreach (Body body in bodies)
                     {
-                        var prog = progressResult.Progress;
-                        Debug.Log("progrado de gesto continuo");
+                        if (body.IsTracked)
+                        {
+                            SetBody(body.TrackingId);
+                            break;
+                        }
                     }
                 }
-                else
+            }
+        }
+
+        private void Source_TrackingIdLost(object sender, TrackingIdLostEventArgs e)
+        {
+            // update the GestureResultView object to show the 'Not Tracked' image in the UI
+            Debug.Log("Source_trackingIdLost");
+        }
+        public bool IsPaused
+        {
+            get
+            {
+                return this.vgbFrameReader.IsPaused;
+            }
+
+            set
+            {
+                if (this.vgbFrameReader.IsPaused != value)
                 {
-                    //no se a detectado algun gesto
+                    this.vgbFrameReader.IsPaused = value;
                 }
             }
-        }*/
+        }
+
+        public ulong TrackingId
+        {
+            get
+            {
+                return this.vgbFrameSource.TrackingId;
+            }
+
+            set
+            {
+                if (this.vgbFrameSource.TrackingId != value)
+                {
+                    this.vgbFrameSource.TrackingId = value;
+                }
+            }
+        }
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.vgbFrameReader != null)
+                {
+                    this.vgbFrameReader.FrameArrived -= this.GestureFrameArrived;
+                    this.vgbFrameReader.Dispose();
+                    this.vgbFrameReader = null;
+                }
+
+                if (this.vgbFrameSource != null)
+                {
+                    this.vgbFrameSource.TrackingIdLost -= this.Source_TrackingIdLost;
+                    this.vgbFrameSource.Dispose();
+                    this.vgbFrameSource = null;
+                }
+            }
+        }
+        private void GestureFrameArrived(object sender, VisualGestureBuilderFrameArrivedEventArgs e)
+        {
+            Debug.Log("llega a gestuteFrameArrive");
+            VisualGestureBuilderFrameReference frameReference = e.FrameReference;
+            using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
+            {
+                if (frame != null)
+                {
+                    Debug.Log("frame != null");
+                    // get the discrete gesture results which arrived with the latest frame
+                    IDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
+                    var continuosResults = frame.ContinuousGestureResults;
+
+                    if (discreteResults != null)
+                    {
+                        // we only have one gesture in this source object, but you can get multiple gestures
+                        foreach (Gesture gesture in this.vgbFrameSource.Gestures)
+                        {
+                            if (gesture.Name.Equals("Setead") && gesture.GestureType == GestureType.Discrete)
+                            {
+                                DiscreteGestureResult result = null;
+                                discreteResults.TryGetValue(gesture, out result);
+
+                                if (result != null)
+                                {
+                                    // update the GestureResultView object with new gesture result values
+                                    //this.GestureResultView.UpdateGestureResult(true, result.Detected, result.Confidence);
+                                    Debug.Log("nombre gesto: " + gesture.Name + "gesto " + result.Detected + "confidencia " + result.Confidence);
+
+                                }
+                            }
+                            if (continuosResults != null)
+                            {
+                                if (gesture.GestureType == GestureType.Continuous)
+                                {
+                                    ContinuousGestureResult result = null;
+                                    continuosResults.TryGetValue(gesture, out result);
+
+                                    if (result != null)
+                                    {
+                                        if (gesture.Name == "HandUpProgress")
+                                        {
+                                            if (result.Progress > 0.7f)
+                                            {
+                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
+                                                {
+                                                    HandUpActive = false;
+                                                    dioManager.panelBgiies.SelectBt1();
+                                                    return;
+                                                }
+                                                return;
+
+                                            }
+                                            if (result.Progress < 0.4f && !HandUpActive)
+                                            {
+                                                HandUpActive = true;
+                                            }
+                                        }
+
+                                        if(gesture.Name == "HandDownProgress")
+                                        {
+                                            if (result.Progress > 0.89f)
+                                            {
+                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
+                                                    {
+                                                    HandDownActive = false;
+                                                    dioManager.panelBgiies.SelectBt2();
+                                                    return;
+                                                }
+                                                return;
+
+                                            }
+                                            if (result.Progress < 0.2f && !HandDownActive)
+                                            {
+                                                HandDownActive = true;
+                                            }
+                                        }
+                                        /*
+                                        if(gesture.Name == "HandRightProgress")
+                                        {
+                                            if (result.Progress > 0.85f)
+                                            {
+                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
+                                                    {
+                                                    HandRightActive = false;
+                                                    dioManager.panelBgiies.SelectBt3();
+                                                    return;
+                                                }
+                                                return;
+
+                                            }
+                                            if (result.Progress < 0.2f && !HandRightActive)
+                                            {
+                                                HandRightActive = true;
+                                            }
+                                        }
+                                        if (gesture.Name == "HandLeftProgress")
+                                        {
+                                            if (result.Progress > 0.85f)
+                                            {
+                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
+                                                {
+                                                    HandLeftActive = false;
+                                                    dioManager.panelBgiies.SelectBt4();
+                                                    return;
+                                                }
+                                                return;
+
+                                            }
+                                            if (result.Progress < 0.2f && !HandLeftActive)
+                                            {
+                                                HandLeftActive = true;
+                                            }
+                                        }*/
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        }
+
     }
 }
+
+/*
+VisualGestureBuilderDatabase _gestureDatabase;
+VisualGestureBuilderFrameSource _gestureFrameSource;
+VisualGestureBuilderFrameReader _gestureFrameReader;
+
+Gesture handUp;
+Gesture handUpProgress;
+
+private KinectSensor kinectSensor;
+private Body[] bodies;
+public GameObject BodySrcManager;
+public BodySourceManager bodyManager;
+private ulong _trackingId = 0;
+
+DIOManager dioManager;
+
+bool initialize = false;
+
+public void Initialize(DIOManager dioManager)
+{
+    this.dioManager = dioManager;
+    this.BodySrcManager = dioManager.bodySrcManager;
+
+    if (BodySrcManager == null)
+    {
+        Debug.Log("Falta asignar Game Object as BodySrcManager");
+    }
+    else
+    {
+        bodyManager = BodySrcManager.GetComponent<BodySourceManager>();
+    }
+
+    initialize = true;
+
+    kinectSensor = KinectSensor.GetDefault();
+
+    _gestureDatabase = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/kinectBDGestures.gbd");
+    _gestureFrameSource = VisualGestureBuilderFrameSource.Create(kinectSensor, 0);
+
+    Gesture[] gestureArray = _gestureDatabase.AvailableGestures.ToArray();
+
+    foreach(var gesture in gestureArray)
+    {
+        Debug.Log("gesture name");
+        _gestureFrameSource.AddGesture(gesture);
+        if (gesture.Name == "HandUp")
+            handUp = gesture;
+        if (gesture.Name == "HandUpProgress")
+            handUpProgress = gesture;
+    }
+
+    _gestureFrameReader = _gestureFrameSource.OpenReader();
+    _gestureFrameReader.IsPaused = true;
+
+}
+
+
+public void SetTrackingId(ulong id)
+{
+    _gestureFrameReader.IsPaused = false;
+    _gestureFrameSource.TrackingId = id;
+    _gestureFrameReader.FrameArrived += _gestureFrameReader_FrameArrived;
+}
+
+private void FixedUpdate()
+{
+    if (bodyManager == null)
+    {
+        return;
+    }
+    bodies = bodyManager.GetData();
+    if (bodies == null)
+    {
+        return;
+    }
+
+    foreach (var body in bodies)
+    {
+        Debug.Log("llega a update");
+        if (body != null && body.IsTracked)
+        {
+            _trackingId = body.TrackingId;
+            SetTrackingId(body.TrackingId);
+            break;
+        }
+    }
+}
+void _gestureFrameReader_FrameArrived(object sender, VisualGestureBuilderFrameArrivedEventArgs e)
+{
+    Debug.Log("llega aca frame reader");
+    VisualGestureBuilderFrameReference frameReference = e.FrameReference;
+    using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
+    {
+        if (frame != null && frame.DiscreteGestureResults != null)
+        {
+
+            DiscreteGestureResult result = null;
+
+            if (frame.DiscreteGestureResults.Count > 0)
+                result = frame.DiscreteGestureResults[handUp];
+            if (result == null)
+                return;
+
+            if (result.Detected == true)
+            {
+                Debug.Log("detecta gesto discreto");
+                var progressResult = frame.ContinuousGestureResults[handUpProgress];
+                var prog = progressResult.Progress;
+                Debug.Log("detecta gesto continuo con pregreso : " + prog);
+            }
+        }
+    }
+}*/

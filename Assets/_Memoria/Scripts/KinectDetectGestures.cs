@@ -21,6 +21,9 @@ namespace Memoria
         public bool zoomInActive = false;
         public bool zoomOut;
 
+        float tiempo;
+        float tiempoOpen;
+        float tiempoClose;
         DIOManager dioManager;
 
         bool initialize = false;
@@ -40,11 +43,13 @@ namespace Memoria
             }
 
             initialize = true;
+            tiempo = Time.deltaTime;
         }
 
         // Update is called once per frame
         public void FixedUpdate()
         {
+
             if (!initialize)
             {
                 return;
@@ -66,30 +71,39 @@ namespace Memoria
                 }
                 if (body.IsTracked)
                 {
-                    Debug.Log(body.HandRightConfidence);
-                    switch (body.HandRightState)
+                    if ((int)body.HandRightConfidence == 1)
                     {
-                        case HandState.Lasso:
-                            dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                            break;
-                        case HandState.Open:
-                            zoomIn = true;
-                            break;
-                        case HandState.Closed:
-                            zoomOut = true;
-                            break;
-                        default:
-                            zoomIn = false;
-                            zoomOut = false;
-                            break;
+                        switch (body.HandRightState)
+                        {
+                            case HandState.Lasso:
+                                dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                                break;
+                            case HandState.Open:
+                                Debug.Log("hand open" + (tiempo += Time.deltaTime));
+                                if (!zoomIn)
+                                {
+                                    zoomIn = true;
+                                    zoomOut = false;
+                                }
+                                break;
+                            case HandState.Closed:
+                                Debug.Log("hand close" + +(tiempo += Time.deltaTime));
+                                if (!zoomOut)
+                                {
+                                    zoomOut = true;
+                                    zoomIn = false;
+                                }
+                                break;
+                        }
                     }
-                    switch (body.HandLeftState)
+                    if ((int)body.HandLeftConfidence == 1)
                     {
-                        case HandState.Lasso:
-                            dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                            break;
-                        default:
-                            break;
+                        switch (body.HandLeftState)
+                        {
+                            case HandState.Lasso:
+                                dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                                break;
+                        }
                     }
                 }
             }

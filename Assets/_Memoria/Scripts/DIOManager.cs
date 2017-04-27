@@ -80,6 +80,7 @@ namespace Memoria
         public GameObject bodySrcManager;
         public KinectDetectGestures kinectGestures;
         public KinectDetectFace kinectFace;
+        public KinectGestureManager kinectGestureManager;
 
         //Sphere Configuration
         public DIOController informationPrefab;
@@ -218,7 +219,8 @@ namespace Memoria
                     lookPointerInstanceBgiies.Initialize(this);
                 }
             }
-            else {
+            else
+            {
                 if (lookPointerPrefab != null && !(useKeyboard && useMouse))
                 {
                     var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
@@ -227,7 +229,7 @@ namespace Memoria
 
                     lookPointerInstance.Initialize(this);
                 }
-            }            
+            }
 
             rayCastingDetector.Initialize(this);
 
@@ -241,6 +243,7 @@ namespace Memoria
                     Debug.Log("inicializa kinect input");
                     kinectGestures.Initialize(this);
                     kinectFace.Initialize(this);
+                    kinectGestureManager.Initialize(this);
                 }
 
             }
@@ -270,7 +273,7 @@ namespace Memoria
                 }
                 buttonPanel.zoomIn3DButton.gameObject.SetActive(false);
             }
-            
+
 
             StartCoroutine(loadImageController.LoadFolderImages());
 

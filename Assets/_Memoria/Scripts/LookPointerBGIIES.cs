@@ -12,7 +12,12 @@ namespace Memoria
     public class LookPointerBGIIES : LookPointerController, IAwake, IUpdate
     {
         public bool zoomActive = false;
-         
+        float tiempo;
+        float tiempoZoomIn;
+        float tiempoZoomOut;
+
+        string estadoAnterior = "";
+
         public void Awake()
         {
 
@@ -25,13 +30,24 @@ namespace Memoria
         }
         public void Update()
         {
-            if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut())&& actualPitchGrabObject != null && !dioManager.movingPlane)
+            tiempo += Time.deltaTime;
+            if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut()) && actualPitchGrabObject != null && !dioManager.movingPlane)
             {
                 if (!zoomingOut && !zoomingIn)
                 {
-                    StartCoroutine(ZoomingOut(null));
-                    dioManager.panelBgiies.noInteractableButtons();
-                    zoomActive = false;
+                    Debug.Log("estado anterior " + estadoAnterior);
+                    if (zoomActive)
+                    {
+                        Debug.Log("tiempo zoomOut " + tiempoZoomOut + "tiempo zoomIn " + tiempoZoomIn);
+                        StartCoroutine(ZoomingOut(null));
+                        dioManager.panelBgiies.noInteractableButtons();
+                        zoomActive = false;
+                        estadoAnterior = "otro";
+                    }
+                    else
+                    {
+                        estadoAnterior = "zoomOut";
+                    }
                 }
             }
 
@@ -41,13 +57,20 @@ namespace Memoria
         {
             posibleActualPitchGrabObject = pitchGrabObject;
 
-            if ((Input.GetMouseButtonDown(0) || dioManager.kinectGestures.kinectGestureZoomIn())  && actualPitchGrabObject == null && !dioManager.movingPlane)
+            if ((Input.GetMouseButtonDown(0) || dioManager.kinectGestures.kinectGestureZoomIn()) && actualPitchGrabObject == null && !dioManager.movingPlane)
             {
                 if (!zoomingIn && !zoomingOut)
                 {
-                    StartCoroutine(ZoomingIn(pitchGrabObject, null));
-                    dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
-                    zoomActive = true;
+                    if (!zoomActive)
+                    {
+                        StartCoroutine(ZoomingIn(pitchGrabObject, null));
+                        dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
+                        zoomActive = true;
+                    }
+                    else
+                    {
+                        estadoAnterior = "zoomIn";
+                    }
                 }
             }
         }
@@ -78,30 +101,32 @@ namespace Memoria
 
         public override IEnumerator ZoomingIn(PitchGrabObject pitchGrabObject, Action finalAction)
         {
-            zoomingIn = true;
-            SetZoomInInitialStatus(pitchGrabObject);
+            tiempoZoomIn = tiempo;
+            estadoAnterior = "zoomIn";
+                zoomingIn = true;
+                SetZoomInInitialStatus(pitchGrabObject);
 
-            dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
+                dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
 
-            var counter = 0;
-            while (true)
-            {
-                pitchGrabObject.transform.position = Vector3.MoveTowards(pitchGrabObject.transform.position, Vector3.zero, 0.01f);
-
-                if (counter >= dioManager.closeRange)
+                var counter = 0;
+                while (true)
                 {
-                    break;
+                    pitchGrabObject.transform.position = Vector3.MoveTowards(pitchGrabObject.transform.position, Vector3.zero, 0.01f);
+
+                    if (counter >= dioManager.closeRange)
+                    {
+                        break;
+                    }
+
+                    counter++;
+                    yield return new WaitForFixedUpdate();
                 }
 
-                counter++;
-                yield return new WaitForFixedUpdate();
-            }
-
-            if (finalAction != null)
-                finalAction();
-            zoomingIn = false;
+                if (finalAction != null)
+                    finalAction();
+                zoomingIn = false;
+            
         }
-
         public override void DirectZoomOutCall(Action finalAction)
         {
             if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !dioManager.movingSphere)
@@ -112,51 +137,55 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-            dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
-            zoomingOut = true;
+            tiempoZoomOut = tiempo;
+            estadoAnterior = "zoomOut";
+                dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
+                zoomingOut = true;
 
-            var positionTargetReached = false;
-            var scaleTargetReaced = false;
+                var positionTargetReached = false;
+                var scaleTargetReaced = false;
 
-            while (true)
-            {
-                //Position
-                actualPitchGrabObject.transform.position =
-                    Vector3.MoveTowards(actualPitchGrabObject.transform.position,
-                        _actualPitchObjectOriginalPosition, _positionSteps);
-
-                if (actualPitchGrabObject.transform.position.EqualOrMayorCompareVector(_actualPitchObjectOriginalPosition, -0.0001f) && !positionTargetReached)
+                while (true)
                 {
-                    positionTargetReached = true;
-                    actualPitchGrabObject.transform.position = _actualPitchObjectOriginalPosition;
+                    //Position
+                    actualPitchGrabObject.transform.position =
+                        Vector3.MoveTowards(actualPitchGrabObject.transform.position,
+                            _actualPitchObjectOriginalPosition, _positionSteps);
+
+                    if (actualPitchGrabObject.transform.position.EqualOrMayorCompareVector(_actualPitchObjectOriginalPosition, -0.0001f) && !positionTargetReached)
+                    {
+                        positionTargetReached = true;
+                        actualPitchGrabObject.transform.position = _actualPitchObjectOriginalPosition;
+                    }
+
+                    //Scale
+                    actualPitchGrabObject.transform.localScale =
+                        Vector3.MoveTowards(actualPitchGrabObject.transform.localScale,
+                            _actualPitchObjectOriginalScale, _scaleSteps);
+
+                    if (actualPitchGrabObject.transform.localScale.EqualOrMinorCompareVector(_actualPitchObjectOriginalScale, 0.001f) && !scaleTargetReaced)
+                    {
+                        scaleTargetReaced = true;
+                        actualPitchGrabObject.transform.localScale = _actualPitchObjectOriginalScale;
+                    }
+
+                    if (positionTargetReached && scaleTargetReaced)
+                        break;
+
+                    yield return new WaitForFixedUpdate();
+
                 }
 
-                //Scale
-                actualPitchGrabObject.transform.localScale =
-                    Vector3.MoveTowards(actualPitchGrabObject.transform.localScale,
-                        _actualPitchObjectOriginalScale, _scaleSteps);
+                actualPitchGrabObject.OnUnDetect();
+                actualPitchGrabObject.dioController.inVisualizationPosition = true;
+                actualPitchGrabObject = null;
+                zoomingOut = false;
+                if (finalAction != null)
+                    finalAction();
+            
 
-                if (actualPitchGrabObject.transform.localScale.EqualOrMinorCompareVector(_actualPitchObjectOriginalScale, 0.001f) && !scaleTargetReaced)
-                {
-                    scaleTargetReaced = true;
-                    actualPitchGrabObject.transform.localScale = _actualPitchObjectOriginalScale;
-                }
-
-                if (positionTargetReached  && scaleTargetReaced)
-                    break;
-
-                yield return new WaitForFixedUpdate();
-                
-            }
-
-            actualPitchGrabObject.OnUnDetect();
-            actualPitchGrabObject.dioController.inVisualizationPosition = true;
-            actualPitchGrabObject = null;
-            zoomingOut = false;
-          if (finalAction != null)
-                finalAction();
         }
-
+    
         public void SelectCat1()
         {
             bool unPitchedAccept = false;

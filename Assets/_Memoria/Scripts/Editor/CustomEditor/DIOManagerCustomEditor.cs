@@ -29,6 +29,7 @@ namespace Memoria.Editor
         private GLSerializedProperty _BodySrcManager;
         private GLSerializedProperty _KinectGestures;
         private GLSerializedProperty _KinectFace;
+        private GLSerializedProperty _KinectGestureManager;
 
         private GLSerializedProperty _csvCreatorPath;
 
@@ -91,6 +92,7 @@ namespace Memoria.Editor
             _MouseInput = FindProperty("mouseInput");
             _KinectInput = FindProperty("kinectInput");
             _BodySrcManager = FindProperty("bodySrcManager");
+            _KinectGestureManager = FindProperty("kinectGestureManager");
 
             _csvCreatorPath = FindProperty("csvCreatorPath");
 
@@ -178,6 +180,7 @@ namespace Memoria.Editor
             AddField(_PanelBGIIES);
             AddField(_lookPointerBgiiesPrefab);
             AddField(_childPrefab);
+            AddField(_KinectGestureManager);
             AddField(_BodySrcManager);
             AddField(_KinectGestures);
             AddField(_KinectFace);
