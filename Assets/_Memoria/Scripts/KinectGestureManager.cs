@@ -25,6 +25,18 @@ namespace Memoria
             }
         }
 
+        public struct gesturesContinuous
+        {
+            public string nombre;
+            public float resultado;
+
+            public gesturesContinuous(string name, float result)
+            {
+                nombre = name;
+                resultado = result;
+            }
+        }
+
         private VisualGestureBuilderFrameSource vgbFrameSource = null;
         private VisualGestureBuilderFrameReader vgbFrameReader = null;
         VisualGestureBuilderDatabase database;
@@ -35,8 +47,10 @@ namespace Memoria
         bool HandDownActive = true;
         bool HandRightActive = true;
         bool HandLeftActive = true;
-        bool zoomInActive = true;
-        bool zoomOutActive = true;
+
+        public bool ActiveZoomOut;
+        float resultRel = 0;
+        gesturesContinuous gesRel = new gesturesContinuous();
 
         KinectSensor kinectSensor;
         private Body[] bodies;
@@ -73,14 +87,12 @@ namespace Memoria
             if (vgbFrameReader != null)
             {
                 vgbFrameReader.IsPaused = true;
-                Debug.Log("vgb frame reader esta pausado");
                 vgbFrameReader.FrameArrived += this.GestureFrameArrived;
             }
 
-            database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/kinectBDGestures.gbd");
+            database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/KinectDB.gbd");
             foreach (Gesture gesture in database.AvailableGestures)
             {
-                Debug.Log(gesture.Name);
                 this.vgbFrameSource.AddGesture(gesture);
             }
 
@@ -196,126 +208,127 @@ namespace Memoria
         }
         private void GestureFrameArrived(object sender, VisualGestureBuilderFrameArrivedEventArgs e)
         {
-            Debug.Log("llega a gestuteFrameArrive");
             VisualGestureBuilderFrameReference frameReference = e.FrameReference;
             using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
             {
                 if (frame != null)
                 {
-                    Debug.Log("frame != null");
                     // get the discrete gesture results which arrived with the latest frame
                     IDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
                     var continuosResults = frame.ContinuousGestureResults;
+                    // we only have one gesture in this source object, but you can get multiple gestures
 
-                    if (discreteResults != null)
+                    List<gesturesContinuous> gestures = new List<gesturesContinuous>();
+
+                    resultRel = 0;
+                    foreach (Gesture gesture in this.vgbFrameSource.Gestures)
                     {
-                        // we only have one gesture in this source object, but you can get multiple gestures
-                        foreach (Gesture gesture in this.vgbFrameSource.Gestures)
+                        if (continuosResults != null)
                         {
-                            if (gesture.Name.Equals("Setead") && gesture.GestureType == GestureType.Discrete)
+                            if (gesture.GestureType == GestureType.Continuous)
                             {
-                                DiscreteGestureResult result = null;
-                                discreteResults.TryGetValue(gesture, out result);
-
+                                ContinuousGestureResult result = null;
+                                continuosResults.TryGetValue(gesture, out result);
                                 if (result != null)
                                 {
-                                    // update the GestureResultView object with new gesture result values
-                                    //this.GestureResultView.UpdateGestureResult(true, result.Detected, result.Confidence);
-                                    Debug.Log("nombre gesto: " + gesture.Name + "gesto " + result.Detected + "confidencia " + result.Confidence);
-
-                                }
-                            }
-                            if (continuosResults != null)
-                            {
-                                if (gesture.GestureType == GestureType.Continuous)
-                                {
-                                    ContinuousGestureResult result = null;
-                                    continuosResults.TryGetValue(gesture, out result);
-
-                                    if (result != null)
+                                    if (result.Progress > resultRel)
                                     {
-                                        if (gesture.Name == "HandUpProgress")
-                                        {
-                                            if (result.Progress > 0.7f)
-                                            {
-                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
-                                                {
-                                                    HandUpActive = false;
-                                                    dioManager.panelBgiies.SelectBt1();
-                                                    return;
-                                                }
-                                                return;
-
-                                            }
-                                            if (result.Progress < 0.4f && !HandUpActive)
-                                            {
-                                                HandUpActive = true;
-                                            }
-                                        }
-
-                                        if(gesture.Name == "HandDownProgress")
-                                        {
-                                            if (result.Progress > 0.89f)
-                                            {
-                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
-                                                    {
-                                                    HandDownActive = false;
-                                                    dioManager.panelBgiies.SelectBt2();
-                                                    return;
-                                                }
-                                                return;
-
-                                            }
-                                            if (result.Progress < 0.2f && !HandDownActive)
-                                            {
-                                                HandDownActive = true;
-                                            }
-                                        }
-                                        /*
-                                        if(gesture.Name == "HandRightProgress")
-                                        {
-                                            if (result.Progress > 0.85f)
-                                            {
-                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
-                                                    {
-                                                    HandRightActive = false;
-                                                    dioManager.panelBgiies.SelectBt3();
-                                                    return;
-                                                }
-                                                return;
-
-                                            }
-                                            if (result.Progress < 0.2f && !HandRightActive)
-                                            {
-                                                HandRightActive = true;
-                                            }
-                                        }
-                                        if (gesture.Name == "HandLeftProgress")
-                                        {
-                                            if (result.Progress > 0.85f)
-                                            {
-                                                if (HandUpActive && HandDownActive && HandRightActive && HandLeftActive)
-                                                {
-                                                    HandLeftActive = false;
-                                                    dioManager.panelBgiies.SelectBt4();
-                                                    return;
-                                                }
-                                                return;
-
-                                            }
-                                            if (result.Progress < 0.2f && !HandLeftActive)
-                                            {
-                                                HandLeftActive = true;
-                                            }
-                                        }*/
+                                        resultRel = result.Progress;
+                                        gesRel = new gesturesContinuous(gesture.Name, resultRel);
                                     }
+
+                                    if (gesture.Name == "HandUpProgress")
+                                    {
+                                        if (result.Progress < 0.3f && !HandUpActive)
+                                            HandUpActive = true;
+                                    }
+                                    if (gesture.Name == "HandDownProgress")
+                                    {
+                                        if (result.Progress < 0.3f && !HandDownActive)
+                                            HandDownActive = true;
+                                    }
+                                    if (gesture.Name == "HandRightProgress")
+                                    {
+                                        if (result.Progress < 0.3f && !HandRightActive)
+                                            HandRightActive = true;
+                                    }
+                                    if (gesture.Name == "HandLeftProgress")
+                                    {
+                                        if (result.Progress < 0.2f && !HandLeftActive)
+                                        {
+                                            HandLeftActive = true;
+                                        }
+                                    }
+
                                 }
+
                             }
                         }
                     }
 
-
-                }
+                    if (gesRel.resultado != 0)
+                    {
+                        if (gesRel.nombre == "HandUpProgress")
+                        {
+                            if (gesRel.resultado > 0.6f && HandUpActive)
+                            {
+                                HandUpActive = false;
+                                dioManager.panelBgiies.SelectBt1();
+                                ActiveZoomOut = false;
+                                return;
+                            }
+                            if(gesRel.resultado < 4f)
+                            {
+                                ActiveZoomOut = true;
+                            }
+                        }
+                                                                               
+                        if (gesRel.nombre == "HandDownProgress")
+                        {
+                            if (gesRel.resultado > 0.7f && HandDownActive)
+                            {
+                                HandDownActive = false;
+                                dioManager.panelBgiies.SelectBt2();
+                                ActiveZoomOut = false;
+                                return;
+                            }
+                            if(gesRel.resultado < 5f)
+                            {
+                                ActiveZoomOut = true;
+                            }
+                        }
+                                        
+                        if(gesRel.nombre == "HandRightProgress")
+                        {
+                            if (gesRel.resultado > 0.6f && HandRightActive)
+                            {
+                                HandRightActive = false;
+                                dioManager.panelBgiies.SelectBt3();
+                                ActiveZoomOut = false;
+                                return;
+                            }
+                            if(gesRel.resultado < 4)
+                            {
+                                ActiveZoomOut = true;
+                            }
+                        }
+                                        
+                        if (gesRel.nombre == "HandLeftProgress")
+                        {
+                            if (gesRel.resultado > 0.5f && HandLeftActive)
+                            {
+                                HandLeftActive = false;
+                                dioManager.panelBgiies.SelectBt4();
+                                ActiveZoomOut = false;
+                                return;
+                            }
+                            if(gesRel.resultado < 3f)
+                            {
+                                ActiveZoomOut = true;
+                            }
+                        }
+                    }
+                }                    
             }
         }
 
@@ -326,25 +339,19 @@ namespace Memoria
 VisualGestureBuilderDatabase _gestureDatabase;
 VisualGestureBuilderFrameSource _gestureFrameSource;
 VisualGestureBuilderFrameReader _gestureFrameReader;
-
 Gesture handUp;
 Gesture handUpProgress;
-
 private KinectSensor kinectSensor;
 private Body[] bodies;
 public GameObject BodySrcManager;
 public BodySourceManager bodyManager;
 private ulong _trackingId = 0;
-
 DIOManager dioManager;
-
 bool initialize = false;
-
 public void Initialize(DIOManager dioManager)
 {
     this.dioManager = dioManager;
     this.BodySrcManager = dioManager.bodySrcManager;
-
     if (BodySrcManager == null)
     {
         Debug.Log("Falta asignar Game Object as BodySrcManager");
@@ -353,16 +360,11 @@ public void Initialize(DIOManager dioManager)
     {
         bodyManager = BodySrcManager.GetComponent<BodySourceManager>();
     }
-
     initialize = true;
-
     kinectSensor = KinectSensor.GetDefault();
-
     _gestureDatabase = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/kinectBDGestures.gbd");
     _gestureFrameSource = VisualGestureBuilderFrameSource.Create(kinectSensor, 0);
-
     Gesture[] gestureArray = _gestureDatabase.AvailableGestures.ToArray();
-
     foreach(var gesture in gestureArray)
     {
         Debug.Log("gesture name");
@@ -372,20 +374,15 @@ public void Initialize(DIOManager dioManager)
         if (gesture.Name == "HandUpProgress")
             handUpProgress = gesture;
     }
-
     _gestureFrameReader = _gestureFrameSource.OpenReader();
     _gestureFrameReader.IsPaused = true;
-
 }
-
-
 public void SetTrackingId(ulong id)
 {
     _gestureFrameReader.IsPaused = false;
     _gestureFrameSource.TrackingId = id;
     _gestureFrameReader.FrameArrived += _gestureFrameReader_FrameArrived;
 }
-
 private void FixedUpdate()
 {
     if (bodyManager == null)
@@ -397,7 +394,6 @@ private void FixedUpdate()
     {
         return;
     }
-
     foreach (var body in bodies)
     {
         Debug.Log("llega a update");
@@ -417,14 +413,11 @@ void _gestureFrameReader_FrameArrived(object sender, VisualGestureBuilderFrameAr
     {
         if (frame != null && frame.DiscreteGestureResults != null)
         {
-
             DiscreteGestureResult result = null;
-
             if (frame.DiscreteGestureResults.Count > 0)
                 result = frame.DiscreteGestureResults[handUp];
             if (result == null)
                 return;
-
             if (result.Detected == true)
             {
                 Debug.Log("detecta gesto discreto");

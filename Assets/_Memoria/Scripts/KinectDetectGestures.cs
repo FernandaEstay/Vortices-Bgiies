@@ -21,6 +21,8 @@ namespace Memoria
         public bool zoomInActive = false;
         public bool zoomOut;
 
+        bool selectedActive = false;
+
         float tiempo;
         float tiempoOpen;
         float tiempoClose;
@@ -78,8 +80,8 @@ namespace Memoria
                             case HandState.Lasso:
                                 dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
                                 break;
+                           
                             case HandState.Open:
-                                Debug.Log("hand open" + (tiempo += Time.deltaTime));
                                 if (!zoomIn)
                                 {
                                     zoomIn = true;
@@ -87,8 +89,7 @@ namespace Memoria
                                 }
                                 break;
                             case HandState.Closed:
-                                Debug.Log("hand close" + +(tiempo += Time.deltaTime));
-                                if (!zoomOut)
+                                if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
                                 {
                                     zoomOut = true;
                                     zoomIn = false;
@@ -103,8 +104,11 @@ namespace Memoria
                             case HandState.Lasso:
                                 dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
                                 break;
+                            default:
+                                break;
                         }
                     }
+
                 }
             }
 

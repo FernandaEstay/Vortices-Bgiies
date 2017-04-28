@@ -12,11 +12,6 @@ namespace Memoria
     public class LookPointerBGIIES : LookPointerController, IAwake, IUpdate
     {
         public bool zoomActive = false;
-        float tiempo;
-        float tiempoZoomIn;
-        float tiempoZoomOut;
-
-        string estadoAnterior = "";
 
         public void Awake()
         {
@@ -30,23 +25,15 @@ namespace Memoria
         }
         public void Update()
         {
-            tiempo += Time.deltaTime;
             if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut()) && actualPitchGrabObject != null && !dioManager.movingPlane)
             {
                 if (!zoomingOut && !zoomingIn)
                 {
-                    Debug.Log("estado anterior " + estadoAnterior);
                     if (zoomActive)
                     {
-                        Debug.Log("tiempo zoomOut " + tiempoZoomOut + "tiempo zoomIn " + tiempoZoomIn);
                         StartCoroutine(ZoomingOut(null));
                         dioManager.panelBgiies.noInteractableButtons();
                         zoomActive = false;
-                        estadoAnterior = "otro";
-                    }
-                    else
-                    {
-                        estadoAnterior = "zoomOut";
                     }
                 }
             }
@@ -66,10 +53,6 @@ namespace Memoria
                         StartCoroutine(ZoomingIn(pitchGrabObject, null));
                         dioManager.panelBgiies.interactableButtons(posibleActualPitchGrabObject);
                         zoomActive = true;
-                    }
-                    else
-                    {
-                        estadoAnterior = "zoomIn";
                     }
                 }
             }
@@ -101,8 +84,6 @@ namespace Memoria
 
         public override IEnumerator ZoomingIn(PitchGrabObject pitchGrabObject, Action finalAction)
         {
-            tiempoZoomIn = tiempo;
-            estadoAnterior = "zoomIn";
                 zoomingIn = true;
                 SetZoomInInitialStatus(pitchGrabObject);
 
@@ -137,8 +118,6 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-            tiempoZoomOut = tiempo;
-            estadoAnterior = "zoomOut";
                 dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
                 zoomingOut = true;
 
