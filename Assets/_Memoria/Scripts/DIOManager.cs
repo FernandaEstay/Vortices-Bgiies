@@ -8,6 +8,8 @@ using Gamelogic;
 using Leap.Unity;
 using Memoria.Core;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Leap.Unity.InputModule;
 
 namespace Memoria
 {
@@ -312,6 +314,11 @@ namespace Memoria
             useHapticGlove = GLPlayerPrefs.GetBool(Scope, "UseHapticGlove");
             useJoystick = GLPlayerPrefs.GetBool(Scope, "UseJoystic");
 
+            kinectInput = GLPlayerPrefs.GetBool(Scope, "KinectInput");
+            mouseInput = GLPlayerPrefs.GetBool(Scope, "MouseInput");
+            bgiiesMode = GLPlayerPrefs.GetBool(Scope, "BGIIESMode");
+            visualizationPlane = GLPlayerPrefs.GetBool(Scope, "visualizationPlane");
+
             csvCreatorPath = GLPlayerPrefs.GetString(Scope, "DataOutput");
 
             unityOpenGlove.leftComDevice = GLPlayerPrefs.GetString(Scope, "LeftCom");
@@ -323,6 +330,16 @@ namespace Memoria
             loadImageController.LoadImageBehaviour.pathSmall = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
             loadImageController.LoadImageBehaviour.filename = GLPlayerPrefs.GetString(Scope, "FileName");
 
+            if (useLeapMotion)
+            {
+                /*
+                EventSystem es = EventSystem.current;
+                GameObject ev = GameObject.FindGameObjectWithTag("EventSystem");
+                LeapInputModule leap = ev.GetComponent<LeapInputModule>();
+
+                Debug.Log(leap.gameObject.activeSelf);
+                */
+            }
             OnValidate();
         }
 

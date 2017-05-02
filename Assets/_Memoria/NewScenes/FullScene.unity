@@ -2734,8 +2734,8 @@ MonoBehaviour:
   loadImageController: {fileID: 1042025247}
   visualizationCounter: {fileID: 1084468299}
   bgiiesMode: 1
-  mouseInput: 0
-  kinectInput: 1
+  mouseInput: 1
+  kinectInput: 0
   panelBgiies: {fileID: 314314998}
   lookPointerBgiiesPrefab: {fileID: 114851576237576286, guid: 9eacaa21d3863eb449f3fe1246fd2d3d,
     type: 2}
@@ -7741,7 +7741,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11484536, guid: 8b10486b9212d9f4badcf6c992af0a47, type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b10486b9212d9f4badcf6c992af0a47, type: 2}

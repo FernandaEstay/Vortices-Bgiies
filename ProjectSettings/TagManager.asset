@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DigitalInformationObject
   - LeapMotionHand
+  - EventSystem
   layers:
   - Default
   - TransparentFX
