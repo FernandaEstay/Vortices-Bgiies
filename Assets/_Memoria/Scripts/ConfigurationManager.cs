@@ -140,14 +140,15 @@ public class ConfigurationManager : MonoBehaviour
         }
         if (modeDropDown.value == 0)
         {
-            if (!useLeapMotionToggle.gameObject.activeSelf && !useJoystickToggle.gameObject.activeSelf)
-            {
-                useLeapMotionToggle.gameObject.SetActive(true);
-                useJoystickToggle.gameObject.SetActive(true);
+            mouseInput.isOn = false;
+            kinectInput.isOn = false;
 
-                kinectInput.gameObject.SetActive(false);
-                mouseInput.gameObject.SetActive(false);
-            }
+            mouseInput.gameObject.SetActive(false);
+            kinectInput.gameObject.SetActive(false);
+
+            useLeapMotionToggle.gameObject.SetActive(true);
+            useJoystickToggle.gameObject.SetActive(true);
+
             if (useLeapMotionToggle.isOn)
             {
                 if (!usePitchGrabToggle.gameObject.activeSelf && !useHapticGloveToggle.gameObject.activeSelf)
@@ -155,25 +156,52 @@ public class ConfigurationManager : MonoBehaviour
                     usePitchGrabToggle.gameObject.SetActive(true);
                     useHapticGloveToggle.gameObject.SetActive(true);
                 }
+                useJoystickToggle.isOn = false;
+                useJoystickToggle.interactable = false;
             }
             else
             {
                 usePitchGrabToggle.gameObject.SetActive(false);
                 useHapticGloveToggle.gameObject.SetActive(false);
+                useJoystickToggle.interactable = true;
             }
+            if (useJoystickToggle.isOn)
+            {
+                useLeapMotionToggle.isOn = false;
+                useLeapMotionToggle.interactable = false;
+            }
+            else
+                useLeapMotionToggle.interactable = true;
+
         }
         else
         {
-            if(useLeapMotionToggle.gameObject.activeSelf && useJoystickToggle.gameObject.activeSelf)
-            {
-                useLeapMotionToggle.gameObject.SetActive(false);
-                useJoystickToggle.gameObject.SetActive(false);
-                usePitchGrabToggle.gameObject.SetActive(false);
-                useHapticGloveToggle.gameObject.SetActive(false);
+            useLeapMotionToggle.isOn = false;
+            useJoystickToggle.isOn = false;
 
-                kinectInput.gameObject.SetActive(true);
-                mouseInput.gameObject.SetActive(true);
+            useLeapMotionToggle.gameObject.SetActive(false);
+            useJoystickToggle.gameObject.SetActive(false);
+            usePitchGrabToggle.gameObject.SetActive(false);
+            useHapticGloveToggle.gameObject.SetActive(false);
+
+            kinectInput.gameObject.SetActive(true);
+            mouseInput.gameObject.SetActive(true);
+
+            if (kinectInput.isOn)
+            {
+                mouseInput.isOn = false;
+                mouseInput.interactable = false;
             }
+            else
+                mouseInput.interactable = true;
+
+            if (mouseInput.isOn)
+            {
+                kinectInput.isOn = false;
+                kinectInput.interactable = false;
+            }
+            else
+                kinectInput.interactable = true;
         }
     }
 

@@ -330,16 +330,22 @@ namespace Memoria
             loadImageController.LoadImageBehaviour.pathSmall = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
             loadImageController.LoadImageBehaviour.filename = GLPlayerPrefs.GetString(Scope, "FileName");
 
+
+            GameObject ev = GameObject.FindGameObjectWithTag("EventSystem");
+            StandaloneInputModule standInput = ev.GetComponent<StandaloneInputModule>();
+            LeapInputModule leapInput = ev.GetComponent<LeapInputModule>();
             if (useLeapMotion)
             {
-                /*
-                EventSystem es = EventSystem.current;
-                GameObject ev = GameObject.FindGameObjectWithTag("EventSystem");
-                LeapInputModule leap = ev.GetComponent<LeapInputModule>();
-
-                Debug.Log(leap.gameObject.activeSelf);
-                */
+                standInput.enabled = false;
+                leapInput.enabled = true;
             }
+
+            if (bgiiesMode)
+            {
+                standInput.enabled = true;
+                leapInput.enabled = false;
+            }
+            
             OnValidate();
         }
 
