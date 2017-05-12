@@ -9,6 +9,7 @@ using Microsoft.Kinect;
 using Windows.Kinect;
 using OpenGlove_API_C_Sharp_HL;
 using OpenGlove_API_C_Sharp_HL.ServiceReference1;
+using System.Collections;
 
 namespace Memoria
 {
@@ -255,16 +256,19 @@ namespace Memoria
                                     {
                                         if (result.Progress < 0.3f && !HandUpActive)
                                             HandUpActive = true;
+                                        RegisterGestureProgress("HandUpProgress ", result.Progress);
                                     }
                                     if (gesture.Name == "HandDownProgress")
                                     {
                                         if (result.Progress < 0.3f && !HandDownActive)
                                             HandDownActive = true;
+                                        RegisterGestureProgress("HandDownProgress ", result.Progress);
                                     }
                                     if (gesture.Name == "HandRightProgress")
                                     {
                                         if (result.Progress < 0.3f && !HandRightActive)
                                             HandRightActive = true;
+                                        RegisterGestureProgress("HandRightProgress ", result.Progress);
                                     }
                                     if (gesture.Name == "HandLeftProgress")
                                     {
@@ -272,6 +276,7 @@ namespace Memoria
                                         {
                                             HandLeftActive = true;
                                         }
+                                        RegisterGestureProgress("HandLeftProgress ", result.Progress);
                                     }
 
                                 }
@@ -365,6 +370,12 @@ namespace Memoria
                 }                    
             }
         }
+        public void RegisterGestureProgress(string action , float progress)
+        { 
+
+            dioManager.csvCreator.AddLines(action, progress.ToString());
+        }
 
     }
+
 }

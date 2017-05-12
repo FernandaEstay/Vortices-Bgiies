@@ -1,4 +1,5 @@
 ﻿using Gamelogic;
+using System.Collections;
 using UnityCallbacks;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ namespace Memoria
                         _dioManager.panelBgiies.primerMovimiento = true;
                     }
                 }
+                StartCoroutine(RegisterRay( 0.8f, _ray));
             }
             else
             {
@@ -100,7 +102,14 @@ namespace Memoria
 			}
 		}
 
-		private void DebugLog(PitchGrabObject posiblePitcheGrabObject)
+        public IEnumerator RegisterRay(float seconds, Ray ray)
+        {
+                yield return new WaitForSeconds(seconds);
+
+            var action = "Move rayVector";
+            _dioManager.csvCreator.AddLines(action, ray.direction.ToString());
+        }
+        private void DebugLog(PitchGrabObject posiblePitcheGrabObject)
         { 
             if (!debugOutput)
 				return;
