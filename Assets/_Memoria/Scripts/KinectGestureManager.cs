@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Kinect;
 using Windows.Kinect;
+using OpenGlove_API_C_Sharp_HL;
+using OpenGlove_API_C_Sharp_HL.ServiceReference1;
 
 namespace Memoria
 {
@@ -63,6 +65,17 @@ namespace Memoria
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
         public event GestureAction OnGesture;
+
+        int[] regionsSelectionSelect = {
+                (int) PalmarRegion.FingerIndexDistal,
+                (int) PalmarRegion.FingerMiddleDistal,
+                (int) PalmarRegion.FingerThumbDistal,
+                (int) PalmarRegion.FingerSmallDistal,
+                (int) PalmarRegion.FingerRingDistal
+        };
+
+        int intensityMax = 255;
+        public int intensityZero = 0;
 
         public void Initialize(DIOManager dioManager)
         {
@@ -138,8 +151,9 @@ namespace Memoria
                     {
                         if (body.IsTracked)
                         {
-                            SetBody(body.TrackingId);
-                            break;
+                            if(!dioManager.panelBgiies.primerMovimiento)
+                                SetBody(body.TrackingId);
+                                break;
                         }
                     }
                 }
@@ -274,6 +288,11 @@ namespace Memoria
                             {
                                 HandUpActive = false;
                                 dioManager.panelBgiies.SelectBt1();
+                                if (dioManager.useHapticGlove)
+                                {
+                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                                }
                                 ActiveZoomOut = false;
                                 return;
                             }
@@ -289,6 +308,11 @@ namespace Memoria
                             {
                                 HandDownActive = false;
                                 dioManager.panelBgiies.SelectBt2();
+                                if (dioManager.useHapticGlove)
+                                {
+                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                                }
                                 ActiveZoomOut = false;
                                 return;
                             }
@@ -304,6 +328,11 @@ namespace Memoria
                             {
                                 HandRightActive = false;
                                 dioManager.panelBgiies.SelectBt3();
+                                if (dioManager.useHapticGlove)
+                                {
+                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                                }
                                 ActiveZoomOut = false;
                                 return;
                             }
@@ -319,6 +348,11 @@ namespace Memoria
                             {
                                 HandLeftActive = false;
                                 dioManager.panelBgiies.SelectBt4();
+                                if (dioManager.useHapticGlove)
+                                {
+                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                                }
                                 ActiveZoomOut = false;
                                 return;
                             }
@@ -334,97 +368,3 @@ namespace Memoria
 
     }
 }
-
-/*
-VisualGestureBuilderDatabase _gestureDatabase;
-VisualGestureBuilderFrameSource _gestureFrameSource;
-VisualGestureBuilderFrameReader _gestureFrameReader;
-Gesture handUp;
-Gesture handUpProgress;
-private KinectSensor kinectSensor;
-private Body[] bodies;
-public GameObject BodySrcManager;
-public BodySourceManager bodyManager;
-private ulong _trackingId = 0;
-DIOManager dioManager;
-bool initialize = false;
-public void Initialize(DIOManager dioManager)
-{
-    this.dioManager = dioManager;
-    this.BodySrcManager = dioManager.bodySrcManager;
-    if (BodySrcManager == null)
-    {
-        Debug.Log("Falta asignar Game Object as BodySrcManager");
-    }
-    else
-    {
-        bodyManager = BodySrcManager.GetComponent<BodySourceManager>();
-    }
-    initialize = true;
-    kinectSensor = KinectSensor.GetDefault();
-    _gestureDatabase = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/kinectBDGestures.gbd");
-    _gestureFrameSource = VisualGestureBuilderFrameSource.Create(kinectSensor, 0);
-    Gesture[] gestureArray = _gestureDatabase.AvailableGestures.ToArray();
-    foreach(var gesture in gestureArray)
-    {
-        Debug.Log("gesture name");
-        _gestureFrameSource.AddGesture(gesture);
-        if (gesture.Name == "HandUp")
-            handUp = gesture;
-        if (gesture.Name == "HandUpProgress")
-            handUpProgress = gesture;
-    }
-    _gestureFrameReader = _gestureFrameSource.OpenReader();
-    _gestureFrameReader.IsPaused = true;
-}
-public void SetTrackingId(ulong id)
-{
-    _gestureFrameReader.IsPaused = false;
-    _gestureFrameSource.TrackingId = id;
-    _gestureFrameReader.FrameArrived += _gestureFrameReader_FrameArrived;
-}
-private void FixedUpdate()
-{
-    if (bodyManager == null)
-    {
-        return;
-    }
-    bodies = bodyManager.GetData();
-    if (bodies == null)
-    {
-        return;
-    }
-    foreach (var body in bodies)
-    {
-        Debug.Log("llega a update");
-        if (body != null && body.IsTracked)
-        {
-            _trackingId = body.TrackingId;
-            SetTrackingId(body.TrackingId);
-            break;
-        }
-    }
-}
-void _gestureFrameReader_FrameArrived(object sender, VisualGestureBuilderFrameArrivedEventArgs e)
-{
-    Debug.Log("llega aca frame reader");
-    VisualGestureBuilderFrameReference frameReference = e.FrameReference;
-    using (VisualGestureBuilderFrame frame = frameReference.AcquireFrame())
-    {
-        if (frame != null && frame.DiscreteGestureResults != null)
-        {
-            DiscreteGestureResult result = null;
-            if (frame.DiscreteGestureResults.Count > 0)
-                result = frame.DiscreteGestureResults[handUp];
-            if (result == null)
-                return;
-            if (result.Detected == true)
-            {
-                Debug.Log("detecta gesto discreto");
-                var progressResult = frame.ContinuousGestureResults[handUpProgress];
-                var prog = progressResult.Progress;
-                Debug.Log("detecta gesto continuo con pregreso : " + prog);
-            }
-        }
-    }
-}*/

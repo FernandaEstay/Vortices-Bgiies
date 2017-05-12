@@ -51,7 +51,8 @@ namespace Memoria
         public PinchDetector pinchDetectorRight;
 
         //OpenGlove Haptic Configuration
-        public UnityOpenGlove unityOpenGlove;
+        public UnityHapticGlove unityHapticGlove;
+        //public UnityOpenGlove unityOpenGlove;
 
         //Input Configuration
         public float horizontalSpeed;
@@ -242,9 +243,14 @@ namespace Memoria
 
                 if (kinectInput)
                 {
-                    Debug.Log("inicializa kinect input");
+                    bodySrcManager.gameObject.SetActive(true);
+                    kinectGestures.gameObject.SetActive(true);
                     kinectGestures.Initialize(this);
+
+                    kinectFace.gameObject.SetActive(true);
                     kinectFace.Initialize(this);
+
+                    kinectGestureManager.gameObject.SetActive(true);
                     kinectGestureManager.Initialize(this);
                 }
 
@@ -257,7 +263,13 @@ namespace Memoria
             //loadImageController.Initialize(this);
             loadingScene.Initialize(this);
 
-            unityOpenGlove.Initialize(this);
+            //unityOpenGlove.Initialize(this);
+            if (useHapticGlove)
+            {
+                unityHapticGlove.gameObject.SetActive(true);
+                unityHapticGlove.Initialize(this);
+            }
+
             if (!bgiiesMode)
             {
                 if (useLeapMotion)
@@ -320,9 +332,10 @@ namespace Memoria
             visualizationPlane = GLPlayerPrefs.GetBool(Scope, "visualizationPlane");
 
             csvCreatorPath = GLPlayerPrefs.GetString(Scope, "DataOutput");
+            
 
-            unityOpenGlove.leftComDevice = GLPlayerPrefs.GetString(Scope, "LeftCom");
-            unityOpenGlove.rightComDevice = GLPlayerPrefs.GetString(Scope, "RightCom");
+            /*unityOpenGlove.leftComDevice = GLPlayerPrefs.GetString(Scope, "LeftCom");
+            unityOpenGlove.rightComDevice = GLPlayerPrefs.GetString(Scope, "RightCom"); */
 
             loadImageController.Initialize(this);
             loadImageController.images = Convert.ToInt32(GLPlayerPrefs.GetString(Scope, "Images"));
@@ -390,7 +403,6 @@ namespace Memoria
             if (!useLeapMotion)
             {
                 usePitchGrab = false;
-                useHapticGlove = false;
             }
 
             if (!useKeyboard)

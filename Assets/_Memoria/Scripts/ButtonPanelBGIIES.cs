@@ -4,6 +4,10 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
+using OpenGlove_API_C_Sharp_HL;
+using OpenGlove_API_C_Sharp_HL.ServiceReference1;
+
 
 namespace Memoria
 {
@@ -32,6 +36,9 @@ namespace Memoria
         public Color aceptBt3;
         public Color aceptBt4;
 
+        Vector3 posInicialMouse;
+        public bool primerMovimiento;
+
         public override void Initialize(DIOManager dioManager)
         {
             base.dioManager = dioManager;
@@ -43,6 +50,49 @@ namespace Memoria
             bt3.name = "mitigaciones";
             bt4.name = "estructuras";
             noInteractableButtons();
+
+            if (dioManager.mouseInput)
+            {
+                posInicialMouse = Input.mousePosition;
+            }
+            if (dioManager.kinectInput)
+            {
+                primerMovimiento = false;
+            }
+        }
+
+        public void Update()
+        {
+            if (dioManager.mouseInput)
+            {
+                if (posInicialMouse == Input.mousePosition)
+                    return;
+            }
+            if (dioManager.kinectInput)
+            {
+                if (!primerMovimiento)
+                    return;
+            }
+            
+            time += Time.deltaTime;
+            min = Mathf.Floor(time / 60);
+            seg = (int)time % 60;
+            if (min.ToString().Length == 1)
+                text = "Tiempo: 0" + min.ToString();
+            else
+                text = "Tiempo: " + min.ToString();
+
+            if (Mathf.RoundToInt(seg).ToString().Length == 1)
+                text = text + ":0" + Mathf.RoundToInt(seg).ToString();
+            else
+                text = text + ":" + Mathf.RoundToInt(seg).ToString();
+            txtTime.text = text;
+
+            if(min == 10)
+            {
+                SceneManager.LoadScene("ConfigCanvas");
+            }
+
         }
         public override void Inside()
         {
@@ -70,23 +120,6 @@ namespace Memoria
         {
             dioManager.lookPointerInstanceBgiies.SelectCat4();
         }
-        public void Update()
-        {
-            time += Time.deltaTime;
-            min = Mathf.Floor(time / 60);
-            seg = time % 60;
-            if (min.ToString().Length == 1)
-                text = "Tiempo: 0" + min.ToString();
-            else
-                text = "Tiempo: " + min.ToString();
-
-            if (Mathf.RoundToInt(seg).ToString().Length == 1)
-                text = text + ":0" + Mathf.RoundToInt(seg).ToString();
-            else
-                text = text + ":" + Mathf.RoundToInt(seg).ToString();
-            txtTime.text = text;
-        }
-
         public void changeColor(GameObject obj, Color color)
         {
             Renderer rend = obj.GetComponent<MeshRenderer>();

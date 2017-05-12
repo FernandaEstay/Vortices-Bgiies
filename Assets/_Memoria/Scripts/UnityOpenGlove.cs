@@ -2,12 +2,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Gamelogic;
-using OpenGloveClass = OpenGlove.OpenGlove;
+//using OpenGloveClass = OpenGlove.OpenGlove;
 
 namespace Memoria
 {
 	public class UnityOpenGlove : GLMonoBehaviour
-	{
+	{/*
 		public bool outputLog;
 		public string leftComDevice = "COM5";
 		public int leftBaudRate = 57600;
@@ -310,6 +310,6 @@ namespace Memoria
 			yield return new WaitForSeconds(seconds);
 			DeactivateLeftHand();
 			DeactivateRightHand();
-		}
+		}*/
 	}
 }

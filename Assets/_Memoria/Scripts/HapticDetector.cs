@@ -2,6 +2,9 @@
 using Gamelogic;
 using UnityCallbacks;
 using UnityEngine;
+using OpenGlove_API_C_Sharp_HL;
+using OpenGlove_API_C_Sharp_HL.ServiceReference1;
+using System.Linq;
 
 namespace Memoria
 {
@@ -30,63 +33,85 @@ namespace Memoria
 			_dioManager = dioManager;
 		}
 
-		public void OnTriggerEnter(Collider other)
-		{
-			if (_dioManager == null)
-				return;
+        public void OnTriggerEnter(Collider other)
+        {
+            if (_dioManager == null)
+                return;
 
-			if (!_dioManager.useLeapMotion || !_dioManager.useHapticGlove)
-				return;
+            if (!_dioManager.useLeapMotion || !_dioManager.useHapticGlove)
+                return;
 
-			var handMapping = other.GetComponent<HandMapping>();
+            var handMapping = other.GetComponent<HandMapping>();
 
-			if (handMapping == null)
-				return;
+            if (handMapping == null)
+                return;
 
-			var unityOpenGlove = _dioManager.unityOpenGlove;
-
-			switch (handMapping.handMap)
-			{
-				case HandMap.LeftIndex:
-					unityOpenGlove.ActivateMotorLeftIndex(impact);
-					break;
-				case HandMap.RightIndex:
-					unityOpenGlove.ActivateMotorRightIndex(impact);
-					break;
-				case HandMap.LeftMiddle:
-					unityOpenGlove.ActivateMotorLeftMiddle(impact);
-					break;
-				case HandMap.RightMiddle:
-					unityOpenGlove.ActivateMotorRightMiddle(impact);
-					break;
-				case HandMap.LeftThumb:
-					unityOpenGlove.ActivateMotorLeftThumb(impact);
-					break;
-				case HandMap.RightThumb:
-					unityOpenGlove.ActivateMotorRightThumb(impact);
-					break;
-				case HandMap.LeftPinky:
-					unityOpenGlove.ActivateMotorLeftPinky(impact);
-					break;
-				case HandMap.RightPinky:
-					unityOpenGlove.ActivateMotorRightPinky(impact);
-					break;
-				case HandMap.LeftRing:
-					unityOpenGlove.ActivateMotorLeftRing(impact);
-					break;
-				case HandMap.RightRing:
-					unityOpenGlove.ActivateMotorRightRing(impact);
-					break;
-				case HandMap.LeftPalm:
-					unityOpenGlove.ActivateMotorLeftPalm(impact);
-					break;
-				case HandMap.RightPalm:
-					unityOpenGlove.ActivateMotorRightPalm(impact);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
+            var unityHapticGlove = _dioManager.unityHapticGlove;
+            if (unityHapticGlove.gloveLeft != null)
+            {
+                switch (handMapping.handMap)
+                {
+                    case HandMap.LeftIndex:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerIndexDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftIndex(impact);
+                        break;
+                    case HandMap.LeftMiddle:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerMiddleDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftMiddle(impact);
+                        break;
+                    case HandMap.LeftThumb:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerThumbDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftThumb(impact);
+                        break;
+                    case HandMap.LeftPinky:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerSmallDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftPinky(impact);
+                        break;
+                    case HandMap.LeftRing:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerRingDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftRing(impact);
+                        break;
+                    case HandMap.LeftPalm:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.ThenarIndex, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorLeftPalm(impact);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            if(unityHapticGlove.gloveRight != null)
+            {
+                switch (handMapping.handMap)
+                {
+                    case HandMap.RightIndex:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerIndexDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightIndex(impact);
+                        break;
+                    case HandMap.RightMiddle:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerMiddleDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightMiddle(impact);
+                        break;
+                    case HandMap.RightThumb:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerThumbDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightThumb(impact);
+                        break;
+                    case HandMap.RightPinky:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerSmallDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightPinky(impact);
+                        break;
+                    case HandMap.RightRing:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerRingDistal, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightRing(impact);
+                        break;
+                    case HandMap.RightPalm:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.ThenarIndex, Int32.Parse(impact));
+                        //unityHapticGlove.ActivateMotorRightPalm(impact);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
 		public void OnTriggerExit(Collider other)
 		{
@@ -98,49 +123,60 @@ namespace Memoria
 			if (handMapping == null)
 				return;
 
-			var unityOpenGlove = _dioManager.unityOpenGlove;
+			var unityHapticGlove = _dioManager.unityHapticGlove;
+            if (unityHapticGlove.gloveLeft != null)
+            {
+                switch (handMapping.handMap)
+                {
 
-			switch (handMapping.handMap)
-			{
-				case HandMap.LeftIndex:
-					unityOpenGlove.DeactivateMotorLeftIndex();
-					break;
-				case HandMap.RightIndex:
-					unityOpenGlove.DeactivateMotorRightIndex();
-					break;
-				case HandMap.LeftMiddle:
-					unityOpenGlove.DeactivateMotorLeftMiddle();
-					break;
-				case HandMap.RightMiddle:
-					unityOpenGlove.DeactivateMotorRightMiddle();
-					break;
-				case HandMap.LeftThumb:
-					unityOpenGlove.DeactivateMotorLeftThumb();
-					break;
-				case HandMap.RightThumb:
-					unityOpenGlove.DeactivateMotorRightThumb();
-					break;
-				case HandMap.LeftPinky:
-					unityOpenGlove.DeactivateMotorLeftPinky();
-					break;
-				case HandMap.RightPinky:
-					unityOpenGlove.DeactivateMotorRightPinky();
-					break;
-				case HandMap.LeftRing:
-					unityOpenGlove.DeactivateMotorLeftRing();
-					break;
-				case HandMap.RightRing:
-					unityOpenGlove.DeactivateMotorRightRing();
-					break;
-				case HandMap.LeftPalm:
-					unityOpenGlove.DeactivateMotorLeftPalm();
-					break;
-				case HandMap.RightPalm:
-					unityOpenGlove.DeactivateMotorRightPalm();
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+                    case HandMap.LeftIndex:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerIndexDistal, 0);
+                        break;
+                    case HandMap.LeftMiddle:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerMiddleDistal, 0);
+                        break;
+                    case HandMap.LeftThumb:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerThumbDistal, 0);
+                        break;
+                    case HandMap.LeftPinky:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerSmallDistal, 0);
+                        break;
+                    case HandMap.LeftRing:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.FingerRingDistal, 0);
+                        break;
+                    case HandMap.LeftPalm:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveLeft, (int)PalmarRegion.ThenarIndex, 0);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            if (unityHapticGlove.gloveRight != null)
+            {
+                switch (handMapping.handMap)
+                {
+                    case HandMap.RightIndex:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerIndexDistal, 0);
+                        break;
+                    case HandMap.RightMiddle:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerMiddleDistal, 0);
+                        break;
+                    case HandMap.RightThumb:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerThumbDistal, 0);
+                        break;
+                    case HandMap.RightPinky:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerSmallDistal, 0);
+                        break;
+                    case HandMap.RightRing:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.FingerRingDistal, 0);
+                        break;
+                    case HandMap.RightPalm:
+                        unityHapticGlove.openGloveAPI.Activate(unityHapticGlove.gloveRight, (int)PalmarRegion.ThenarIndex, 0);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
 		}
 	}
 }

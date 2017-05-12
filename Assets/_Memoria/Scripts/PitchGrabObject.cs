@@ -66,9 +66,10 @@ namespace Memoria
             {
                 isSelectedCat1 = isSelectedCat2 = isSelectedCat3 = isSelectedCat4 = false;
             }
-
-			hapticDetector.Initialize(fatherDioController.DioManager);
-
+            else
+            {
+                hapticDetector.Initialize(fatherDioController.DioManager);
+            }
 			objectMeshRender = GetComponent<MeshRenderer>();
 
 			var pinchControl = new GameObject("DIO Anchor");

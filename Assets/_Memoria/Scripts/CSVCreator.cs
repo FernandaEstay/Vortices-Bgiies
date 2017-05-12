@@ -17,9 +17,17 @@ namespace Memoria
 		{
 			_filePath = filePath;
 
-			_actualPersonId = GLPlayerPrefs.GetInt("Config", PersonId);
+			_actualPersonId = GLPlayerPrefs.GetInt("Config", "UserID");
 
-			AddLines("UserID", "-");
+            try
+            {
+                AddLines("UserID", "-");
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+            
 		}
 
 		public bool AddLines(string action, string objectId)
@@ -31,7 +39,14 @@ namespace Memoria
 			var newLine = string.Format("{0},{1},{2},{3},{4}", _actualPersonId, actualHour, actualTimestamp, action, objectId);
 			csv.AppendLine(newLine);
 
-			File.AppendAllText(_filePath, csv.ToString());
+            try {
+                File.AppendAllText(_filePath, csv.ToString());
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
+			
 
 			return true;
 		}

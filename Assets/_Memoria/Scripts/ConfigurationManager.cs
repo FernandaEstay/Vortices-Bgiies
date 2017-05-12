@@ -24,7 +24,6 @@ public class ConfigurationManager : MonoBehaviour
     [Header("Hardware")]
     public Toggle useLeapMotionToggle;
     public Toggle usePitchGrabToggle;
-    public Toggle useHapticGloveToggle;
     public Toggle useJoystickToggle;
     public Toggle mouseInput;
     public Toggle kinectInput;
@@ -33,10 +32,10 @@ public class ConfigurationManager : MonoBehaviour
     public InputField dataOutputText;
     public InputField userIdText;
 
-    [Header("Unity Open Glove")]
-    public InputField leftComText;
-    public InputField rightComText;
 
+    [Header("Unity Open Glove")]
+    public Toggle useUnityOpenGlove;
+    
 
     [Header("Load Images")]
     public InputField imagesText;
@@ -56,10 +55,11 @@ public class ConfigurationManager : MonoBehaviour
             usePitchGrabToggle.enabled = true;
             usePitchGrabToggle.enabled = true;
             usePitchGrabToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UsePitchGrab");
-            useHapticGloveToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseHapticGlove");
         }
 
         useJoystickToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseJoystic");
+
+        useUnityOpenGlove.isOn = GLPlayerPrefs.GetBool(Scope, "useUnityOpenGlove");
 
         kinectInput.isOn = GLPlayerPrefs.GetBool(Scope, "KinectInput");
         mouseInput.isOn = GLPlayerPrefs.GetBool(Scope, "MouseInput");
@@ -77,10 +77,8 @@ public class ConfigurationManager : MonoBehaviour
 
             dataOutputText.text = GLPlayerPrefs.GetString(Scope, "DataOutput");
 
-        leftComText.text = GLPlayerPrefs.GetString(Scope, "LeftCom");
-        rightComText.text = GLPlayerPrefs.GetString(Scope, "RightCom");
 
-        userIdText.text = GLPlayerPrefs.GetInt(Scope, "PersonId").ToString();
+        userIdText.text = GLPlayerPrefs.GetInt(Scope, "UserID").ToString();
 
         imagesText.text = GLPlayerPrefs.GetString(Scope, "Images");
         folderImageAssetText.text = GLPlayerPrefs.GetString(Scope, "FolderImageAssetText");
@@ -93,9 +91,10 @@ public class ConfigurationManager : MonoBehaviour
 
     public void StartSimulation()
     {
+        Debug.Log(useUnityOpenGlove.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseLeapMotion", useLeapMotionToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UsePitchGrab", usePitchGrabToggle.isOn);
-        GLPlayerPrefs.SetBool(Scope, "UseHapticGlove", useHapticGloveToggle.isOn);
+        GLPlayerPrefs.SetBool(Scope, "UseHapticGlove", useUnityOpenGlove.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseJoystic", useJoystickToggle.isOn);
 
         GLPlayerPrefs.SetBool(Scope, "MouseInput", mouseInput.isOn);
@@ -113,8 +112,6 @@ public class ConfigurationManager : MonoBehaviour
 
         GLPlayerPrefs.SetString(Scope, "DataOutput", dataOutputText.text);
 
-        GLPlayerPrefs.SetString(Scope, "LeftCom", leftComText.text);
-        GLPlayerPrefs.SetString(Scope, "RightCom", rightComText.text);
 
         GLPlayerPrefs.SetInt(Scope, "UserID", Convert.ToInt32(userIdText.text));
 
@@ -127,6 +124,8 @@ public class ConfigurationManager : MonoBehaviour
         GLPlayerPrefs.SetInt(Scope, "Test", testDropdown.value);
 
         SceneManager.LoadScene(sceneName);
+
+
     }
     public void Update()
     {
@@ -151,26 +150,28 @@ public class ConfigurationManager : MonoBehaviour
 
             if (useLeapMotionToggle.isOn)
             {
-                if (!usePitchGrabToggle.gameObject.activeSelf && !useHapticGloveToggle.gameObject.activeSelf)
+                if (!usePitchGrabToggle.gameObject.activeSelf)
                 {
                     usePitchGrabToggle.gameObject.SetActive(true);
-                    useHapticGloveToggle.gameObject.SetActive(true);
                 }
                 useJoystickToggle.isOn = false;
                 useJoystickToggle.interactable = false;
+                useUnityOpenGlove.interactable = true;
             }
             else
             {
                 usePitchGrabToggle.gameObject.SetActive(false);
-                useHapticGloveToggle.gameObject.SetActive(false);
                 useJoystickToggle.interactable = true;
             }
             if (useJoystickToggle.isOn)
             {
                 useLeapMotionToggle.isOn = false;
                 useLeapMotionToggle.interactable = false;
+
+                useUnityOpenGlove.isOn = false;
+                useUnityOpenGlove.interactable = false;
             }
-            else
+            else 
                 useLeapMotionToggle.interactable = true;
 
         }
@@ -182,7 +183,6 @@ public class ConfigurationManager : MonoBehaviour
             useLeapMotionToggle.gameObject.SetActive(false);
             useJoystickToggle.gameObject.SetActive(false);
             usePitchGrabToggle.gameObject.SetActive(false);
-            useHapticGloveToggle.gameObject.SetActive(false);
 
             kinectInput.gameObject.SetActive(true);
             mouseInput.gameObject.SetActive(true);
@@ -191,9 +191,14 @@ public class ConfigurationManager : MonoBehaviour
             {
                 mouseInput.isOn = false;
                 mouseInput.interactable = false;
+                useUnityOpenGlove.interactable = true;
             }
             else
+            {
                 mouseInput.interactable = true;
+                useUnityOpenGlove.isOn = false;
+                useUnityOpenGlove.interactable = false;
+            }
 
             if (mouseInput.isOn)
             {

@@ -39,6 +39,10 @@ namespace Memoria
                     if (_dioManager.lookPointerInstanceBgiies.zoomActive)
                         return;
                     _ray = _dioManager.kinectFace.ray;
+                    if(_ray.direction != Vector3.zero)
+                    {
+                        _dioManager.panelBgiies.primerMovimiento = true;
+                    }
                 }
             }
             else

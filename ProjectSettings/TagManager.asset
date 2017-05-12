@@ -7,6 +7,10 @@ TagManager:
   - DigitalInformationObject
   - LeapMotionHand
   - EventSystem
+  - Flora y Fauna
+  - Superficies Afectadas
+  - Estructuras Comprometidas
+  - Maniobras de Mitigacion
   layers:
   - Default
   - TransparentFX

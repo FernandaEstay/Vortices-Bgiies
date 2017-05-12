@@ -43,7 +43,7 @@ namespace Memoria.Editor
         private GLSerializedProperty _pinchDetectorLeft;
         private GLSerializedProperty _pinchDetectorRight;
 
-        private GLSerializedProperty _unityOpenGlove;
+        private GLSerializedProperty _unityHapticGlove;
 
         private GLSerializedProperty _horizontalSpeed;
         private GLSerializedProperty _verticalSpeed;
@@ -106,7 +106,8 @@ namespace Memoria.Editor
             _pinchDetectorLeft = FindProperty("pinchDetectorLeft");
             _pinchDetectorRight = FindProperty("pinchDetectorRight");
 
-            _unityOpenGlove = FindProperty("unityOpenGlove");
+            //_unityOpenGlove = FindProperty("unityOpenGlove");
+            _unityHapticGlove = FindProperty("unityHapticGlove");
 
             _horizontalSpeed = FindProperty("horizontalSpeed");
             _verticalSpeed = FindProperty("verticalSpeed");
@@ -149,7 +150,6 @@ namespace Memoria.Editor
             {
                 EditorGUI.indentLevel += 1;
                 AddField(_usePitchGrab);
-                AddField(_useHapticGlove);
                 EditorGUI.indentLevel -= 1;
             }
 
@@ -219,7 +219,8 @@ namespace Memoria.Editor
             Splitter();
 
             EditorHelper.AddLabel("OpenGlove Haptic Configuration", true);
-            AddField(_unityOpenGlove);
+            AddField(_useHapticGlove);
+            AddField(_unityHapticGlove);
 
             Splitter();
 

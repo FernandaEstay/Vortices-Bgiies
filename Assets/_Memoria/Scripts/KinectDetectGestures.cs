@@ -6,10 +6,12 @@ using UnityEngine.UI;
 using Windows.Kinect;
 using System.Collections;
 using UnityCallbacks;
+using OpenGlove_API_C_Sharp_HL;
+using OpenGlove_API_C_Sharp_HL.ServiceReference1;
 
 namespace Memoria
 {
-    public class KinectDetectGestures :  GLMonoBehaviour, IFixedUpdate
+    public class KinectDetectGestures : GLMonoBehaviour, IFixedUpdate
     {
 
         private KinectSensor kinectSensor;
@@ -29,6 +31,16 @@ namespace Memoria
         DIOManager dioManager;
 
         bool initialize = false;
+
+        public HapticGloveKinect hapticGlove;
+
+        int[] regionsSelection = {
+                (int) PalmarRegion.FingerIndexDistal,
+                (int) PalmarRegion.FingerMiddleDistal,
+        };
+
+        int intensityMax = 255;
+        int intensityZero = 0;
 
         public void Initialize(DIOManager dioManager)
         {
@@ -73,46 +85,55 @@ namespace Memoria
                 }
                 if (body.IsTracked)
                 {
-                    if ((int)body.HandRightConfidence == 1)
-                    {
-                        switch (body.HandRightState)
+                        if ((int)body.HandRightConfidence == 1)
                         {
-                            case HandState.Lasso:
-                                dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                                break;
-                           
-                            case HandState.Open:
-                                if (!zoomIn)
-                                {
-                                    zoomIn = true;
-                                    zoomOut = false;
-                                }
-                                break;
-                            case HandState.Closed:
-                                if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
-                                {
-                                    zoomOut = true;
-                                    zoomIn = false;
-                                }
-                                break;
-                        }
-                    }
-                    if ((int)body.HandLeftConfidence == 1)
-                    {
-                        switch (body.HandLeftState)
-                        {
-                            case HandState.Lasso:
-                                dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                            switch (body.HandRightState)
+                            {
+                                case HandState.Lasso:
+                                    dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                                    if (dioManager.useHapticGlove)
+                                    {
+                                        dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                        StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                                    }
+                                    break;
 
+                                case HandState.Open:
+                                    if (!zoomIn)
+                                    {
+                                        zoomIn = true;
+                                        zoomOut = false;
+                                    }
+                                    break;
+                                case HandState.Closed:
+                                    if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
+                                    {
+                                        zoomOut = true;
+                                        zoomIn = false;
+                                    }
+                                    break;
+                            }
+                        }
+                        if ((int)body.HandLeftConfidence == 1)
+                        {
+                            switch (body.HandLeftState)
+                            {
+                                case HandState.Lasso:
+                                    dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                                    if (dioManager.useHapticGlove)
+                                    {
+                                        dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, 255, dioManager.unityHapticGlove.gloveLeft);
+                                        StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, 0 , dioManager.unityHapticGlove.gloveLeft));
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    }
                 }
             }
-
-        }
         public bool kinectGestureZoomIn()
         {
             return zoomIn;
