@@ -86,7 +86,7 @@ namespace Leap.Unity.InputModule {
         if (currentlyFloating) {
           if (Layers[i].LayerTransform != null) {
             if (HoveringDistance < Layers[i].MaxFloatDistance && HoveringDistance > Layers[i].MinFloatDistance) {
-              Layers[i].CurrentFloatingDistance = Mathf.Lerp(Layers[i].CurrentFloatingDistance, HoveringDistance, 0.2f); //Set to 1f for responsive touching...
+              Layers[i].CurrentFloatingDistance = Mathf.Lerp(Layers[i].CurrentFloatingDistance, HoveringDistance, 0f); //Set to 1f for responsive touching...
               if (Layers[i].TriggerLayerEvent && !Layers[i].touchingFinger) {
                 Layers[i].touchingFinger = true;
                 Graphic image = Layers[i].LayerTransform.GetComponent<Graphic>();

@@ -160,7 +160,17 @@ namespace Memoria
 
         public void Start()
         {
+
             SetVariables();
+
+            Debug.Log("Use Vortices " + (!bgiiesMode).ToString() +
+                "\n Use Bgiies " + bgiiesMode.ToString() +
+                "\n Use LeapMotion " + useLeapMotion.ToString() +
+                "\n Use Pitch Grab " + usePitchGrab.ToString() +
+                "\n Use OpenGlove " + useHapticGlove.ToString() +
+                "\n Use Joystick " + useJoystick.ToString() +
+                "\n Use Mouse " + mouseInput.ToString() +
+                "\n Use Kinect " + kinectInput.ToString());
 
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
