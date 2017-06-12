@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Memoria
 {
-    public class PlaneController : VisualizationController, IOnValidate, IOnDrawGizmos
+    public class PlaneController : Visualization, IOnValidate, IOnDrawGizmos
     {
         public float rowDistanceDifference = 0.15f;
         public Vector3 scaleFactor = Vector3.one;

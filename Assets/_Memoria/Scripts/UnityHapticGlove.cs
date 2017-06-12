@@ -25,6 +25,7 @@ namespace Memoria
             {
                 
                 gloveRight = openGloveAPI.Devices[0];
+                Debug.Log("Guante derecho esta conectado");
             }
             catch
             {
@@ -34,6 +35,7 @@ namespace Memoria
             try
             {
                 gloveLeft = openGloveAPI.Devices[1];
+                Debug.Log("Guante izquierdo conectado");
             }
             catch
             {

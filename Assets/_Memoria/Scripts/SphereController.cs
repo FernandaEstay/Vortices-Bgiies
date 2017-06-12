@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Memoria
 {
-    public class SphereController : VisualizationController, IOnValidate, IOnDrawGizmos
+    public class SphereController : Visualization, IOnValidate, IOnDrawGizmos
     {
 
         public float rowRadiusDifference = 0.15f;

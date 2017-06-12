@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Memoria
 {
-    public abstract class LookPointerController : GLMonoBehaviour
+    public abstract class LookPointer : GLMonoBehaviour
     {
         protected DIOManager dioManager;
 

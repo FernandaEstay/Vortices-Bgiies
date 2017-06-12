@@ -45,7 +45,6 @@ namespace Memoria
                         _dioManager.panelBgiies.primerMovimiento = true;
                     }
                 }
-                StartCoroutine(RegisterRay( 0.8f, _ray));
             }
             else
             {
@@ -76,17 +75,17 @@ namespace Memoria
 				if (_actualPitchGrabObject == null)
 				{
 					_actualPitchGrabObject = posiblePitcheGrabObject;   //en una primera instancia actualPitch es null, la primera vez que toca una foto valida toma el valor de posiblePitch
-				}
+                    RegisterRay(_actualPitchGrabObject);
+                }
 				else
 				{
 					if (_actualPitchGrabObject.idName != posiblePitcheGrabObject.idName)    //si actualPitch no coincide con posiblePitch se actualiza actualPitch
 					{
 						_actualPitchGrabObject.OnUnDetect();            // actualPitch se hace null
 						_actualPitchGrabObject = posiblePitcheGrabObject;   //se le asigna el valor de posiblePitch
-					}
+                        RegisterRay(_actualPitchGrabObject);
+                    }
 				}
-
-				DebugLog(posiblePitcheGrabObject);
 
 				_actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
 			}
@@ -102,21 +101,10 @@ namespace Memoria
 			}
 		}
 
-        public IEnumerator RegisterRay(float seconds, Ray ray)
+        public void RegisterRay(PitchGrabObject foto)
         {
-                yield return new WaitForSeconds(seconds);
-
-            var action = "Move rayVector";
-            _dioManager.csvCreator.AddLines(action, ray.direction.ToString());
+            var action = "Move ray vector";
+            _dioManager.csvCreator.AddLines(action, foto.idName);
         }
-        private void DebugLog(PitchGrabObject posiblePitcheGrabObject)
-        { 
-            if (!debugOutput)
-				return;
-
-			print("Tag: " + _raycastHit.collider.tag);
-			print(string.Format("ID Name: {0}, Visualization ID: {1}",posiblePitcheGrabObject.idName, posiblePitcheGrabObject.dioController.visualizationController.id));
-			print("Actual Visualization: " + posiblePitcheGrabObject.dioController.DioManager.actualVisualization);
-		}
 	}
 }

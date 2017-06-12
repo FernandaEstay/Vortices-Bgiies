@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Memoria
 {
-    public class LookPointerVortices : LookPointerController, IAwake, IFixedUpdate
+    public class LookPointerVortices : LookPointer, IAwake, IFixedUpdate
     {
         [SerializeField]
         private float _rotationSteps = 2.0f;

@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 
 namespace Memoria
 {
-    public class LookPointerBGIIES : LookPointerController, IAwake, IUpdate
+    public class LookPointerBGIIES : LookPointer, IAwake, IUpdate
     {
         public bool zoomActive = false;
 

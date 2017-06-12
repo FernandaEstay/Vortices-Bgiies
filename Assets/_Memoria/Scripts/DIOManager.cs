@@ -25,7 +25,7 @@ namespace Memoria
 
         //General Configuration
         public LoadingScene loadingScene;
-        public ButtonPanel buttonPanel;
+        public ButtonPanelVortices buttonPanel;
         public bool useLeapMotion = true;
         public bool usePitchGrab = true;
         public bool useHapticGlove;
@@ -163,15 +163,6 @@ namespace Memoria
 
             SetVariables();
 
-            Debug.Log("Use Vortices " + (!bgiiesMode).ToString() +
-                "\n Use Bgiies " + bgiiesMode.ToString() +
-                "\n Use LeapMotion " + useLeapMotion.ToString() +
-                "\n Use Pitch Grab " + usePitchGrab.ToString() +
-                "\n Use OpenGlove " + useHapticGlove.ToString() +
-                "\n Use Joystick " + useJoystick.ToString() +
-                "\n Use Mouse " + mouseInput.ToString() +
-                "\n Use Kinect " + kinectInput.ToString());
-
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
             actualVisualization = 0;
@@ -182,6 +173,7 @@ namespace Memoria
             movingPlane = false;
 
             csvCreator = new CsvCreator(csvCreatorPath);
+            csvCreator.AddLines("TEST", ("Use Vortices: " + (!bgiiesMode).ToString() + " -- UseBgiies: " + bgiiesMode.ToString() + " -- Use LeapMotion: " + useLeapMotion.ToString() + "-- Use Pitch Grab: " + usePitchGrab.ToString() + " -- Use OpenGlove: " + useHapticGlove.ToString() + " -- Use Joystick: " + useJoystick.ToString() + " -- Use Mouse: " + mouseInput.ToString() + " -- Use Kinect: " + kinectInput.ToString()));
 
             var leapSpaceChildrens = leapMotionRig.leapSpace.transform.GetChildren();
 

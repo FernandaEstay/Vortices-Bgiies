@@ -17,14 +17,14 @@ namespace Memoria
 		[HideInInspector]
 		public bool inVisualizationPosition;
 		[HideInInspector]
-		public VisualizationController visualizationController;
+		public Visualization visualizationController;
 
 		public DIOManager DioManager
 		{
 			get { return visualizationController.dioManager; }
 		}
 
-		public void Initialize(VisualizationController assignedVisualizationController, int id)
+		public void Initialize(Visualization assignedVisualizationController, int id)
 		{
 			visualizationController = assignedVisualizationController;
 

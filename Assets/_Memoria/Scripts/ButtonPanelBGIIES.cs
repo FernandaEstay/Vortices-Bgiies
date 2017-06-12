@@ -11,7 +11,7 @@ using OpenGlove_API_C_Sharp_HL.ServiceReference1;
 
 namespace Memoria
 {
-    public class ButtonPanelBGIIES : ButtonPanelController
+    public class ButtonPanelBGIIES : ButtonPanel
     { 
         public Text txtTime;
         private float time;

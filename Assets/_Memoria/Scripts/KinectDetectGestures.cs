@@ -123,8 +123,10 @@ namespace Memoria
                                     if (dioManager.useHapticGlove)
                                     {
                                         dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, 255, dioManager.unityHapticGlove.gloveLeft);
+                                        Debug.Log("Guante izquierdo vibra");
                                         StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, 0 , dioManager.unityHapticGlove.gloveLeft));
-                                    }
+                                        Debug.Log("Guante izquierdo no vibra");
+                                }
                                     break;
                                 default:
                                     break;

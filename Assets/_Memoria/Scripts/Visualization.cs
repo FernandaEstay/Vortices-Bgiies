@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Memoria
 {
-    public abstract class VisualizationController : GLMonoBehaviour
+    public abstract class Visualization : GLMonoBehaviour
     {
         public int elementsToDisplay = 1;
         public int visualizationRow = 1;
