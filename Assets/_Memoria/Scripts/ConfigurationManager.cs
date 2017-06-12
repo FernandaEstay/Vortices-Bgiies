@@ -129,6 +129,9 @@ public class ConfigurationManager : MonoBehaviour
     }
     public void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+
         if (!mainMenuPanel.activeSelf)
         {
             backButton.gameObject.SetActive(true);

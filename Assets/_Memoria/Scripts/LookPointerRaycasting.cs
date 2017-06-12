@@ -29,8 +29,13 @@ namespace Memoria
 
 		public void Update()
 		{
+            if (Input.GetKey(KeyCode.Escape))
+                Application.Quit();
+
             if (_dioManager.bgiiesMode)
             {
+                if (_dioManager.lookPointerInstanceBgiies.zoomActive)
+                    return;
                 if (_dioManager.mouseInput)
                 {
                     _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
