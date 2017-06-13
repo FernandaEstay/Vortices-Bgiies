@@ -53,8 +53,17 @@ namespace Memoria
 				if (_imagesLoaded == images)
 					break;
 
-				indexSuffix = _loadImageBehaviour.FormattedIndex();
-
+                if(!_dioManager.bgiiesMode)
+				    indexSuffix = _loadImageBehaviour.FormattedIndex();
+                else
+                {
+                    if (_imagesLoaded.ToString().Length == 1)
+                        indexSuffix = "00" + _imagesLoaded.ToString();
+                    else if (_imagesLoaded.ToString().Length == 2)
+                        indexSuffix = "0" + _imagesLoaded.ToString();
+                    else
+                        indexSuffix = _imagesLoaded.ToString();
+                }
 				if (!_loadImageBehaviour.ValidationOfIndex(indexSuffix))
 					continue;
 
