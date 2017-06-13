@@ -63,7 +63,6 @@ namespace Memoria
                         indexSuffix = "0" + _imagesLoaded.ToString();
                     else
                         indexSuffix = _imagesLoaded.ToString();
-
                 }
 				if (!_loadImageBehaviour.ValidationOfIndex(indexSuffix))
 					continue;
