@@ -39,6 +39,8 @@ namespace Memoria
         Vector3 posInicialMouse;
         public bool primerMovimiento;
 
+        public bool mostrarCategoria;
+
         public override void Initialize(DIOManager dioManager)
         {
             base.dioManager = dioManager;
@@ -49,7 +51,13 @@ namespace Memoria
             bt2.name = "superficies";
             bt3.name = "mitigaciones";
             bt4.name = "estructuras";
-            noInteractableButtons();
+
+            NegativeCatButton(bt1);
+            NegativeCatButton(bt2);
+            NegativeCatButton(bt3);
+            NegativeCatButton(bt4);
+
+            mostrarCategoria = false;
 
             if (dioManager.mouseInput)
             {
@@ -93,6 +101,13 @@ namespace Memoria
                 SceneManager.LoadScene("ConfigCanvas");
             }
 
+            if (!mostrarCategoria & !dioManager.lookPointerInstanceBgiies.zoomActive)
+            {
+                NegativeCatButton(bt1);
+                NegativeCatButton(bt2);
+                NegativeCatButton(bt3);
+                NegativeCatButton(bt4);
+            }
         }
         public override void Inside()
         {
@@ -106,19 +121,99 @@ namespace Memoria
 
         public void SelectBt1()
         {
-            dioManager.lookPointerInstanceBgiies.SelectCat1();
+            if (!mostrarCategoria)
+            {
+                if (dioManager.lookPointerInstanceBgiies.zoomActive)
+                    dioManager.lookPointerInstanceBgiies.SelectCat1();
+                else
+                {
+                    Debug.Log("Mostrar imágenes de categoria 1");
+                    mostrarCategoria = true;
+                    PositiveCatButton(bt1);
+                    bt2.gameObject.SetActive(false);
+                    bt3.gameObject.SetActive(false);
+                    bt4.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                mostrarCategoria = !mostrarCategoria;
+                bt2.gameObject.SetActive(true);
+                bt3.gameObject.SetActive(true);
+                bt4.gameObject.SetActive(true);
+            }
         }
         public void SelectBt2()
         {
-            dioManager.lookPointerInstanceBgiies.SelectCat2();
+            if (!mostrarCategoria)
+            {
+                if (dioManager.lookPointerInstanceBgiies.zoomActive)
+                    dioManager.lookPointerInstanceBgiies.SelectCat2();
+                else
+                {
+                    Debug.Log("Mostrar imágenes de categoria 2");
+                    mostrarCategoria = true;
+                    PositiveCatButton(bt2);
+                    bt1.gameObject.SetActive(false);
+                    bt3.gameObject.SetActive(false);
+                    bt4.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                mostrarCategoria = !mostrarCategoria;
+                bt1.gameObject.SetActive(true);
+                bt3.gameObject.SetActive(true);
+                bt4.gameObject.SetActive(true);
+            }
         }
         public void SelectBt3()
         {
-            dioManager.lookPointerInstanceBgiies.SelectCat3();
+            if (!mostrarCategoria)
+            {
+                if (dioManager.lookPointerInstanceBgiies.zoomActive)
+                    dioManager.lookPointerInstanceBgiies.SelectCat3();
+                else
+                {
+                    Debug.Log("Mostrar imágenes de categoria 3");
+                    mostrarCategoria = true;
+                    PositiveCatButton(bt3);
+                    bt1.gameObject.SetActive(false);
+                    bt2.gameObject.SetActive(false);
+                    bt4.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                mostrarCategoria = !mostrarCategoria;
+                bt1.gameObject.SetActive(true);
+                bt2.gameObject.SetActive(true);
+                bt4.gameObject.SetActive(true);
+            }
         }
         public void SelectBt4()
         {
-            dioManager.lookPointerInstanceBgiies.SelectCat4();
+            if (!mostrarCategoria)
+            {
+                if (dioManager.lookPointerInstanceBgiies.zoomActive)
+                    dioManager.lookPointerInstanceBgiies.SelectCat4();
+                else
+                {
+                    Debug.Log("Mostrar imágenes de categoria 4");
+                    mostrarCategoria = true;
+                    PositiveCatButton(bt4);
+                    bt1.gameObject.SetActive(false);
+                    bt2.gameObject.SetActive(false);
+                    bt3.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                mostrarCategoria = !mostrarCategoria;
+                bt1.gameObject.SetActive(true);
+                bt2.gameObject.SetActive(true);
+                bt3.gameObject.SetActive(true);
+            }
         }
         public void changeColor(GameObject obj, Color color)
         {
@@ -206,6 +301,7 @@ namespace Memoria
             boton.enabled = false;
             boton.enabled = true;
         }
+
     }
 }
 

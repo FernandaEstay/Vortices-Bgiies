@@ -6,12 +6,15 @@ using UnityCallbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Memoria
 {
     public class LookPointerBGIIES : LookPointer, IAwake, IUpdate
     {
         public bool zoomActive = false;
+        public List<DIOController> listOfDio = null;
 
         public void Awake()
         {
@@ -21,6 +24,7 @@ namespace Memoria
 
             zoomingOut = false;
             zoomingIn = false;
+
 
         }
         public void Update()
@@ -32,7 +36,7 @@ namespace Memoria
                     if (zoomActive)
                     {
                         StartCoroutine(ZoomingOut(null));
-                        dioManager.panelBgiies.noInteractableButtons();
+                        //dioManager.panelBgiies.noInteractableButtons();
                         zoomActive = false;
                     }
                 }
@@ -56,7 +60,6 @@ namespace Memoria
                         zoomActive = true;
                     }
                 }
-                Debug.Log("cat1:" + actualPitchGrabObject.isSelectedCat1 + "cat2: " + actualPitchGrabObject.isSelectedCat2 + "cat3: " + actualPitchGrabObject.isSelectedCat3 + "cat4: " + actualPitchGrabObject.isSelectedCat4);
             }
         }
 
@@ -184,6 +187,20 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat1)
             {
+                PitchGrabObject obj =  Instantiate(actualPitchGrabObject);
+                obj.transform.localPosition = _actualPitchObjectOriginalPosition;
+                obj.transform.localScale = _actualPitchObjectOriginalScale;
+                
+                obj.transform.localScale =
+                    Vector3.MoveTowards(actualPitchGrabObject.transform.localScale,
+                        _actualPitchObjectOriginalScale, _scaleSteps);
+
+                if (obj.transform.localScale.EqualOrMinorCompareVector(_actualPitchObjectOriginalScale, 0.001f) )
+                {
+                    obj.transform.localScale = _actualPitchObjectOriginalScale;
+                }
+
+                OcultarImagenes();
                 createMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
                 dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
             }
@@ -345,6 +362,15 @@ namespace Memoria
             string[] textBt = boton.GetComponentInChildren<Text>().text.ToString().Split(':');
             int contador = Int32.Parse(textBt[1].Trim()) - 1;
             boton.GetComponentInChildren<Text>().text = textBt[0] + ": " + contador.ToString();
+        }
+
+        public void OcultarImagenes()
+        {
+            listOfDio = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            foreach (var photo in listOfDio)
+            {
+                photo.pitchGrabObject.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -1851,6 +1851,7 @@ MonoBehaviour:
   aceptBt3: {r: 0, g: 0.91764706, b: 1, a: 0.502}
   aceptBt4: {r: 1, g: 1, b: 0, a: 0.503}
   primerMovimiento: 0
+  mostrarCategoria: 0
 --- !u!1 &365244479
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,7 +3693,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.5
-  m_Text: 'Super heroes: 0'
+  m_Text: "Da\xF1o flora y fauna: 0"
 --- !u!222 &868085425
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7474,7 +7475,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 0.5
-  m_Text: 'Animales: 0'
+  m_Text: 'Superficies afectadas: 0'
 --- !u!222 &1617127730
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7772,7 +7773,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Paisajes: 0'
+  m_Text: 'Estructuras comprome-
+
+    tidas: 0'
 --- !u!222 &1745109055
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8878,7 +8881,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Anime: 0'
+  m_Text: "Maniobras de mitigaci\xF3n: 0"
 --- !u!222 &2022431406
 CanvasRenderer:
   m_ObjectHideFlags: 0

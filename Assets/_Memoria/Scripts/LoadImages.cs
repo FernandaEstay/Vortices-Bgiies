@@ -24,6 +24,7 @@ namespace Memoria
 		private FileType _fileType = FileType.Jpg;
 
 		private List<string> _groupOneList;
+        private List<string> _groupTwoList;
 		private List<string> _otherGroupList;
 
 		private List<string> _relevantTestList;
@@ -41,11 +42,20 @@ namespace Memoria
 		{
 			base.Initialize(fatherDioManager, loadImagesController);
 
-			GenerateImageGroupDictionary();
+            if (!dioManager.bgiiesMode)
+            {
+                GenerateImageGroupDictionary();
 
-			GenerateTestGroups();
+                GenerateTestGroups();
 
-			GenerateOrganizedItemList();
+                GenerateOrganizedItemList();
+            }
+            else
+            {
+                GenerateImageGroupDictionaryToBgiies();
+
+                GenerateTestGroupsToBgiies();
+            }
 		}
 
 		public override string FormattedIndex()
@@ -105,7 +115,30 @@ namespace Memoria
 			file.Close();
 		}
 
-		private void GenerateTestGroups()
+        private void GenerateImageGroupDictionaryToBgiies()
+        {
+            _groupOneList = new List<string>();
+            _groupTwoList = new List<string>();
+
+            string line;
+            var file = new System.IO.StreamReader(groupImageCsvPath);
+            while ((line = file.ReadLine()) != null)
+            {
+                var lineSeparated = line.Split(',');
+
+                if (lineSeparated[1].Equals("0"))
+                    _groupOneList.Add(lineSeparated[0]);
+                else
+                    _groupTwoList.Add(lineSeparated[0]);
+            }
+
+            print("Group One Images: " + _groupOneList.Count);
+            print("Group Two Images: " + _groupTwoList.Count);
+
+            file.Close();
+        }
+
+        private void GenerateTestGroups()
 		{
 			_relevantTestList = new List<string>();
 			_irrelevantTestList = new List<string>();
@@ -146,7 +179,23 @@ namespace Memoria
 			}
 		}
 
-		private void GenerateOrganizedItemList()
+        private void GenerateTestGroupsToBgiies()
+        {
+            switch (test)
+            {
+                case Test.Test1:
+                    _organizedItemList = _groupOneList;
+                    break;
+                case Test.Test2:
+                    _organizedItemList = _groupTwoList;
+                    break;
+                default:
+                    Debug.Log("Error Test ingresado no es válido");
+                    break;
+            }
+        }
+
+        private void GenerateOrganizedItemList()
 		{
 			_organizedItemList = new List<string>();
 			var relevantIndex = 0;
