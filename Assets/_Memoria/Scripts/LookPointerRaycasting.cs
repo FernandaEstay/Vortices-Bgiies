@@ -67,15 +67,19 @@ namespace Memoria
 				if (posiblePitcheGrabObject == null)
 					return;
 
-				if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
-				{
-                    if (_actualPitchGrabObject != null)
+                if(!_dioManager.panelBgiies.mostrarCategoria)
+                {
+                    if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
                     {
-                        _actualPitchGrabObject.OnUnDetect();    //funcion para ignorar las imagenes que se encuentren en otras vistas
+                        if (_actualPitchGrabObject != null)
+                        {
+                            _actualPitchGrabObject.OnUnDetect();    //funcion para ignorar las imagenes que se encuentren en otras vistas
+                        }
+
+                        return;
                     }
-                        
-                    return;
-				}
+                }
+
 
 				if (_actualPitchGrabObject == null)
 				{

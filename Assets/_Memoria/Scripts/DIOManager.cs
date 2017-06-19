@@ -768,7 +768,7 @@ namespace Memoria
             }
 
             planeControllers[actualVisualization].notInZero = false;
-            planeControllers[actualVisualization].gameObject.SetActive(false);
+            //planeControllers[actualVisualization].gameObject.SetActive(false);
             actualVisualization++;
 
             if (finalAction != null)
