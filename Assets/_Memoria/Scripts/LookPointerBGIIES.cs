@@ -27,6 +27,7 @@ namespace Memoria
 
         public int indexPhoto = 0;
 
+        bool eliminarFromCategoria = false;
         public void Awake()
         {
 
@@ -419,13 +420,9 @@ namespace Memoria
                 i++;
             }
             lista.RemoveAt(i);
-            Debug.Log("La reconcha de tu hermana " + lista.Count);
             if (obj != null)
-            {
-                Debug.Log("Objeto destruido");
                 Destroy(obj.gameObject);
-            }
-            Debug.Log("Contenido lista Clone");
+
             RevisarLista(lista);
         }
         public void deleteMarcador(Color color, Button boton)
@@ -510,6 +507,12 @@ namespace Memoria
             }
 
             OcultarImagenes();
+            if (!eliminarFromCategoria)
+            {
+                var action = "Ingresa a categoria ";
+                dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
+            }
+            eliminarFromCategoria = false;
         }
         public void OcultarImagenes()
         {
@@ -538,7 +541,9 @@ namespace Memoria
                 }
                 catch { }
             }
-           
+
+            var action = "Sale de categoria ";
+            dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
         }
 
         public void InsideCategoria(List<PitchGrabObject> lista)
@@ -596,11 +601,15 @@ namespace Memoria
             if (categoria == "Categoria4")
                 imagen.isSelectedCat4 = !imagen.isSelectedCat4;
 
+            var action = "Deselect " + dioManager.panelBgiies.nombreCategoria;
+            dioManager.csvCreator.AddLines(action, imagen.idName);
+
             zoomActive = false;
             destroyClone(imagen, lista);
             actualPitchGrabObject = imagen;
             deleteMarcador(color, boton);
             actualPitchGrabObject = null;
+            eliminarFromCategoria = true;
             MostrarCategoria(lista, 0);
         }
 

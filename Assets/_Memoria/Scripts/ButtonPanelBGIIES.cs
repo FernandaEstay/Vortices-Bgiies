@@ -40,6 +40,7 @@ namespace Memoria
         public bool primerMovimiento;
 
         public  bool mostrarCategoria = false;
+        public string nombreCategoria;
 
         public override void Initialize(DIOManager dioManager)
         {
@@ -185,8 +186,9 @@ namespace Memoria
         public void IngresarACategoria(List<PitchGrabObject> lista, Button botonCategoria, Button[] botonesDesactive, int indexPhotos)
         {
             NegativeAllButtons();
-            dioManager.lookPointerInstanceBgiies.MostrarCategoria(lista, indexPhotos);
             mostrarCategoria = true;
+            nombreCategoria = botonCategoria.tag;
+            dioManager.lookPointerInstanceBgiies.MostrarCategoria(lista, indexPhotos);
             PositiveCatButton(botonCategoria);
             ActiveDesactiveButtons(botonesDesactive, false);
         }
