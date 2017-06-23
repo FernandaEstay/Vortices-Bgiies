@@ -6,12 +6,26 @@ using UnityCallbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Memoria
 {
     public class LookPointerBGIIES : LookPointer, IAwake, IUpdate
     {
         public bool zoomActive = false;
+
+        public List<DIOController> listaImagenes = null;
+
+        public List<PitchGrabObject> listaCat1 = null;
+        public List<PitchGrabObject> listaCat2 = null;
+        public List<PitchGrabObject> listaCat3 = null;
+        public List<PitchGrabObject> listaCat4 = null;
+
+        public List<PitchGrabObject> actualListaCat = null;
+        public List<Vector3> listaPos = null;
+
+        public int indexPhoto = 0;
 
         public void Awake()
         {
@@ -21,6 +35,13 @@ namespace Memoria
 
             zoomingOut = false;
             zoomingIn = false;
+
+            listaCat1 = new List<PitchGrabObject>();
+            listaCat2 = new List<PitchGrabObject>();
+            listaCat3 = new List<PitchGrabObject>();
+            listaCat4 = new List<PitchGrabObject>();
+
+            listaPos = new List<Vector3>();
 
         }
         public void Update()
@@ -32,7 +53,7 @@ namespace Memoria
                     if (zoomActive)
                     {
                         StartCoroutine(ZoomingOut(null));
-                        dioManager.panelBgiies.noInteractableButtons();
+                        //dioManager.panelBgiies.noInteractableButtons();
                         zoomActive = false;
                     }
                 }
@@ -56,7 +77,6 @@ namespace Memoria
                         zoomActive = true;
                     }
                 }
-                Debug.Log("cat1:" + actualPitchGrabObject.isSelectedCat1 + "cat2: " + actualPitchGrabObject.isSelectedCat2 + "cat3: " + actualPitchGrabObject.isSelectedCat3 + "cat4: " + actualPitchGrabObject.isSelectedCat4);
             }
         }
 
@@ -184,11 +204,15 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat1)
             {
+                createClone(actualPitchGrabObject, listaCat1);
+                                
                 createMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
                 dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
             }
             else
             {
+                destroyClone(actualPitchGrabObject, listaCat1);
+
                 deleteMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
             }
@@ -220,11 +244,15 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat2)
             {
+                createClone(actualPitchGrabObject, listaCat2);
+
                 createMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
                 dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt2);
             }
             else
             {
+                destroyClone(actualPitchGrabObject, listaCat2);
+
                 deleteMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
             }
@@ -255,11 +283,15 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat3)
             {
+                createClone(actualPitchGrabObject, listaCat3);
+
                 createMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
                 dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt3);
             }
             else
             {
+                destroyClone(actualPitchGrabObject, listaCat3);
+
                 deleteMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
             }
@@ -290,12 +322,15 @@ namespace Memoria
 
             if (actualPitchGrabObject.isSelectedCat4)
             {
+                createClone(actualPitchGrabObject, listaCat4);
+
                 createMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
                 dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt4);
-
             }
             else
             {
+                destroyClone(actualPitchGrabObject, listaCat4);
+
                 deleteMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
                 dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
             }
@@ -325,6 +360,74 @@ namespace Memoria
             boton.GetComponentInChildren<Text>().text = textBt[0] + ": " + contador.ToString();
         }
 
+        public void createClone(PitchGrabObject imagen, List<PitchGrabObject> lista)
+        {
+            PitchGrabObject obj = Instantiate(actualPitchGrabObject);
+
+            obj.transform.parent = actualPitchGrabObject.transform.parent;
+
+            obj.transform.DestroyChildrenImmediate();
+            
+
+            obj.idName = imagen.idName;
+
+            obj.transform.localPosition = _actualPitchObjectOriginalPosition;
+            obj.transform.localScale = _actualPitchObjectOriginalScale;
+
+            obj.transform.localScale =
+                Vector3.MoveTowards(actualPitchGrabObject.transform.localScale,
+                    _actualPitchObjectOriginalScale, _scaleSteps);
+
+
+            if (obj.transform.localScale.EqualOrMinorCompareVector(_actualPitchObjectOriginalScale, 0.001f))
+            {
+                obj.transform.localScale = _actualPitchObjectOriginalScale;
+            }
+
+            obj.gameObject.SetActive(false);
+
+            bool contenedor = false;
+            foreach(var photo in lista)
+            {
+                if(photo.idName == imagen.idName)
+                {
+                    contenedor = true;
+                }
+            }
+
+            if (!contenedor)
+            {
+                lista.Add(obj);
+            }
+            RevisarLista(lista);
+        }
+    
+        public void destroyClone(PitchGrabObject imagen, List<PitchGrabObject> lista)
+        {
+            Debug.Log(imagen);
+            PitchGrabObject obj = null;
+            List<PitchGrabObject> listaAux = lista;
+            int i = 0;
+            foreach (PitchGrabObject photo in listaAux)
+            {
+                Debug.Log(photo);
+                if (photo.idName == imagen.idName)
+                {
+                    obj = photo;                 
+                    break;
+                }
+                i++;
+            }
+            lista.RemoveAt(i);
+            Debug.Log("La reconcha de tu hermana " + lista.Count);
+            if (obj != null)
+            {
+                Debug.Log("Objeto destruido");
+                Destroy(obj.gameObject);
+            }
+            Debug.Log("Contenido lista Clone");
+            RevisarLista(lista);
+        }
         public void deleteMarcador(Color color, Button boton)
         {
             int child = actualPitchGrabObject.transform.childCount;
@@ -346,5 +449,160 @@ namespace Memoria
             int contador = Int32.Parse(textBt[1].Trim()) - 1;
             boton.GetComponentInChildren<Text>().text = textBt[0] + ": " + contador.ToString();
         }
+
+        public void MostrarCategoria(List<PitchGrabObject> lista , int index)
+        {
+            indexPhoto = index;
+            actualListaCat = lista;
+
+            
+            if (lista.Count / (indexPhoto + 12f) > 1f)
+                dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
+            else
+                dioManager.panelBgiies.DisableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
+
+            if ((indexPhoto-12) >= 0)
+                dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
+            else
+                dioManager.panelBgiies.DisableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
+           
+            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            
+            int head;
+            if (dioManager.InLastVisualization)
+            {
+                head = (dioManager.actualVisualization - 1) * 12;
+                dioManager.MovePlaneLastOutside(dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+            }
+            else
+            {
+                head = dioManager.actualVisualization * 12;
+            }
+            int y = head;
+            Debug.Log("indice de y " + y);
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if (y % 12 == 0)
+                {
+                    y = head;
+                }
+                Debug.Log("indice de y " + y + " indice de i" + i);
+                if (lista[i] != null)
+                {
+                    lista[i].transform.position = listaImagenes[y].transform.position;
+
+                    var grabableObjectMeshRender = lista[i].GetComponent<MeshRenderer>();
+                    var grabableObjectColor = grabableObjectMeshRender.material.color;
+                    grabableObjectColor.a = 0.66f;
+                    grabableObjectMeshRender.material.color = grabableObjectColor;
+
+                    if (i >= indexPhoto && i < indexPhoto + 12)
+                    {
+                        lista[i].gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        lista[i].gameObject.SetActive(false);
+                    }
+                    y++;
+                }
+                Debug.Log("foto " + lista[i].idName + " estado " + lista[i].gameObject.activeSelf + " posicion " + lista[i].transform.position);
+            }
+
+            OcultarImagenes();
+        }
+        public void OcultarImagenes()
+        {
+            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            foreach (var photo in listaImagenes)
+            {
+                photo.pitchGrabObject.gameObject.SetActive(false);
+            }
+        }
+        public void MostrarImagenes(List<PitchGrabObject> listaOculta)
+        {
+            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+
+            foreach (var photo in listaImagenes)
+            {
+                photo.pitchGrabObject.gameObject.SetActive(true);
+            }
+            Debug.Log("Mostrar Imagenes");
+            RevisarLista(listaOculta);
+
+            foreach(var clone in listaOculta)
+            {
+                try
+                {
+                    clone.gameObject.SetActive(false);
+                }
+                catch { }
+            }
+           
+        }
+
+        public void InsideCategoria(List<PitchGrabObject> lista)
+        {
+            indexPhoto = indexPhoto + 12;
+            if (lista.Count / indexPhoto >= 1)
+                dioManager.panelBgiies.EnableMoveCameraInside();
+            else
+                dioManager.panelBgiies.DisableMoveCameraInside();
+
+            MostrarCategoria(lista, indexPhoto);
+        }
+        public void OutsideCategoria(List<PitchGrabObject> lista)
+        {
+            dioManager.panelBgiies.EnableMoveCameraOutside();
+            indexPhoto = indexPhoto - 12;
+            MostrarCategoria(lista, indexPhoto);
+        }
+        public void RevisarLista(List<PitchGrabObject> lista)
+        {
+            Debug.Log("Lista revisada" + lista.ToString());
+            foreach(var e in lista)
+            {
+                Debug.Log(e.idName);
+            }
+        }
+
+        public void DeseleccionarFromCategoria(List<PitchGrabObject> lista, string categoria, Button boton, Color color)
+        {
+            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+
+            if (actualPitchGrabObject == null)
+            {
+                if (posibleActualPitchGrabObject == null)
+                    return;
+                actualPitchGrabObject = posibleActualPitchGrabObject;
+            }
+
+            PitchGrabObject imagen = null;
+            foreach(var photo in listaImagenes)
+            {
+                if(photo.pitchGrabObject.idName == actualPitchGrabObject.idName)
+                {
+                    imagen = photo.pitchGrabObject;
+                    break;
+                }
+            }
+
+            if(categoria == "Categoria1")
+                imagen.isSelectedCat1 = !imagen.isSelectedCat1;
+            if(categoria == "Categoria2")
+                imagen.isSelectedCat2 = !imagen.isSelectedCat2;
+            if (categoria == "Categoria3")
+                imagen.isSelectedCat3 = !imagen.isSelectedCat3;
+            if (categoria == "Categoria4")
+                imagen.isSelectedCat4 = !imagen.isSelectedCat4;
+
+            zoomActive = false;
+            destroyClone(imagen, lista);
+            actualPitchGrabObject = imagen;
+            deleteMarcador(color, boton);
+            actualPitchGrabObject = null;
+            MostrarCategoria(lista, 0);
+        }
+
     }
 }

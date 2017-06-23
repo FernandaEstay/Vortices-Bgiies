@@ -52,7 +52,10 @@ namespace Memoria
             if (actualPitchGrabObject == null)
             {
                 var objectColor = pitchGrabObject.objectMeshRender.material.color;
-                objectColor.a = _initialAlpha;
+                if (dioManager.bgiiesMode && dioManager.panelBgiies.mostrarCategoria)
+                    objectColor.a = 0.66f;
+                else
+                    objectColor.a = _initialAlpha;
                 pitchGrabObject.objectMeshRender.material.color = objectColor;
             }
 

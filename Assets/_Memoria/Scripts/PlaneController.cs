@@ -126,6 +126,7 @@ namespace Memoria
                     var grabableObject = dioControllerList[globalElementIndex];
                     var grabableObjectMeshRender = grabableObject.pitchGrabObject.GetComponent<MeshRenderer>();
                     var grabableObjectColor = grabableObjectMeshRender.material.color;
+                    
                     grabableObjectColor.a = alpha;
                     grabableObjectMeshRender.material.color = grabableObjectColor;
 

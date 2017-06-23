@@ -567,8 +567,9 @@ namespace Memoria
             var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
             var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
             var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+            Debug.Log(AreAllDioOnSphere);
             if (insideAxis == 1.0f && !movingPlane && actualPitchGrabObject == null &&
-                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
+                !zoomingIn && !zoomingOut )
             {
                 StartCoroutine(MovePlaneInside(initialAction, finalAction));
             }
@@ -601,7 +602,7 @@ namespace Memoria
             var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
             var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
             if (outsideAxis == 1.0f && !movingPlane && actualPitchGrabObject == null &&
-                !zoomingIn && !zoomingOut && AreAllDioOnSphere)
+                !zoomingIn && !zoomingOut )
             {
                 StartCoroutine(MovePlaneOutside(initialAction, finalAction));
             }
@@ -768,7 +769,7 @@ namespace Memoria
             }
 
             planeControllers[actualVisualization].notInZero = false;
-            planeControllers[actualVisualization].gameObject.SetActive(false);
+            //planeControllers[actualVisualization].gameObject.SetActive(false);
             actualVisualization++;
 
             if (finalAction != null)
@@ -968,6 +969,93 @@ namespace Memoria
             movingPlane = false;
         }
 
+        public void MovePlaneLastOutside(Action initialAction, Action finalAction)
+        {
+
+
+            var notInZeroPlaneControllers =
+                planeControllers.Where(
+                    planeController =>
+                        planeController.notInZero
+                    ).ToList();
+
+            var inZeroPlaneControllers =
+                planeControllers.Where(
+                    planeController =>
+                        !planeController.notInZero
+                    ).ToList();
+
+            if (inZeroPlaneControllers.Count == 0)
+            {
+                movingPlane = false;
+            }
+
+            var planeControllerList = new List<PlaneController> { inZeroPlaneControllers.Last() };
+            planeControllerList.AddRange(notInZeroPlaneControllers);
+
+            var radiusAlphaTargetReached = new List<Tuple<bool, bool>>();
+            for (int i = 0; i < planeControllerList.Count; i++)
+            {
+                radiusAlphaTargetReached.Add(Tuple.New(false, false));
+            }
+
+            planeControllers[actualVisualization - 1].gameObject.SetActive(true);
+            csvCreator.AddLines("Changing Plane", actualVisualization.ToString());
+
+            if (initialAction != null)
+                initialAction();
+
+            var alphaWaitTimeCounter = 0.0f;
+            while (true)
+            {
+                for (int i = 0; i < planeControllerList.Count; i++)
+                {
+                    var planeController = planeControllerList[i];
+                    var radiusTargetReached = false;
+                    var alphaTargerReached = false;
+
+                    //Radius
+                    var targetRadius = radiusAlphaVisualizationList[i + 1].First;
+                    planeController.distance += radiusFactor * radiusSpeed;
+
+                    if (TargetReached(radiusFactor, planeController.distance, targetRadius))
+                    {
+                        radiusTargetReached = true;
+                        planeController.distance = targetRadius;
+                    }
+
+                    if (alphaWaitTimeCounter >= alphaWaitTime)
+                    {
+                        //Alpha
+                        var actualAlphaFactor = i == 0
+                            ? alphaFactor
+                            : alphaFactor * -1;
+                        var targetAlpha = radiusAlphaVisualizationList[i + 1].Second;
+                        planeController.alpha += actualAlphaFactor * alphaSpeed;
+
+                        if (TargetReached(actualAlphaFactor, planeController.alpha, targetAlpha))
+                        {
+                            alphaTargerReached = true;
+                            planeController.alpha = targetAlpha;
+                        }
+                    }
+                    alphaWaitTimeCounter += Time.fixedDeltaTime;
+
+                    planeController.ChangeVisualizationConfiguration(transform.position, planeController.distance, planeController.alpha);
+                    radiusAlphaTargetReached[i] = Tuple.New(radiusTargetReached, alphaTargerReached);
+                }
+
+                if (radiusAlphaTargetReached.All(t => t.First && t.Second))
+                    break;
+            }
+
+            actualVisualization--;
+            planeControllers[actualVisualization].notInZero = true;
+
+            if (finalAction != null)
+                finalAction();
+
+        }
         private bool TargetReached(float factor, float value, float target)
         {
             if (factor >= 0)

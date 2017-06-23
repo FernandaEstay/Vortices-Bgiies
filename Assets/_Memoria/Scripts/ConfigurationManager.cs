@@ -35,7 +35,7 @@ public class ConfigurationManager : MonoBehaviour
 
     [Header("Unity Open Glove")]
     public Toggle useUnityOpenGlove;
-    
+
 
     [Header("Load Images")]
     public InputField imagesText;
@@ -44,18 +44,30 @@ public class ConfigurationManager : MonoBehaviour
     public InputField fileNameText;
     public InputField groupPathText;
 
-
-
     private const string Scope = "Config";
 
     public void Awake()
     {
+        SetVariables();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            Exit();
+    }
+    private void SetVariables()
+    {
         useLeapMotionToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseLeapMotion");
-        if (useLeapMotionToggle.isOn) {
+        if (useLeapMotionToggle.isOn)
+        {
             usePitchGrabToggle.enabled = true;
             usePitchGrabToggle.enabled = true;
             usePitchGrabToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UsePitchGrab");
         }
+
+        if (!(useLeapMotionToggle.isOn && useJoystickToggle.isOn) || !(mouseInput.isOn && kinectInput.isOn))
+            useUnityOpenGlove.interactable = false;
 
         useJoystickToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseJoystic");
 
@@ -75,7 +87,7 @@ public class ConfigurationManager : MonoBehaviour
             visualization.value = 0;
 
 
-            dataOutputText.text = GLPlayerPrefs.GetString(Scope, "DataOutput");
+        dataOutputText.text = GLPlayerPrefs.GetString(Scope, "DataOutput");
 
 
         userIdText.text = GLPlayerPrefs.GetInt(Scope, "UserID").ToString();
@@ -100,12 +112,12 @@ public class ConfigurationManager : MonoBehaviour
         GLPlayerPrefs.SetBool(Scope, "MouseInput", mouseInput.isOn);
         GLPlayerPrefs.SetBool(Scope, "KinectInput", kinectInput.isOn);
 
-        if(modeDropDown.value == 0)
+        if (modeDropDown.value == 0)
             GLPlayerPrefs.SetBool(Scope, "BGIIESMode", false);
         else
             GLPlayerPrefs.SetBool(Scope, "BGIIESMode", true);
 
-        if(visualization.value == 0)
+        if (visualization.value == 0)
             GLPlayerPrefs.SetBool(Scope, "visualizationPlane", false);
         else
             GLPlayerPrefs.SetBool(Scope, "visualizationPlane", true);
@@ -127,95 +139,11 @@ public class ConfigurationManager : MonoBehaviour
 
 
     }
-    public void Update()
-    {
-        if (Input.GetKey(KeyCode.Escape))
-            Application.Quit();
-
-        if (!mainMenuPanel.activeSelf)
-        {
-            backButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            backButton.gameObject.SetActive(false);
-        }
-        if (modeDropDown.value == 0)
-        {
-            mouseInput.isOn = false;
-            kinectInput.isOn = false;
-
-            mouseInput.gameObject.SetActive(false);
-            kinectInput.gameObject.SetActive(false);
-
-            useLeapMotionToggle.gameObject.SetActive(true);
-            useJoystickToggle.gameObject.SetActive(true);
-
-            if (useLeapMotionToggle.isOn)
-            {
-                if (!usePitchGrabToggle.gameObject.activeSelf)
-                {
-                    usePitchGrabToggle.gameObject.SetActive(true);
-                }
-                useJoystickToggle.isOn = false;
-                useJoystickToggle.interactable = false;
-                useUnityOpenGlove.interactable = true;
-            }
-            else
-            {
-                usePitchGrabToggle.gameObject.SetActive(false);
-                useJoystickToggle.interactable = true;
-            }
-            if (useJoystickToggle.isOn)
-            {
-                useLeapMotionToggle.isOn = false;
-                useLeapMotionToggle.interactable = false;
-
-                useUnityOpenGlove.isOn = false;
-                useUnityOpenGlove.interactable = false;
-            }
-            else 
-                useLeapMotionToggle.interactable = true;
-
-        }
-        else
-        {
-            useLeapMotionToggle.isOn = false;
-            useJoystickToggle.isOn = false;
-
-            useLeapMotionToggle.gameObject.SetActive(false);
-            useJoystickToggle.gameObject.SetActive(false);
-            usePitchGrabToggle.gameObject.SetActive(false);
-
-            kinectInput.gameObject.SetActive(true);
-            mouseInput.gameObject.SetActive(true);
-
-            if (kinectInput.isOn)
-            {
-                mouseInput.isOn = false;
-                mouseInput.interactable = false;
-                useUnityOpenGlove.interactable = true;
-            }
-            else
-            {
-                mouseInput.interactable = true;
-                useUnityOpenGlove.isOn = false;
-                useUnityOpenGlove.interactable = false;
-            }
-
-            if (mouseInput.isOn)
-            {
-                kinectInput.isOn = false;
-                kinectInput.interactable = false;
-            }
-            else
-                kinectInput.interactable = true;
-        }
-    }
 
     public void LoadImage()
     {
         mainMenuPanel.SetActive(false);
+        backButton.gameObject.SetActive(true);
 
         loadImagePanel.SetActive(true);
         backButton.gameObject.SetActive(true);
@@ -236,5 +164,119 @@ public class ConfigurationManager : MonoBehaviour
         loadImagePanel.SetActive(false);
         dataOutputPanel.SetActive(false);
         backButton.gameObject.SetActive(false);
+    }
+    
+    public void UseLeapMotionToggle()
+    {
+        if (useLeapMotionToggle.isOn)
+        {
+            if (!usePitchGrabToggle.gameObject.activeSelf)
+                usePitchGrabToggle.gameObject.SetActive(true);
+
+            useJoystickToggle.isOn = false;
+            useJoystickToggle.interactable = false;
+            useUnityOpenGlove.interactable = true;
+        }
+        else
+        {
+            usePitchGrabToggle.gameObject.SetActive(false);
+            useJoystickToggle.interactable = true;
+            useUnityOpenGlove.interactable = false;
+        }
+    }
+
+    public void UseJoystickToggle()
+    {
+        if (useJoystickToggle.isOn)
+        {
+            useLeapMotionToggle.isOn = false;
+            useLeapMotionToggle.interactable = false;
+
+            useUnityOpenGlove.isOn = false;
+            useUnityOpenGlove.interactable = false;
+        }
+        else
+            useLeapMotionToggle.interactable = true;
+    }
+
+    public void KinectInputToggle()
+    {
+        if (kinectInput.isOn)
+        {
+            mouseInput.isOn = false;
+            mouseInput.interactable = false;
+            useUnityOpenGlove.interactable = true;
+        }
+        else
+        {
+            mouseInput.interactable = true;
+            useUnityOpenGlove.isOn = false;
+            useUnityOpenGlove.interactable = false;
+        }
+    }
+
+    public void MouseInputToggle()
+    {
+        if (mouseInput.isOn)
+        {
+            kinectInput.isOn = false;
+            kinectInput.interactable = false;
+        }
+        else
+            kinectInput.interactable = true;
+    }
+
+    public void PinchGrabToggle()
+    {
+        if (usePitchGrabToggle.isOn)
+            useUnityOpenGlove.interactable = false;
+        else
+        {
+            useUnityOpenGlove.interactable = true;
+            useUnityOpenGlove.isOn = false;
+        }
+    }
+
+    public void OpenGloveToggle()
+    {
+        if (useUnityOpenGlove.isOn && useLeapMotionToggle.isOn)
+            usePitchGrabToggle.interactable = false;
+        else
+        {
+            usePitchGrabToggle.interactable = true;
+            usePitchGrabToggle.isOn = false;
+        }
+    }
+    public void ModeDropDownChange()
+    {
+        if (modeDropDown.value == 0)
+        {
+            mouseInput.isOn = false;
+            kinectInput.isOn = false;
+
+            mouseInput.gameObject.SetActive(false);
+            kinectInput.gameObject.SetActive(false);
+
+            useLeapMotionToggle.gameObject.SetActive(true);
+            useJoystickToggle.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            useLeapMotionToggle.isOn = false;
+            useJoystickToggle.isOn = false;
+
+            useLeapMotionToggle.gameObject.SetActive(false);
+            useJoystickToggle.gameObject.SetActive(false);
+            usePitchGrabToggle.gameObject.SetActive(false);
+
+            kinectInput.gameObject.SetActive(true);
+            mouseInput.gameObject.SetActive(true);
+
+        }
+    }
+    public void Exit()
+    {
+        Application.Quit();
     }
 }
