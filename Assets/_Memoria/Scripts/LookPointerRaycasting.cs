@@ -65,16 +65,17 @@ namespace Memoria
             }
 
             maxDistance = 1f;
-            Debug.DrawLine(_ray.origin, _ray.direction * maxDistance, Color.red);
+            //Debug.DrawLine(_ray.origin, _ray.direction * maxDistance, Color.red);
 
             if (Physics.Raycast(_ray, out _raycastHit, maxDistance, ignoredLayerMask))
             {
 				var posiblePitcheGrabObject = _raycastHit.transform.gameObject.GetComponent<PitchGrabObject>();
 
-				if (posiblePitcheGrabObject == null)
+                if (posiblePitcheGrabObject == null)
 					return;
 
-                if(!_dioManager.panelBgiies.mostrarCategoria)
+                Debug.Log("llega acaaa");
+                if (!_dioManager.panelBgiies.mostrarCategoria)
                 {
                     if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
                     {
@@ -86,9 +87,9 @@ namespace Memoria
                         return;
                     }
                 }
+                Debug.Log("llega acaaa2");
 
-
-				if (_actualPitchGrabObject == null)
+                if (_actualPitchGrabObject == null)
 				{
 					_actualPitchGrabObject = posiblePitcheGrabObject;   //en una primera instancia actualPitch es null, la primera vez que toca una foto valida toma el valor de posiblePitch
                     RegisterRay(_actualPitchGrabObject);
@@ -100,10 +101,11 @@ namespace Memoria
 						_actualPitchGrabObject.OnUnDetect();            // actualPitch se hace null
 						_actualPitchGrabObject = posiblePitcheGrabObject;   //se le asigna el valor de posiblePitch
                         RegisterRay(_actualPitchGrabObject);
+                        Debug.Log("llega acaaa25");
                     }
 				}
-
-				_actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
+                Debug.Log("llega acaaa3");
+                _actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
 			}
 			else
 			{
@@ -121,6 +123,11 @@ namespace Memoria
         {
             var action = "Move ray vector";
             _dioManager.csvCreator.AddLines(action, foto.idName);
+        }
+
+        public void ResetActualPitchGrabObject()
+        {
+            _actualPitchGrabObject = null;
         }
 	}
 }

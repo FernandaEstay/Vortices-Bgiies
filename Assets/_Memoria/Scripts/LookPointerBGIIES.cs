@@ -452,6 +452,8 @@ namespace Memoria
             indexPhoto = index;
             actualListaCat = lista;
 
+            zoomActive = false;
+            dioManager.rayCastingDetector.ResetActualPitchGrabObject();
             
             if (lista.Count / (indexPhoto + 12f) > 1f)
                 dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
@@ -571,7 +573,7 @@ namespace Memoria
             }
         }
 
-        public void DeseleccionarFromCategoria(List<PitchGrabObject> lista, string categoria, Button boton, Color color)
+        public void DeseleccionarFromCategoria(List<PitchGrabObject> lista, int categoriaActual, Button boton, Color color)
         {
             listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
 
@@ -592,14 +594,16 @@ namespace Memoria
                 }
             }
 
-            if(categoria == "Categoria1")
+            if ((int)Categorias.Categoria1 == categoriaActual)
                 imagen.isSelectedCat1 = !imagen.isSelectedCat1;
-            if(categoria == "Categoria2")
+            else if ((int)Categorias.Categoria2 == categoriaActual)
                 imagen.isSelectedCat2 = !imagen.isSelectedCat2;
-            if (categoria == "Categoria3")
+            else if ((int)Categorias.Categoria3 == categoriaActual)
                 imagen.isSelectedCat3 = !imagen.isSelectedCat3;
-            if (categoria == "Categoria4")
+            else if ((int)Categorias.Categoria4 == categoriaActual)
                 imagen.isSelectedCat4 = !imagen.isSelectedCat4;
+            else
+                Debug.Log("Error al eliminar desde una categoria, categoria ingresada desde ButtonPanelBgiies inválida");
 
             var action = "Deselect " + dioManager.panelBgiies.nombreCategoria;
             dioManager.csvCreator.AddLines(action, imagen.idName);

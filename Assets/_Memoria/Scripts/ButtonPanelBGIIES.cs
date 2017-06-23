@@ -11,8 +11,14 @@ using OpenGlove_API_C_Sharp_HL.ServiceReference1;
 
 namespace Memoria
 {
+    public enum Categorias {
+        Categoria1,
+        Categoria2,
+        Categoria3,
+        Categoria4
+    };
     public class ButtonPanelBGIIES : ButtonPanel
-    { 
+    {
         public Text txtTime;
         private float time;
         private string text;
@@ -36,11 +42,13 @@ namespace Memoria
         public Color aceptBt3;
         public Color aceptBt4;
 
-        public  Vector3 posInicialMouse;
+        public Vector3 posInicialMouse;
         public bool primerMovimiento;
 
-        public  bool mostrarCategoria = false;
+        public bool mostrarCategoria = false;
         public string nombreCategoria;
+
+        //public Categorias categorias;
 
         public override void Initialize(DIOManager dioManager)
         {
@@ -126,7 +134,7 @@ namespace Memoria
             else
             {
                 if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat1, "Categoria1", bt1, aceptBt1);
+                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat1, (int)Categorias.Categoria1, bt1, aceptBt1);
                 else
                     SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat1, new Button[] { bt2, bt3, bt4 });
             }
@@ -143,7 +151,7 @@ namespace Memoria
             else
             {
                 if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat2, "Categoria2", bt2, aceptBt2);
+                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat2, (int)Categorias.Categoria2, bt2, aceptBt2);
                 else
                     SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat2, new Button[] { bt1, bt3, bt4 });
             }
@@ -160,7 +168,7 @@ namespace Memoria
             else
             {
                 if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat3, "Categoria3", bt3, aceptBt3);
+                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat3, (int)Categorias.Categoria3, bt3, aceptBt3);
                 else
                     SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat3, new Button[] { bt1, bt2, bt4 });
             }
@@ -177,7 +185,7 @@ namespace Memoria
             else
             {
                 if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat4, "Categoria4", bt4, aceptBt4);
+                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat4, (int)Categorias.Categoria4, bt4, aceptBt4);
                 else
                     SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat4, new Button[] { bt1, bt2, bt3 });
             }
@@ -202,7 +210,7 @@ namespace Memoria
             EnableMoveCameraOutside();
         }
 
-        public void DeseleccionarFromCategoria(List<PitchGrabObject> listaActual, string nombreCategoria, Button botonCategoria, Color colorBotonEncendido)
+        public void DeseleccionarFromCategoria(List<PitchGrabObject> listaActual, int nombreCategoria, Button botonCategoria, Color colorBotonEncendido)
         {
             dioManager.lookPointerInstanceBgiies.DeseleccionarFromCategoria(listaActual, nombreCategoria, botonCategoria, colorBotonEncendido);
         }
