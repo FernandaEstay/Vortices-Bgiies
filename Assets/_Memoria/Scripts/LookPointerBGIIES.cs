@@ -455,6 +455,7 @@ namespace Memoria
             indexPhoto = index;
             actualListaCat = lista;
 
+            
             if (lista.Count / (indexPhoto + 12f) > 1f)
                 dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
             else
@@ -464,14 +465,14 @@ namespace Memoria
                 dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
             else
                 dioManager.panelBgiies.DisableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
-
+           
             listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-
+            
             int head;
             if (dioManager.InLastVisualization)
             {
                 head = (dioManager.actualVisualization - 1) * 12;
-                dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                dioManager.MovePlaneLastOutside(dioManager.initialPlaneAction, dioManager.finalPlaneAction);
             }
             else
             {

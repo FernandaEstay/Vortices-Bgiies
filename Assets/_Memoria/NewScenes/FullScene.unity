@@ -1850,6 +1850,7 @@ MonoBehaviour:
   aceptBt2: {r: 0, g: 1, b: 0.3372549, a: 0.491}
   aceptBt3: {r: 0, g: 0.91764706, b: 1, a: 0.502}
   aceptBt4: {r: 1, g: 1, b: 0, a: 0.503}
+  posInicialMouse: {x: 0, y: 0, z: 0}
   primerMovimiento: 0
   mostrarCategoria: 0
 --- !u!1 &365244479

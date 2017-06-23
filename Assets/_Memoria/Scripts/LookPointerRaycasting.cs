@@ -38,6 +38,12 @@ namespace Memoria
                     return;
                 if (_dioManager.mouseInput)
                 {
+                    if((_dioManager.panelBgiies.posInicialMouse != Input.mousePosition) && !_dioManager.panelBgiies.primerMovimiento)
+                    {
+                        _dioManager.panelBgiies.primerMovimiento = true;
+                        _dioManager.panelBgiies.InitExperiment();
+                    }
+                        
                     _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 }
                 else
@@ -45,9 +51,10 @@ namespace Memoria
                     if (_dioManager.lookPointerInstanceBgiies.zoomActive)
                         return;
                     _ray = _dioManager.kinectFace.ray;
-                    if(_ray.direction != Vector3.zero)
+                    if((_ray.direction != Vector3.zero) && !_dioManager.panelBgiies.primerMovimiento)
                     {
                         _dioManager.panelBgiies.primerMovimiento = true;
+                        _dioManager.panelBgiies.InitExperiment();
                     }
                 }
             }
