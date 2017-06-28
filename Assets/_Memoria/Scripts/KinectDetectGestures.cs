@@ -23,6 +23,7 @@ namespace Memoria
         public bool zoomInActive = false;
         public bool zoomOut;
 
+        public static HandState kinectCurrentRightHandGesture, kinectCurrentLeftHandGesture;
         bool selectedActive = false;
 
         float tiempo;
@@ -87,6 +88,8 @@ namespace Memoria
                 {
                         if ((int)body.HandRightConfidence == 1)
                         {
+                        kinectCurrentRightHandGesture = body.HandRightState;
+                        /*
                             switch (body.HandRightState)
                             {
                                 case HandState.Lasso:
@@ -112,10 +115,13 @@ namespace Memoria
                                         zoomIn = false;
                                     }
                                     break;
-                            }
+                            }*/
                         }
+
                         if ((int)body.HandLeftConfidence == 1)
                         {
+                        kinectCurrentLeftHandGesture = body.HandLeftState;
+                        /*
                             switch (body.HandLeftState)
                             {
                                 case HandState.Lasso:
@@ -130,7 +136,7 @@ namespace Memoria
                                     break;
                                 default:
                                     break;
-                            }
+                            }*/
                         }
 
                     }

@@ -30,13 +30,13 @@ namespace Memoria
 
         public struct gesturesContinuous
         {
-            public string nombre;
-            public float resultado;
+            public string name;
+            public float result;
 
             public gesturesContinuous(string name, float result)
             {
-                nombre = name;
-                resultado = result;
+                this.name = name;
+                this.result = result;
             }
         }
 
@@ -53,8 +53,8 @@ namespace Memoria
 
         public bool ActiveZoomOut;
         float resultRel = 0;
-        gesturesContinuous gesRel = new gesturesContinuous();
-
+        public static gesturesContinuous currentContinuousGesture = new gesturesContinuous();
+        
         KinectSensor kinectSensor;
         private Body[] bodies;
         public GameObject BodySrcManager;
@@ -62,6 +62,11 @@ namespace Memoria
         private ulong _trackingId = 0;
 
         bool initialize = false;
+
+        //public values
+        public static string[] gestureNames = new string[7];
+        public float[] gestureUntrigger = new float[7];
+        public static bool[] isGestureActive = new bool[7];
 
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
@@ -249,9 +254,20 @@ namespace Memoria
                                     if (result.Progress > resultRel)
                                     {
                                         resultRel = result.Progress;
-                                        gesRel = new gesturesContinuous(gesture.Name, resultRel);
+                                        currentContinuousGesture = new gesturesContinuous(gesture.Name, resultRel);
                                     }
 
+                                    for(int i = 0; i < 7; i++){
+                                        if (gesture.Name.Equals(gestureNames[i]))
+                                        {
+                                           if(result.Progress < gestureUntrigger[i] && !isGestureActive[i])
+                                            {
+                                                isGestureActive[i] = true;
+                                            }
+                                        }                                    
+                                    }
+
+                                    /*
                                     if (gesture.Name == "HandUpProgress")
                                     {
                                         if (result.Progress < 0.3f && !HandUpActive)
@@ -278,18 +294,20 @@ namespace Memoria
                                         }
                                         RegisterGestureProgress("HandLeftProgress ", result.Progress);
                                     }
-
+                                    */
                                 }
 
                             }
                         }
                     }
 
-                    if (gesRel.resultado != 0)
+                    if (currentContinuousGesture.result != 0)
                     {
-                        if (gesRel.nombre == "HandUpProgress")
+                        ActionManager.Instance.KinectGestureUpdate();
+                        /*
+                        if (currentContinuousGesture.nombre.Equals("HandUpProgress"))
                         {
-                            if (gesRel.resultado > 0.6f && HandUpActive)
+                            if (currentContinuousGesture.resultado > 0.6f && HandUpActive)
                             {
                                 HandUpActive = false;
                                 dioManager.panelBgiies.SelectBt1();
@@ -301,15 +319,15 @@ namespace Memoria
                                 ActiveZoomOut = false;
                                 return;
                             }
-                            if(gesRel.resultado < 4f)
+                            if(currentContinuousGesture.resultado < 4f)
                             {
                                 ActiveZoomOut = true;
                             }
                         }
                                                                                
-                        if (gesRel.nombre == "HandDownProgress")
+                        if (currentContinuousGesture.nombre == "HandDownProgress")
                         {
-                            if (gesRel.resultado > 0.7f && HandDownActive)
+                            if (currentContinuousGesture.resultado > 0.7f && HandDownActive)
                             {
                                 HandDownActive = false;
                                 dioManager.panelBgiies.SelectBt2();
@@ -321,15 +339,15 @@ namespace Memoria
                                 ActiveZoomOut = false;
                                 return;
                             }
-                            if(gesRel.resultado < 5f)
+                            if(currentContinuousGesture.resultado < 5f)
                             {
                                 ActiveZoomOut = true;
                             }
                         }
                                         
-                        if(gesRel.nombre == "HandRightProgress")
+                        if(currentContinuousGesture.nombre == "HandRightProgress")
                         {
-                            if (gesRel.resultado > 0.6f && HandRightActive)
+                            if (currentContinuousGesture.resultado > 0.6f && HandRightActive)
                             {
                                 HandRightActive = false;
                                 dioManager.panelBgiies.SelectBt3();
@@ -341,15 +359,15 @@ namespace Memoria
                                 ActiveZoomOut = false;
                                 return;
                             }
-                            if(gesRel.resultado < 4)
+                            if(currentContinuousGesture.resultado < 4)
                             {
                                 ActiveZoomOut = true;
                             }
                         }
                                         
-                        if (gesRel.nombre == "HandLeftProgress")
+                        if (currentContinuousGesture.nombre == "HandLeftProgress")
                         {
-                            if (gesRel.resultado > 0.5f && HandLeftActive)
+                            if (currentContinuousGesture.resultado > 0.5f && HandLeftActive)
                             {
                                 HandLeftActive = false;
                                 dioManager.panelBgiies.SelectBt4();
@@ -361,11 +379,12 @@ namespace Memoria
                                 ActiveZoomOut = false;
                                 return;
                             }
-                            if(gesRel.resultado < 3f)
+                            if(currentContinuousGesture.resultado < 3f)
                             {
                                 ActiveZoomOut = true;
                             }
                         }
+                        */
                     }
                 }                    
             }
