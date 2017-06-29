@@ -14,6 +14,7 @@ namespace Memoria
 
 		[HideInInspector]
 		public bool loading;
+        bool initialized = false;
 
 		private float _porcentage;
 		private DIOManager _dioManager;
@@ -30,12 +31,17 @@ namespace Memoria
 
 			if (dioManager.useLeapMotion)
 				dioManager.leapMotionRig.leapSpace.SetActive(false);
+
+            initialized = true;
 		}
 
 		public void Update()
 		{
 			if (!loading)
 				return;
+
+            if (!initialized)
+                return;
 
 			_porcentage = _dioManager.loadImageController.ImagesLoaded / (float)_dioManager.loadImageController.images;
 			porcentageText.text = _porcentage.ToString("000%");

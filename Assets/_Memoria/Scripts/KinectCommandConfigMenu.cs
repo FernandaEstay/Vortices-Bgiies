@@ -18,35 +18,70 @@ public class KinectCommandConfigMenu : MonoBehaviour {
     {
         Scope = ProfileManager.Instance.currentProfileScope;
 
+        if (ActionManager.Instance.bgiiesMode)
+        {
+            gesture1TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1TriggerLevelBgiies");
+            gesture2TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2TriggerLevelBgiies");
+            gesture3TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3TriggerLevelBgiies");
+            gesture4TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4TriggerLevelBgiies");
+            gesture5TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5TriggerLevelBgiies");
+            gesture6TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6TriggerLevelBgiies");
+            gesture7TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7TriggerLevelBgiies");
+            gesture1UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1UntriggerLevelBgiies");
+            gesture2UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2UntriggerLevelBgiies");
+            gesture3UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3UntriggerLevelBgiies");
+            gesture4UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4UntriggerLevelBgiies");
+            gesture5UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5UntriggerLevelBgiies");
+            gesture6UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6UntriggerLevelBgiies");
+            gesture7UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7UntriggerLevelBgiies");
 
-        gesture1TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1TriggerLevel");
-        gesture2TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2TriggerLevel");
-        gesture3TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3TriggerLevel");
-        gesture4TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4TriggerLevel");
-        gesture5TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5TriggerLevel");
-        gesture6TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6TriggerLevel");
-        gesture7TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7TriggerLevel");
-        gesture1UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1UntriggerLevel");
-        gesture2UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2UntriggerLevel");
-        gesture3UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3UntriggerLevel");
-        gesture4UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4UntriggerLevel");
-        gesture5UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5UntriggerLevel");
-        gesture6UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6UntriggerLevel");
-        gesture7UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7UntriggerLevel");
+            openHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandRightAssignedActionIndexBgiies");
+            openHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandLeftAssignedActionIndexBgiies");
+            closeHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandRightAssignedActionIndexBgiies");
+            closeHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandLeftAssignedActionIndexBgiies");
+            lassoHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandRightAssignedActionIndexBgiies");
+            lassoHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandLeftAssignedActionIndexBgiies");
+            gesture1AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture1AssignedActionIndexBgiies");
+            gesture2AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture2AssignedActionIndexBgiies");
+            gesture3AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture3AssignedActionIndexBgiies");
+            gesture4AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture4AssignedActionIndexBgiies");
+            gesture5AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture5AssignedActionIndexBgiies");
+            gesture6AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture6AssignedActionIndexBgiies");
+            gesture7AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture7AssignedActionIndexBgiies");
 
-        openHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandRightAssignedActionIndex");
-        openHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandLeftAssignedActionIndex");
-        closeHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandRightAssignedActionIndex");
-        closeHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandLeftAssignedActionIndex");
-        lassoHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandRightAssignedActionIndex");
-        lassoHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandLeftAssignedActionIndex");
-        gesture1AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture1AssignedActionIndex");
-        gesture2AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture2AssignedActionIndex");
-        gesture3AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture3AssignedActionIndex");
-        gesture4AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture4AssignedActionIndex");
-        gesture5AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture5AssignedActionIndex");
-        gesture6AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture6AssignedActionIndex");
-        gesture7AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture7AssignedActionIndex");
+        }
+        else
+        {
+            gesture1TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1TriggerLevelVortices");
+            gesture2TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2TriggerLevelVortices");
+            gesture3TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3TriggerLevelVortices");
+            gesture4TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4TriggerLevelVortices");
+            gesture5TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5TriggerLevelVortices");
+            gesture6TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6TriggerLevelVortices");
+            gesture7TriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7TriggerLevelVortices");
+            gesture1UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture1UntriggerLevelVortices");
+            gesture2UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture2UntriggerLevelVortices");
+            gesture3UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture3UntriggerLevelVortices");
+            gesture4UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture4UntriggerLevelVortices");
+            gesture5UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture5UntriggerLevelVortices");
+            gesture6UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture6UntriggerLevelVortices");
+            gesture7UntriggerLevel = GLPlayerPrefs.GetFloat(Scope, "gesture7UntriggerLevelVortices");
+
+            openHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandRightAssignedActionIndexVortices");
+            openHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "openHandLeftAssignedActionIndexVortices");
+            closeHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandRightAssignedActionIndexVortices");
+            closeHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "closeHandLeftAssignedActionIndexVortices");
+            lassoHandRightAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandRightAssignedActionIndexVortices");
+            lassoHandLeftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "lassoHandLeftAssignedActionIndexVortices");
+            gesture1AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture1AssignedActionIndexVortices");
+            gesture2AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture2AssignedActionIndexVortices");
+            gesture3AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture3AssignedActionIndexVortices");
+            gesture4AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture4AssignedActionIndexVortices");
+            gesture5AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture5AssignedActionIndexVortices");
+            gesture6AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture6AssignedActionIndexVortices");
+            gesture7AssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "gesture7AssignedActionIndexVortices");
+        }
+        
 
         SetActionNameByIndex(gesture1AssignedActionText, gesture1AssignedActionIndex);
         SetActionNameByIndex(gesture2AssignedActionText, gesture2AssignedActionIndex);
@@ -66,42 +101,82 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         CleanKinectActions();
         SetBasicGesturesConfigMenuValues();
         SetDbGesturesConfigMenuValues();
+        ActionManager.Instance.ReloadProfileDropdown(dbGesturesActionsDropdown);
+        ActionManager.Instance.ReloadProfileDropdown(basicGesturesActionsDropdown);
     }
 
     private void OnDisable()
     {
-        UpdateActionsEmotivInsight();
+        UpdateActionsKinect();
 
-        GLPlayerPrefs.SetFloat(Scope, "gesture1TriggerLevel", gesture1TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture2TriggerLevel", gesture2TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture3TriggerLevel", gesture3TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture4TriggerLevel", gesture4TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture5TriggerLevel", gesture5TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture6TriggerLevel", gesture6TriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture7TriggerLevel", gesture7TriggerLevel);
+        if (ActionManager.Instance.bgiiesMode)
+        {
+            GLPlayerPrefs.SetInt(Scope, "openHandRightAssignedActionIndexBgiies", openHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "openHandLeftAssignedActionIndexBgiies", openHandLeftAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "closeHandRightAssignedActionIndexBgiies", closeHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "closeHandLeftAssignedActionIndexBgiies", closeHandLeftAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "lassoHandRightAssignedActionIndexBgiies", lassoHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "lassoHandLeftAssignedActionIndexBgiies", lassoHandLeftAssignedActionIndex);
 
-        GLPlayerPrefs.SetFloat(Scope, "gesture1UntriggerLevel", gesture1UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture2UntriggerLevel", gesture2UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture3UntriggerLevel", gesture3UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture4UntriggerLevel", gesture4UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture5UntriggerLevel", gesture5UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture6UntriggerLevel", gesture6UntriggerLevel);
-        GLPlayerPrefs.SetFloat(Scope, "gesture7UntriggerLevel", gesture7UntriggerLevel);
+            GLPlayerPrefs.SetInt(Scope, "gesture1AssignedActionIndexBgiies", gesture1AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture2AssignedActionIndexBgiies", gesture2AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture3AssignedActionIndexBgiies", gesture3AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture4AssignedActionIndexBgiies", gesture4AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture5AssignedActionIndexBgiies", gesture5AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture6AssignedActionIndexBgiies", gesture6AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture7AssignedActionIndexBgiies", gesture7AssignedActionIndex);
 
-        GLPlayerPrefs.SetInt(Scope, "openHandRightAssignedActionIndex", openHandRightAssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "openHandLeftAssignedActionIndex", openHandLeftAssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "closeHandRightAssignedActionIndex", closeHandRightAssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "closeHandLeftAssignedActionIndex", closeHandLeftAssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "lassoHandRightAssignedActionIndex", lassoHandRightAssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "lassoHandLeftAssignedActionIndex", lassoHandLeftAssignedActionIndex);
+            GLPlayerPrefs.SetFloat(Scope, "gesture1TriggerLevelBgiies", gesture1TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture2TriggerLevelBgiies", gesture2TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture3TriggerLevelBgiies", gesture3TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture4TriggerLevelBgiies", gesture4TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture5TriggerLevelBgiies", gesture5TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture6TriggerLevelBgiies", gesture6TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture7TriggerLevelBgiies", gesture7TriggerLevel);
 
-        GLPlayerPrefs.SetInt(Scope, "gesture1AssignedActionIndex", gesture1AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture2AssignedActionIndex", gesture2AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture3AssignedActionIndex", gesture3AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture4AssignedActionIndex", gesture4AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture5AssignedActionIndex", gesture5AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture6AssignedActionIndex", gesture6AssignedActionIndex);
-        GLPlayerPrefs.SetInt(Scope, "gesture7AssignedActionIndex", gesture7AssignedActionIndex);
+            GLPlayerPrefs.SetFloat(Scope, "gesture1UntriggerLevelBgiies", gesture1UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture2UntriggerLevelBgiies", gesture2UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture3UntriggerLevelBgiies", gesture3UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture4UntriggerLevelBgiies", gesture4UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture5UntriggerLevelBgiies", gesture5UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture6UntriggerLevelBgiies", gesture6UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture7UntriggerLevelBgiies", gesture7UntriggerLevel);
+        }
+        else
+        {
+            GLPlayerPrefs.SetInt(Scope, "openHandRightAssignedActionIndexVortices", openHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "openHandLeftAssignedActionIndexVortices", openHandLeftAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "closeHandRightAssignedActionIndexVortices", closeHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "closeHandLeftAssignedActionIndexVortices", closeHandLeftAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "lassoHandRightAssignedActionIndexVortices", lassoHandRightAssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "lassoHandLeftAssignedActionIndexVortices", lassoHandLeftAssignedActionIndex);
+
+            GLPlayerPrefs.SetInt(Scope, "gesture1AssignedActionIndexVortices", gesture1AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture2AssignedActionIndexVortices", gesture2AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture3AssignedActionIndexVortices", gesture3AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture4AssignedActionIndexVortices", gesture4AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture5AssignedActionIndexVortices", gesture5AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture6AssignedActionIndexVortices", gesture6AssignedActionIndex);
+            GLPlayerPrefs.SetInt(Scope, "gesture7AssignedActionIndexVortices", gesture7AssignedActionIndex);
+
+            GLPlayerPrefs.SetFloat(Scope, "gesture1TriggerLevelVortices", gesture1TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture2TriggerLevelVortices", gesture2TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture3TriggerLevelVortices", gesture3TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture4TriggerLevelVortices", gesture4TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture5TriggerLevelVortices", gesture5TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture6TriggerLevelVortices", gesture6TriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture7TriggerLevelVortices", gesture7TriggerLevel);
+
+            GLPlayerPrefs.SetFloat(Scope, "gesture1UntriggerLevelVortices", gesture1UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture2UntriggerLevelVortices", gesture2UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture3UntriggerLevelVortices", gesture3UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture4UntriggerLevelVortices", gesture4UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture5UntriggerLevelVortices", gesture5UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture6UntriggerLevelVortices", gesture6UntriggerLevel);
+            GLPlayerPrefs.SetFloat(Scope, "gesture7UntriggerLevelVortices", gesture7UntriggerLevel);
+        }
+
+        
 
     }
 
@@ -115,17 +190,17 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         }
     }
 
-    public void UpdateActionsEmotivInsight()
+    public void UpdateActionsKinect()
     {
 
-        // First five slots are for the mental commands
+        // First six slots are for the basic gestures
         //
         //
-        if (openHandRightAssignedActionIndex != 8)
+        if (openHandRightAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[0] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Open, true),
-                ActionManager.Instance.bgiiesActionList[openHandRightAssignedActionIndex]
+                ActionManager.Instance.currentActionList[openHandRightAssignedActionIndex]
                 );
         }
         else
@@ -133,11 +208,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[0] = null;
         }
 
-        if (openHandLeftAssignedActionIndex != 8)
+        if (openHandLeftAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[1] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Open, false),
-                ActionManager.Instance.bgiiesActionList[openHandLeftAssignedActionIndex]
+                ActionManager.Instance.currentActionList[openHandLeftAssignedActionIndex]
                 );
         }
         else
@@ -145,11 +220,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[1] = null;
         }
 
-        if (closeHandRightAssignedActionIndex != 8)
+        if (closeHandRightAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[2] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Closed, true),
-                ActionManager.Instance.bgiiesActionList[closeHandRightAssignedActionIndex]
+                ActionManager.Instance.currentActionList[closeHandRightAssignedActionIndex]
                 );
         }
         else
@@ -157,11 +232,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[2] = null;
         }
 
-        if (closeHandLeftAssignedActionIndex != 8)
+        if (closeHandLeftAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[3] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Closed, false),
-                ActionManager.Instance.bgiiesActionList[closeHandLeftAssignedActionIndex]
+                ActionManager.Instance.currentActionList[closeHandLeftAssignedActionIndex]
                 );
         }
         else
@@ -169,11 +244,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[3] = null;
         }
 
-        if (lassoHandRightAssignedActionIndex != 8)
+        if (lassoHandRightAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[4] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, true),
-                ActionManager.Instance.bgiiesActionList[lassoHandRightAssignedActionIndex]
+                ActionManager.Instance.currentActionList[lassoHandRightAssignedActionIndex]
                 );
         }
         else
@@ -181,16 +256,104 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[4] = null;
         }
 
-        if (lassoHandLeftAssignedActionIndex != 8)
+        if (lassoHandLeftAssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[5] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, false),
-                ActionManager.Instance.bgiiesActionList[lassoHandLeftAssignedActionIndex]
+                ActionManager.Instance.currentActionList[lassoHandLeftAssignedActionIndex]
                 );
         }
         else
         {
             ActionManager.Instance.updateActionsKinectGestures[5] = null;
+        }
+
+        // Seven slots are for the maximum amount of database read gestures
+        //
+        //
+
+        if (gesture1AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[6] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(1, gesture1TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[6] = null;
+        }
+
+        if (gesture2AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[7] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(2, gesture2TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture2AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[7] = null;
+        }
+
+        if (gesture3AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[8] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(3, gesture3TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture3AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[8] = null;
+        }
+
+        if (gesture4AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[9] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(4, gesture4TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture4AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[9] = null;
+        }
+
+        if (gesture5AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[10] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(5, gesture5TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture5AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[10] = null;
+        }
+
+        if (gesture6AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[11] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(6, gesture6TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture6AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[11] = null;
+        }
+
+        if (gesture7AssignedActionIndex != 0)
+        {
+            ActionManager.Instance.updateActionsKinectGestures[12] = () => ActionManager.Instance.ActionPairing(
+                ActionManager.Instance.ActionConditionKinect(7, gesture7TriggerLevel),
+                ActionManager.Instance.currentActionList[gesture7AssignedActionIndex]
+                );
+        }
+        else
+        {
+            ActionManager.Instance.updateActionsKinectGestures[12] = null;
         }
 
         Debug.Log("Action asignation completed");
@@ -443,26 +606,13 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
     void SetActionNameByIndex(Text text, int index)
     {
-        switch (index)
+        if (ActionManager.Instance.bgiiesMode)
         {
-            case 0:
-                text.text = "Select/Deselect image";
-                break;
-            case 1:
-                text.text = "Change to next plane";
-                break;
-            case 2:
-                text.text = "Change to previous plane";
-                break;
-            case 3:
-                text.text = "Zoom in image";
-                break;
-            case 4:
-                text.text = "Zoom out image";
-                break;
-            case 5:
-                text.text = "No action assigned";
-                break;
+            text.text = ActionManager.Instance.bgiiesActionListNames[index];
+        }
+        else
+        {
+            text.text = ActionManager.Instance.vorticesActionListNames[index];
         }
     }
 

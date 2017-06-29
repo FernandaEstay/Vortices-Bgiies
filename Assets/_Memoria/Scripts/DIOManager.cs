@@ -120,7 +120,7 @@ namespace Memoria
         [HideInInspector]
         public Action finalPlaneAction;
 
-        private const string Scope = "Config";
+        private string Scope = "Config";
 
         #endregion
 
@@ -160,7 +160,7 @@ namespace Memoria
 
         public void Start()
         {
-
+            Scope = ProfileManager.Instance.currentProfileScope;
             SetVariables();
 
             var visualizationTextureIndex = 0;
@@ -319,6 +319,11 @@ namespace Memoria
                 panelBgiies.EnableMoveCameraInside();
                 panelBgiies.EnableMoveCameraOutside();
             };
+
+            ActionManager.Instance.InitializeManager(this);
+            EEGManager.Instance.InitializeManager(this);
+            EyetrackerManager.Instance.InitializeManager(this);
+            
         }
 
         private void SetVariables()

@@ -17,7 +17,7 @@ namespace Memoria
 		{
 			_filePath = filePath;
 
-			_actualPersonId = GLPlayerPrefs.GetInt("Config", "UserID");
+            _actualPersonId = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentProfileScope, "UserID");
 
             try
             {

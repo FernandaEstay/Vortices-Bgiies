@@ -34,9 +34,9 @@ namespace Memoria
 
 		public void Awake()
 		{
-			groupImageCsvPath = GLPlayerPrefs.GetString("Config", "GroupPath");
-			test = (Test)GLPlayerPrefs.GetInt("Config", "Test");
-		}
+            groupImageCsvPath = GLPlayerPrefs.GetString(ProfileManager.Instance.currentProfileScope, "GroupPath");
+            test = (Test)GLPlayerPrefs.GetInt(ProfileManager.Instance.currentProfileScope, "Test");
+        }
 
 		public override void Initialize(DIOManager fatherDioManager, LoadImagesController loadImagesController)
 		{

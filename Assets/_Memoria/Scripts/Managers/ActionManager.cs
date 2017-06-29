@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityCallbacks;
 using UnityEngine;
+using UnityEngine.UI;
 using Windows.Kinect;
 
 public class ActionManager : MonoBehaviour, IAwake {
@@ -13,10 +14,15 @@ public class ActionManager : MonoBehaviour, IAwake {
     private bool initialized = false;
     protected DIOManager dioManager;
     #region Variable declaration
+    Action[] vorticesActionList;
     [HideInInspector]
-    public Action[] vorticesActionList;
+    public string[] vorticesActionListNames;
+    Action[] bgiiesActionList;
     [HideInInspector]
-    public Action[] bgiiesActionList;
+    public string[] bgiiesActionListNames;
+    [HideInInspector]
+    public Action[] currentActionList;
+    public bool bgiiesMode;
 
     #endregion
 
@@ -59,17 +65,27 @@ public class ActionManager : MonoBehaviour, IAwake {
          * possitive accept and nevative accept do not work
          * The null action exist ease the use of the pairing function while taking parameters of dropdown lists of vortices actions, look NeuroSkuConfigMenu and EmotivConfigMenu
          */
-        vorticesActionList = new Action[] { () => dioManager.lookPointerInstance.AcceptObject(),
+        vorticesActionList = new Action[] {
+            null,
+            () => dioManager.lookPointerInstance.AcceptObject(),
             () => dioManager.MoveSphereInside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),
             () => dioManager.MoveSphereOutside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),            
             () => dioManager.lookPointerInstance.DirectZoomInCall(null),
             () => dioManager.lookPointerInstance.DirectZoomOutCall(null),
-            null,
             () => dioManager.buttonPanel.PositiveAcceptButton(),
             () => dioManager.buttonPanel.NegativeAcceptButton()};
 
+        vorticesActionListNames = new string[] {
+            "No action",
+            "Select/Deselect image",
+            "Change to next plane",
+            "Change to previous plane",
+            "Zoom in image",
+            "Zoom out image"};
+
         bgiiesActionList = new Action[]
         {
+            null,
             () => dioManager.panelBgiies.Inside(),
             () => dioManager.panelBgiies.Outside(),
             () => dioManager.panelBgiies.SelectBt1(),
@@ -77,19 +93,67 @@ public class ActionManager : MonoBehaviour, IAwake {
             () => dioManager.panelBgiies.SelectBt3(),
             () => dioManager.panelBgiies.SelectBt4(),
             () => dioManager.lookPointerInstanceBgiies.DirectZoomInCall(null),
-            () => dioManager.lookPointerInstanceBgiies.DirectZoomOutCall(null),
-            null
+            () => dioManager.lookPointerInstanceBgiies.DirectZoomOutCall(null)
         };
+
+        bgiiesActionListNames = new string[]{
+        "No action",
+        "Select/Deselect topic 1",
+        "Select/Deselect topic 2",
+        "Select/Deselect topic 3",
+        "Select/Deselect topic 4",
+        "Change to next plane",
+        "Change to previous plane",
+        "Zoom in image",
+            "Zoom Out image"
+            };
 
         updateActionsNeuroSky = new Action[3];
         updateActionsVorticesEmotiv = new Action[9];
         updateActionsKinectGestures = new Action[13];
-
+        ChangeActiveActionsList();
         initialized = true;
     }
 
     public void Start()
     {
+        
+    }
+
+    void ChangeActiveActionsList()
+    {
+        if (dioManager.bgiiesMode)
+        {
+            currentActionList = new Action[bgiiesActionList.Length];
+            bgiiesActionList.CopyTo(currentActionList, 0);
+        }
+        else
+        {
+            currentActionList = new Action[vorticesActionList.Length];
+            vorticesActionList.CopyTo(currentActionList, 0);
+        }
+        bgiiesMode = dioManager.bgiiesMode;
+    }
+
+    public void ReloadProfileDropdown(Dropdown actionListDropdown)
+    {
+        actionListDropdown.ClearOptions();
+        if (bgiiesMode)
+        {
+            foreach (string s in bgiiesActionListNames)
+            {
+                actionListDropdown.options.Add(new Dropdown.OptionData() { text = s });
+            }
+            actionListDropdown.RefreshShownValue();
+        }
+        else
+        {
+            foreach (string s in vorticesActionListNames)
+            {
+                actionListDropdown.options.Add(new Dropdown.OptionData() { text = s });
+            }
+            actionListDropdown.RefreshShownValue();
+        }
         
     }
 

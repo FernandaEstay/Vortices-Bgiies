@@ -44,10 +44,11 @@ public class ConfigurationManager : MonoBehaviour
     public InputField fileNameText;
     public InputField groupPathText;
 
-    private const string Scope = "Config";
+    private string Scope = "Config";
 
-    public void Awake()
+    public void Start()
     {
+        Scope = ProfileManager.Instance.currentProfileScope;
         SetVariables();
     }
 
@@ -103,6 +104,7 @@ public class ConfigurationManager : MonoBehaviour
 
     public void StartSimulation()
     {
+        Scope = ProfileManager.Instance.currentProfileScope;
         Debug.Log(useUnityOpenGlove.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseLeapMotion", useLeapMotionToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UsePitchGrab", usePitchGrabToggle.isOn);

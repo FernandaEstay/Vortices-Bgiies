@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Gamelogic;
 
 public class TopMenu : MonoBehaviour {
 
-    public Button emotivButton, eyetribeButton, neuroskyButton;
+    public Button emotivButton, eyetribeButton, neuroskyButton, kinectButton;
 
     private void OnEnable()
     {
@@ -34,6 +35,16 @@ public class TopMenu : MonoBehaviour {
         else
         {
             eyetribeButton.interactable = true;
+        }
+
+        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "KinectInput");
+        if (!aux)
+        {
+            kinectButton.interactable = false;
+        }
+        else
+        {
+            kinectButton.interactable = true;
         }
     }
 
