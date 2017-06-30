@@ -4845,7 +4845,7 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 814174137}
+      objectReference: {fileID: 1177332340}
     - target: {fileID: 114573073351913142, guid: 402063c4748d3d14683d00e22f6702bc,
         type: 2}
       propertyPath: eventSystem
@@ -5009,9 +5009,30 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 768
       objectReference: {fileID: 0}
+    - target: {fileID: 114685954125328828, guid: 402063c4748d3d14683d00e22f6702bc,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 114303658204641026, guid: 402063c4748d3d14683d00e22f6702bc,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 814174137}
+    - target: {fileID: 114303658204641026, guid: 402063c4748d3d14683d00e22f6702bc,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeScene
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 402063c4748d3d14683d00e22f6702bc, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1177332340 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114141616955115370, guid: 402063c4748d3d14683d00e22f6702bc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1177332339}
+  m_Script: {fileID: 11500000, guid: 57976f71dc249de468de10f7474c7cc0, type: 3}
 --- !u!4 &1207953158 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400040, guid: eba068b4380af451aad6e8eb29d6a476, type: 2}

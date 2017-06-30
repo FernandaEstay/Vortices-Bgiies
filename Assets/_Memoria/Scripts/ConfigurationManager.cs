@@ -104,8 +104,13 @@ public class ConfigurationManager : MonoBehaviour
 
     public void StartSimulation()
     {
+        UpdateProfileValues();
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void UpdateProfileValues()
+    {
         Scope = ProfileManager.Instance.currentProfileScope;
-        Debug.Log(useUnityOpenGlove.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseLeapMotion", useLeapMotionToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UsePitchGrab", usePitchGrabToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseHapticGlove", useUnityOpenGlove.isOn);
@@ -136,10 +141,6 @@ public class ConfigurationManager : MonoBehaviour
         GLPlayerPrefs.SetString(Scope, "GroupPath", groupPathText.text);
 
         GLPlayerPrefs.SetInt(Scope, "Test", testDropdown.value);
-
-        SceneManager.LoadScene(sceneName);
-
-
     }
 
     public void LoadImage()

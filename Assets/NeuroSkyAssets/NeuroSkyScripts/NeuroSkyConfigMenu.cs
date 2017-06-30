@@ -19,30 +19,11 @@ public class NeuroSkyConfigMenu : MonoBehaviour {
 
     void OnEnable()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
-        
-        if (ActionManager.Instance.bgiiesMode)
-        {
-            blinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkActionIndexBgiies");
-            meditationAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationActionIndexBgiies");
-            attentionAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionActionIndexBgiies");
-
-            EEGManager.Instance.blinkStrengthTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkStrengthTriggerBgiies");
-            EEGManager.Instance.meditationLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationLevelTriggerBgiies");
-            EEGManager.Instance.attentionLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionLevelTriggerBgiies");
-        }
-        else
-        {
-            blinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkActionIndexVortices");
-            meditationAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationActionIndexVortices");
-            attentionAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionActionIndexVortices");
-
-            EEGManager.Instance.blinkStrengthTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkStrengthTriggerVortices");
-            EEGManager.Instance.meditationLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationLevelTriggerVortices");
-            EEGManager.Instance.attentionLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionLevelTriggerVortices");
-        }
-        CleanNeuroSkyActions();
-        
+        ActionManager.Instance.ReloadProfileDropdown(attentionActionsDropdown);
+        ActionManager.Instance.ReloadProfileDropdown(blinkActionsDropdown);
+        ActionManager.Instance.ReloadProfileDropdown(meditationActionsDropdown);
+        LoadPlayerPreferences();
+        CleanNeuroSkyActions();        
 
         if (EEGManager.Instance.blinkStrengthTrigger != 0)
         {
@@ -73,20 +54,45 @@ public class NeuroSkyConfigMenu : MonoBehaviour {
             attentionLevel.value = 50f;
             UpdateTriggerValues(ref EEGManager.Instance.attentionLevelTrigger, attentionLevel, attentionLevelNumber);
         }
-        
+
+        blinkActionsDropdown.value = blinkAssignedActionIndex;
+        meditationActionsDropdown.value = meditationAssignedActionIndex;
+        attentionActionsDropdown.value = attentionAssignedActionIndex;
         attentionActionsDropdown.RefreshShownValue();
         blinkActionsDropdown.RefreshShownValue();
         meditationActionsDropdown.RefreshShownValue();
-        ActionManager.Instance.ReloadProfileDropdown(attentionActionsDropdown);
-        ActionManager.Instance.ReloadProfileDropdown(blinkActionsDropdown);
-        ActionManager.Instance.ReloadProfileDropdown(meditationActionsDropdown);
+        
     }
 
-    private void OnDisable()
+    void LoadPlayerPreferences()
     {
         Scope = ProfileManager.Instance.currentProfileScope;
-        UpdateActionsNeuroSky();
 
+        if (ActionManager.Instance.bgiiesMode)
+        {
+            blinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkActionIndexBgiies");
+            meditationAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationActionIndexBgiies");
+            attentionAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionActionIndexBgiies");
+
+            EEGManager.Instance.blinkStrengthTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkStrengthTriggerBgiies");
+            EEGManager.Instance.meditationLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationLevelTriggerBgiies");
+            EEGManager.Instance.attentionLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionLevelTriggerBgiies");
+        }
+        else
+        {
+            blinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkActionIndexVortices");
+            meditationAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationActionIndexVortices");
+            attentionAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionActionIndexVortices");
+
+            EEGManager.Instance.blinkStrengthTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyBlinkStrengthTriggerVortices");
+            EEGManager.Instance.meditationLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyMeditationLevelTriggerVortices");
+            EEGManager.Instance.attentionLevelTrigger = GLPlayerPrefs.GetInt(Scope, "NeuroSkyAttentionLevelTriggerVortices");
+        }
+    }
+
+    void SavePlayerPreferences()
+    {
+        Scope = ProfileManager.Instance.currentProfileScope;
         if (ActionManager.Instance.bgiiesMode)
         {
             GLPlayerPrefs.SetInt(Scope, "NeuroSkyBlinkActionIndexBgiies", blinkAssignedActionIndex);
@@ -107,6 +113,12 @@ public class NeuroSkyConfigMenu : MonoBehaviour {
             GLPlayerPrefs.SetInt(Scope, "NeuroSkyMeditationLevelTriggerVortices", EEGManager.Instance.meditationLevelTrigger);
             GLPlayerPrefs.SetInt(Scope, "NeuroSkyAttentionLevelTriggerVortices", EEGManager.Instance.attentionLevelTrigger);
         }
+    }
+
+    private void OnDisable()
+    {        
+        UpdateActionsNeuroSky();
+        SavePlayerPreferences();
     }
 
     void CleanNeuroSkyActions()

@@ -51,4 +51,9 @@ public class TopMenu : MonoBehaviour {
         }
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
 }
