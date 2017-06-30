@@ -54,11 +54,11 @@ public class ConfigurationManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
-            Exit();
+
     }
-    private void SetVariables()
+    public void SetVariables()
     {
+        Scope = ProfileManager.Instance.currentProfileScope;
         useLeapMotionToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseLeapMotion");
         if (useLeapMotionToggle.isOn)
         {
@@ -261,7 +261,8 @@ public class ConfigurationManager : MonoBehaviour
 
             useLeapMotionToggle.gameObject.SetActive(true);
             useJoystickToggle.gameObject.SetActive(true);
-
+            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode", false);
+            ActionManager.Instance.ChangeActiveActionsList();
         }
         else
         {
@@ -274,7 +275,8 @@ public class ConfigurationManager : MonoBehaviour
 
             kinectInput.gameObject.SetActive(true);
             mouseInput.gameObject.SetActive(true);
-
+            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode", true);
+            ActionManager.Instance.ChangeActiveActionsList();
         }
     }
     public void Exit()

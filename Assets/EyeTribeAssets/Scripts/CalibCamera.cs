@@ -137,11 +137,7 @@ public class CalibCamera : MonoBehaviour, IGazeListener, ICalibrationProcessHand
                 _callbackQueue.Dequeue()();
         }
 
-        //handle keypress
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+
     }
 
     void OnGUI()

@@ -7,11 +7,12 @@ using UnityCallbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using Windows.Kinect;
+using Gamelogic;
 
 public class ActionManager : MonoBehaviour, IAwake {
     [HideInInspector]
     public static ActionManager Instance { set; get; }
-    private bool initialized = false;
+    public bool initialized = false;
     protected DIOManager dioManager;
     #region Variable declaration
     Action[] vorticesActionList;
@@ -22,8 +23,10 @@ public class ActionManager : MonoBehaviour, IAwake {
     public string[] bgiiesActionListNames;
     [HideInInspector]
     public Action[] currentActionList;
+    [HideInInspector]
     public bool bgiiesMode;
 
+    public GameObject neuroSkyConfigMenu, emotivConfigMenu, kinectConfigMenu;
     #endregion
 
     #region Emotiv Variables
@@ -51,13 +54,13 @@ public class ActionManager : MonoBehaviour, IAwake {
     // Use this for initialization
     public void Awake () {
         Instance = this;
+        
     }
 
-    public void InitializeManager(DIOManager fatherDioManager)
+    public void Start()
     {
-        dioManager = fatherDioManager;
         /*
-         * This has all five actions in VORTICES, these are:
+         * This has all actions in VORTICES, these are:
          * Accept, Inside, Outisde, PossitiveAccept, Negative Accept, zoomin and zoomout
          * Accept is select/deselect image, it works fine.
          * Inside and outside are to change planes, which is also fine         
@@ -69,7 +72,7 @@ public class ActionManager : MonoBehaviour, IAwake {
             null,
             () => dioManager.lookPointerInstance.AcceptObject(),
             () => dioManager.MoveSphereInside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),
-            () => dioManager.MoveSphereOutside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),            
+            () => dioManager.MoveSphereOutside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),
             () => dioManager.lookPointerInstance.DirectZoomInCall(null),
             () => dioManager.lookPointerInstance.DirectZoomOutCall(null),
             () => dioManager.buttonPanel.PositiveAcceptButton(),
@@ -112,17 +115,43 @@ public class ActionManager : MonoBehaviour, IAwake {
         updateActionsVorticesEmotiv = new Action[9];
         updateActionsKinectGestures = new Action[13];
         ChangeActiveActionsList();
+    }
+
+    public void InitializeManager(DIOManager fatherDioManager)
+    {
+        dioManager = fatherDioManager;
+        
+
+        //This part requires an explanation. As the script was made, the data of the configuration menu was stored upon disabling the game object that held the menu script.
+        //  Along with it, the ActionManager actions were also asigned in the OnDisable function inside the scripts, so in order to load the actions, the config menu had to be
+        //  opened at least once. To be able to just run the simulation and have already the actions paired, the objects needed to be set active and be desabled or change the 
+        //  structure. Of course, a better structure is much more recomended but the time is very little and this is much quicker.
+        if (dioManager.kinectInput)
+        {
+            kinectConfigMenu.SetActive(true);
+            kinectConfigMenu.SetActive(false);
+        }
+
+        if (EEGManager.Instance.useNeuroSky)
+        {
+            neuroSkyConfigMenu.SetActive(true);
+            neuroSkyConfigMenu.SetActive(false);
+        }
+
+        if (EEGManager.Instance.useEmotivInsight)
+        {
+            emotivConfigMenu.SetActive(true);
+            emotivConfigMenu.SetActive(false);
+        }
+        
+
         initialized = true;
     }
 
-    public void Start()
+    public void ChangeActiveActionsList()
     {
-        
-    }
-
-    void ChangeActiveActionsList()
-    {
-        if (dioManager.bgiiesMode)
+        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode");
+        if (aux)
         {
             currentActionList = new Action[bgiiesActionList.Length];
             bgiiesActionList.CopyTo(currentActionList, 0);
@@ -132,7 +161,7 @@ public class ActionManager : MonoBehaviour, IAwake {
             currentActionList = new Action[vorticesActionList.Length];
             vorticesActionList.CopyTo(currentActionList, 0);
         }
-        bgiiesMode = dioManager.bgiiesMode;
+        bgiiesMode = aux;
     }
 
     public void ReloadProfileDropdown(Dropdown actionListDropdown)

@@ -258,7 +258,7 @@ public class NeuroSkyData : MonoBehaviour, IAwake
 
     void OnGUI()
     {
-        if (!EEGManager.Instance.useNeuroSky)
+        if (!EEGManager.Instance.useNeuroSky || !ActionManager.Instance.initialized)
             return;
 
         if (useGUI)

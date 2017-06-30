@@ -8,12 +8,13 @@ public class PauseMenu : MonoBehaviour
     private Toggle m_MenuToggle;
     private float m_VolumeRef = 1f;
     private bool m_Paused;
-    
+    bool was_mouse_hidden;
 
 
     void Awake()
     {
         m_MenuToggle = transform.GetComponent <Toggle> ();
+        was_mouse_hidden = Cursor.visible;
 	}
 
 
@@ -59,16 +60,17 @@ public class PauseMenu : MonoBehaviour
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
 		    m_MenuToggle.isOn = !m_MenuToggle.isOn;
-            Cursor.visible = m_MenuToggle.isOn;//force the cursor visible if anythign had hidden it
             if (EventSystemChecker.Instance.originalEventSystemExist)
             {
                 if (m_MenuToggle.isOn)
                 {
                     EventSystemChecker.Instance.ActivateSecondaryEventSystem();
+                    Cursor.visible = true;
                 }
                 else
                 {
                     EventSystemChecker.Instance.ActivateOrigianlEventSystem();
+                    Cursor.visible = was_mouse_hidden;
                 }
             }
 		}

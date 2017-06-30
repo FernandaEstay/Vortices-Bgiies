@@ -3774,7 +3774,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1408050894155920
 GameObject:
   m_ObjectHideFlags: 1
@@ -12085,6 +12085,7 @@ MonoBehaviour:
   emotivButton: {fileID: 114740237937304622}
   eyetribeButton: {fileID: 114148743991081498}
   neuroskyButton: {fileID: 114591811260621622}
+  kinectButton: {fileID: 114192866589894184}
 --- !u!114 &114146161483335730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19830,6 +19831,9 @@ MonoBehaviour:
   vorticesActionListNames: []
   bgiiesActionListNames: []
   bgiiesMode: 0
+  neuroSkyConfigMenu: {fileID: 1951013510068798}
+  emotivConfigMenu: {fileID: 1300788796488778}
+  kinectConfigMenu: {fileID: 1922774944306284}
   endTime: 1
 --- !u!114 &114515692761856126
 MonoBehaviour:
@@ -35349,8 +35353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 384, y: -51.440002}
-  m_SizeDelta: {x: 768, y: 102.880005}
+  m_AnchoredPosition: {x: 384, y: -64.425}
+  m_SizeDelta: {x: 768, y: 128.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224350629798980046
 RectTransform:
@@ -38402,8 +38406,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 384, y: -155.32}
-  m_SizeDelta: {x: 768, y: 102.880005}
+  m_AnchoredPosition: {x: 384, y: -194.27501}
+  m_SizeDelta: {x: 768, y: 128.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224687803685353220
 RectTransform:
@@ -40126,8 +40130,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 384, y: -363.08002}
-  m_SizeDelta: {x: 768, y: 102.880005}
+  m_AnchoredPosition: {x: 384, y: -453.97504}
+  m_SizeDelta: {x: 768, y: 128.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224859159134105114
 RectTransform:
@@ -40241,8 +40245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 384, y: -259.2}
-  m_SizeDelta: {x: 768, y: 102.880005}
+  m_AnchoredPosition: {x: 384, y: -324.125}
+  m_SizeDelta: {x: 768, y: 128.85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224871123387913230
 RectTransform:

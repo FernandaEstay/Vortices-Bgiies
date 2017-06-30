@@ -29,8 +29,7 @@ namespace Memoria
 
 		public void Update()
 		{
-            if (Input.GetKey(KeyCode.Escape))
-                Application.Quit();
+
 
             if (_dioManager.bgiiesMode)
             {
@@ -61,7 +60,14 @@ namespace Memoria
             else
             {
                 _forwardVector = transform.TransformDirection(Vector3.forward);
-                _ray = new Ray(transform.position, _forwardVector);
+                if (EyetrackerManager.Instance._useEyetribe || EyetrackerManager.Instance._useMouse)
+                {
+                    _ray = EyetrackerManager.Instance.screenPoint;
+                }
+                else
+                {
+                    _ray = new Ray(transform.position, _forwardVector);
+                }
             }
 
             maxDistance = 1f;
@@ -74,7 +80,6 @@ namespace Memoria
                 if (posiblePitcheGrabObject == null)
 					return;
 
-                Debug.Log("llega acaaa");
                 if (!_dioManager.panelBgiies.mostrarCategoria)
                 {
                     if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
@@ -87,7 +92,6 @@ namespace Memoria
                         return;
                     }
                 }
-                Debug.Log("llega acaaa2");
 
                 if (_actualPitchGrabObject == null)
 				{
@@ -101,10 +105,8 @@ namespace Memoria
 						_actualPitchGrabObject.OnUnDetect();            // actualPitch se hace null
 						_actualPitchGrabObject = posiblePitcheGrabObject;   //se le asigna el valor de posiblePitch
                         RegisterRay(_actualPitchGrabObject);
-                        Debug.Log("llega acaaa25");
                     }
 				}
-                Debug.Log("llega acaaa3");
                 _actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
 			}
 			else

@@ -10,7 +10,8 @@ public class TopMenu : MonoBehaviour {
 
     private void OnEnable()
     {
-        if (!EEGManager.Instance.useEmotivInsight)
+        bool useEmotiv = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "UseEmotivInsight");
+        if (!useEmotiv)
         {
             emotivButton.interactable = false;
         }
@@ -19,7 +20,8 @@ public class TopMenu : MonoBehaviour {
             emotivButton.interactable = true;
         }
 
-        if (!EEGManager.Instance.useNeuroSky)
+        bool useNeuroSky = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "UseNeuroSkyMindwave");
+        if (!useNeuroSky)
         {
             neuroskyButton.interactable = false;
         }
@@ -28,7 +30,8 @@ public class TopMenu : MonoBehaviour {
             neuroskyButton.interactable = true;
         }
 
-        if (!EyetrackerManager.Instance._useEyetribe)
+        bool useEyeTribe = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "UseTheEyeTribe");
+        if (!useEyeTribe)
         {
             eyetribeButton.interactable = false;
         }
@@ -37,8 +40,8 @@ public class TopMenu : MonoBehaviour {
             eyetribeButton.interactable = true;
         }
 
-        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "KinectInput");
-        if (!aux)
+        bool useKinect = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "KinectInput");
+        if (!useKinect)
         {
             kinectButton.interactable = false;
         }
