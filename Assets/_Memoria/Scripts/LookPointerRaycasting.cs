@@ -16,10 +16,12 @@ namespace Memoria
 		private Ray _ray;
 		private Vector3 _forwardVector;
 		private PitchGrabObject _actualPitchGrabObject;
+        bool initialized = false;
 
 		public void Initialize(DIOManager dioManager)
 		{
 			_dioManager = dioManager;
+            initialized = true;
 		}
 
 		public void OnValidate()
@@ -29,7 +31,8 @@ namespace Memoria
 
 		public void Update()
 		{
-
+            if (!initialized)
+                return;
 
             if (_dioManager.bgiiesMode)
             {
