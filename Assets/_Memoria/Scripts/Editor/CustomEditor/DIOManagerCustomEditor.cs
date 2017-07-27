@@ -11,7 +11,7 @@ namespace Memoria.Editor
     public class DIOManagerCustomEditor : GLEditor<DIOManager>
     {
         private GLSerializedProperty _loadingScene;
-        private GLSerializedProperty _buttonPanel;
+        //private GLSerializedProperty _buttonPanel;
         private GLSerializedProperty _useLeapMotion;
         private GLSerializedProperty _usePitchGrab;
         private GLSerializedProperty _useHapticGlove;
@@ -75,7 +75,7 @@ namespace Memoria.Editor
         public void OnEnable()
         {
             _loadingScene = FindProperty("loadingScene");
-            _buttonPanel = FindProperty("buttonPanel");
+            //_buttonPanel = FindProperty("buttonPanel");
             _useLeapMotion = FindProperty("useLeapMotion");
             _usePitchGrab = FindProperty("usePitchGrab");
             _useHapticGlove = FindProperty("useHapticGlove");
@@ -143,7 +143,7 @@ namespace Memoria.Editor
 
             EditorHelper.AddLabel("General Configuration", true);
             AddField(_loadingScene);
-            AddField(_buttonPanel);
+            //AddField(_buttonPanel);
             AddField(_useLeapMotion);
 
             if (_useLeapMotion.boolValue)

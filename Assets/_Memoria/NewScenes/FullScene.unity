@@ -3854,7 +3854,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 876962617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8d59d92d0eeaca4fadd2f0609479768, type: 3}
+  m_Script: {fileID: 11500000, guid: 03d54c25b1e25664a953d243b614a532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveCameraInside3DButton: {fileID: 1135888360}

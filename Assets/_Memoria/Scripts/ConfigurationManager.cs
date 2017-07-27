@@ -3,6 +3,8 @@ using UnityEngine;
 using Gamelogic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using SimpleFileBrowser;
+using System.Collections;
 
 public class ConfigurationManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class ConfigurationManager : MonoBehaviour
     public GameObject loadImagePanel;
     public GameObject dataOutputPanel;
     public Button backButton;
+    //public GameObject fileBrowser;
+
 
     [Header("Main Menu")]
     public Dropdown modeDropDown;
@@ -40,9 +44,9 @@ public class ConfigurationManager : MonoBehaviour
     [Header("Load Images")]
     public InputField imagesText;
     public InputField folderImageAssetText;
-    public InputField folderSmallText;
     public InputField fileNameText;
     public InputField groupPathText;
+    public Button folderPathButton;
 
     private string Scope = "Config";
 
@@ -95,7 +99,7 @@ public class ConfigurationManager : MonoBehaviour
 
         imagesText.text = GLPlayerPrefs.GetString(Scope, "Images");
         folderImageAssetText.text = GLPlayerPrefs.GetString(Scope, "FolderImageAssetText");
-        folderSmallText.text = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
+        //folderSmallText.text = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
         fileNameText.text = GLPlayerPrefs.GetString(Scope, "FileName");
         groupPathText.text = GLPlayerPrefs.GetString(Scope, "GroupPath");
 
@@ -136,7 +140,7 @@ public class ConfigurationManager : MonoBehaviour
 
         GLPlayerPrefs.SetString(Scope, "Images", imagesText.text);
         GLPlayerPrefs.SetString(Scope, "FolderImageAssetText", folderImageAssetText.text);
-        GLPlayerPrefs.SetString(Scope, "FolderSmallText", folderSmallText.text);
+        //GLPlayerPrefs.SetString(Scope, "FolderSmallText", folderSmallText.text);
         GLPlayerPrefs.SetString(Scope, "FileName", fileNameText.text);
         GLPlayerPrefs.SetString(Scope, "GroupPath", groupPathText.text);
 
@@ -283,5 +287,51 @@ public class ConfigurationManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+
+    public void ExaminarFolderPath()
+    {
+        FileBrowser.AddQuickLink(null, "Users", "C:\\Users");
+        FileBrowser.ShowLoadDialog(null, null, true, null, "Load", "Select");
+        StartCoroutine(ObtenerGroupFolder());
+    }
+    IEnumerator ObtenerGroupFolder()
+    {
+        yield return FileBrowser.WaitForLoadDialog(true, null, "Load File", "Load");
+        if (FileBrowser.Result != null)
+            folderImageAssetText.text = FileBrowser.Result + "\\";
+
+    }
+
+    public void ExaminarGroupPath()
+    {
+        FileBrowser.AddQuickLink(null, "Users", "C:\\Users");
+        FileBrowser.SetFilters(true, new FileBrowser.Filter("Text Files", ".csv"));
+        FileBrowser.SetDefaultFilter(".csv");
+        FileBrowser.ShowLoadDialog(null, null, false, null, "Load", "Select");
+        StartCoroutine(ShowResultCoroutine());
+    }
+
+    IEnumerator ShowResultCoroutine()
+    {
+        yield return FileBrowser.WaitForLoadDialog(false, null, "Load File", "Load");
+        if(FileBrowser.Result != null)
+            groupPathText.text = FileBrowser.Result;
+    }
+
+    public void ObtenerOutputPath()
+    {
+        FileBrowser.AddQuickLink(null, "Users", "C:\\Users");
+        FileBrowser.SetFilters(true, new FileBrowser.Filter("Text Files", ".csv"));
+        FileBrowser.SetDefaultFilter(".csv");
+        FileBrowser.ShowLoadDialog(null, null, false, null, "Load", "Select");
+        StartCoroutine(GuardarOutputPath());
+    }
+
+    IEnumerator GuardarOutputPath()
+    {
+        yield return FileBrowser.WaitForLoadDialog(false, null, "Load File", "Load");
+        if (FileBrowser.Result != null)
+            dataOutputText.text = FileBrowser.Result;
     }
 }

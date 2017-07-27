@@ -69,7 +69,6 @@ namespace Memoria
 
 				fullFilename = _loadImageBehaviour.pathPrefix +
 					_loadImageBehaviour.pathImageAssets +
-					_loadImageBehaviour.pathSmall +
 					_loadImageBehaviour.filename + indexSuffix + fileSuffix;
 
 				www = new WWW(fullFilename);

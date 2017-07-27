@@ -116,7 +116,8 @@ namespace Memoria
 			{
 				if (_actualPitchGrabObject == null)
 				{
-					_dioManager.buttonPanel.DisableZoomIn();        //si no se apunta a ninguna foto se oscurece la foto
+                    if(!_dioManager.bgiiesMode)
+                        _dioManager.buttonPanel.DisableZoomIn();
 					return;
 				}
 

@@ -242,7 +242,6 @@ namespace Memoria
             {
                 buttonPanel.gameObject.SetActive(false);
                 panelBgiies.Initialize(this);
-
                 if (kinectInput)
                 {
                     bodySrcManager.gameObject.SetActive(true);

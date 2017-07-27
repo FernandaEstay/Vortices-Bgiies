@@ -563,3 +563,74 @@
 0,11:01:31.3615366,6/30/2017,UserID,-
 0,11:01:31.4229654,6/30/2017,TEST,Use Vortices: False -- UseBgiies: True -- Use LeapMotion: False-- Use Pitch Grab: False -- Use OpenGlove: False -- Use Joystick: False -- Use Mouse: False -- Use Kinect: False
 0,11:01:34.3437822,6/30/2017,Test1,
+0,22:48:34.9965667,7/25/2017,UserID,-
+0,22:48:35.0096013,7/25/2017,TEST,Use Vortices: False -- UseBgiies: True -- Use LeapMotion: False-- Use Pitch Grab: False -- Use OpenGlove: False -- Use Joystick: False -- Use Mouse: True -- Use Kinect: False
+0,22:48:36.1596576,7/25/2017,Move ray vector,
+0,22:48:36.5446818,7/25/2017,Move ray vector,photo007.jpg
+0,22:48:37.0239791,7/25/2017,Test1,
+0,22:48:38.8730669,7/25/2017,Move ray vector,photo006.jpg
+0,22:48:38.9402762,7/25/2017,Move ray vector,photo005.jpg
+0,22:48:39.0467234,7/25/2017,Move ray vector,photo001.jpg
+0,22:48:39.6742543,7/25/2017,Zooming In,photo001.jpg
+0,22:48:40.8579101,7/25/2017,Select Flora y Fauna,photo001.jpg
+0,22:48:42.1408950,7/25/2017,Select Estructuras Comprometidas,photo001.jpg
+0,22:48:43.6261007,7/25/2017,Select Superficies Afectadas,photo001.jpg
+0,22:48:44.8691365,7/25/2017,Select Maniobras de Mitigacion,photo001.jpg
+0,22:48:45.8701716,7/25/2017,Zooming Out,photo001.jpg
+0,22:48:46.3743939,7/25/2017,Move ray vector,photo002.jpg
+0,22:48:46.8483651,7/25/2017,Zooming In,photo002.jpg
+0,22:48:48.0110946,7/25/2017,Select Flora y Fauna,photo002.jpg
+0,22:48:49.2038435,7/25/2017,Select Estructuras Comprometidas,photo002.jpg
+0,22:48:50.4212273,7/25/2017,Select Maniobras de Mitigacion,photo002.jpg
+0,22:48:51.6293127,7/25/2017,Select Superficies Afectadas,photo002.jpg
+0,22:48:52.4797283,7/25/2017,Zooming Out,photo002.jpg
+0,22:48:53.0169195,7/25/2017,Move ray vector,photo003.jpg
+0,22:48:53.1159734,7/25/2017,Move ray vector,photo007.jpg
+0,22:48:53.5123017,7/25/2017,Move ray vector,photo011.jpg
+0,22:48:54.4191396,7/25/2017,Changing Plane,2
+0,22:48:55.8818516,7/25/2017,Move ray vector,photo018.jpg
+0,22:48:55.9738821,7/25/2017,Move ray vector,photo013.jpg
+0,22:48:56.1991395,7/25/2017,Move ray vector,photo014.jpg
+0,22:48:57.2700100,7/25/2017,Changing Plane,1
+0,22:48:57.3391560,7/25/2017,Ingresa a categoria ,Flora y Fauna
+0,22:48:58.8960911,7/25/2017,Sale de categoria ,Flora y Fauna
+0,22:49:00.0377433,7/25/2017,Move ray vector,photo002.jpg
+0,22:49:00.2111016,7/25/2017,Move ray vector,photo003.jpg
+0,22:49:00.2451900,7/25/2017,Move ray vector,photo007.jpg
+0,22:49:00.3518919,7/25/2017,Move ray vector,photo011.jpg
+0,22:49:01.6358735,7/25/2017,Zooming In,photo011.jpg
+0,22:49:02.5497446,7/25/2017,Select Maniobras de Mitigacion,photo011.jpg
+0,22:49:03.1471064,7/25/2017,Zooming Out,photo011.jpg
+0,22:49:04.3718706,7/25/2017,Ingresa a categoria ,Maniobras de Mitigacion
+0,22:49:04.9662576,7/25/2017,Sale de categoria ,Maniobras de Mitigacion
+0,22:49:05.5737723,7/25/2017,Move ray vector,photo007.jpg
+0,22:49:05.6486897,7/25/2017,Move ray vector,photo003.jpg
+0,22:49:06.9913788,7/25/2017,Ingresa a categoria ,Maniobras de Mitigacion
+0,22:49:07.6571262,7/25/2017,Sale de categoria ,Maniobras de Mitigacion
+0,22:49:08.0134643,7/25/2017,Move ray vector,photo007.jpg
+0,22:49:08.0630574,7/25/2017,Move ray vector,photo003.jpg
+0,22:49:08.1062288,7/25/2017,Move ray vector,photo002.jpg
+0,00:27:24.5701610,7/27/2017,UserID,-
+0,00:27:24.5827015,7/27/2017,TEST,Use Vortices: False -- UseBgiies: True -- Use LeapMotion: False-- Use Pitch Grab: False -- Use OpenGlove: False -- Use Joystick: False -- Use Mouse: True -- Use Kinect: False
+0,00:27:25.3545654,7/27/2017,Test1,
+0,00:27:26.5382856,7/27/2017,Move ray vector,photo011.jpg
+0,00:27:26.6376536,7/27/2017,Move ray vector,photo010.jpg
+0,00:27:26.7044413,7/27/2017,Move ray vector,photo006.jpg
+0,00:27:27.1372572,7/27/2017,Move ray vector,photo005.jpg
+0,00:27:27.2706475,7/27/2017,Move ray vector,photo000.jpg
+0,00:27:27.8716218,7/27/2017,Zooming In,photo000.jpg
+0,00:27:29.4967275,7/27/2017,Select Estructuras Comprometidas,photo000.jpg
+0,00:27:30.7101663,7/27/2017,Select Superficies Afectadas,photo000.jpg
+0,00:27:31.8945107,7/27/2017,Select Maniobras de Mitigacion,photo000.jpg
+0,00:27:33.3576929,7/27/2017,Select Flora y Fauna,photo000.jpg
+0,00:27:35.5648422,7/27/2017,Zooming Out,photo000.jpg
+0,00:27:36.2453504,7/27/2017,Move ray vector,photo001.jpg
+0,00:38:39.6679771,7/27/2017,UserID,-
+0,00:38:39.6790043,7/27/2017,TEST,Use Vortices: False -- UseBgiies: True -- Use LeapMotion: False-- Use Pitch Grab: False -- Use OpenGlove: False -- Use Joystick: False -- Use Mouse: True -- Use Kinect: False
+0,00:38:40.5690717,7/27/2017,Test1,
+0,00:38:41.4821880,7/27/2017,Move ray vector,photo011.jpg
+0,00:38:41.5477213,7/27/2017,Move ray vector,photo010.jpg
+0,00:38:41.6975161,7/27/2017,Move ray vector,photo006.jpg
+0,00:38:42.4977626,7/27/2017,Move ray vector,photo005.jpg
+0,00:38:42.5803067,7/27/2017,Move ray vector,photo001.jpg
+0,00:38:43.1317221,7/27/2017,Zooming In,photo001.jpg
