@@ -54,7 +54,8 @@ namespace Memoria
         public bool ActiveZoomOut;
         float resultRel = 0;
         public static gesturesContinuous currentContinuousGesture = new gesturesContinuous();
-        
+        public gesturesContinuous maxContinuosGesture = new gesturesContinuous();
+
         KinectSensor kinectSensor;
         private Body[] bodies;
         public GameObject BodySrcManager;
@@ -66,8 +67,7 @@ namespace Memoria
         //public values
         public static string[] gestureNames = new string[7];
         public float[] gestureUntrigger = new float[7];
-        public static bool[] isGestureActive = new bool[7];
-
+        public static bool[] isGestureActive = {true, true, true, true, true, true, true };
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
         public event GestureAction OnGesture;
@@ -110,9 +110,12 @@ namespace Memoria
             }
 
             database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/KinectDB.gbd");
+            int i = 0;
             foreach (Gesture gesture in database.AvailableGestures)
             {
                 this.vgbFrameSource.AddGesture(gesture);
+                gestureNames[i] = gesture.Name;
+                i++;
             }
 
             initialize = true;
@@ -254,10 +257,11 @@ namespace Memoria
                                     if (result.Progress > resultRel)
                                     {
                                         resultRel = result.Progress;
-                                        currentContinuousGesture = new gesturesContinuous(gesture.Name, resultRel);
+                                        maxContinuosGesture = new gesturesContinuous(gesture.Name, resultRel);
                                     }
 
-                                    for(int i = 0; i < 7; i++){
+                                    for(int i = 0; i < 7; i++)
+                                    {
                                         if (gesture.Name.Equals(gestureNames[i]))
                                         {
                                            if(result.Progress < gestureUntrigger[i] && !isGestureActive[i])
@@ -266,41 +270,13 @@ namespace Memoria
                                             }
                                         }                                    
                                     }
-
-                                    /*
-                                    if (gesture.Name == "HandUpProgress")
-                                    {
-                                        if (result.Progress < 0.3f && !HandUpActive)
-                                            HandUpActive = true;
-                                        RegisterGestureProgress("HandUpProgress ", result.Progress);
-                                    }
-                                    if (gesture.Name == "HandDownProgress")
-                                    {
-                                        if (result.Progress < 0.3f && !HandDownActive)
-                                            HandDownActive = true;
-                                        RegisterGestureProgress("HandDownProgress ", result.Progress);
-                                    }
-                                    if (gesture.Name == "HandRightProgress")
-                                    {
-                                        if (result.Progress < 0.3f && !HandRightActive)
-                                            HandRightActive = true;
-                                        RegisterGestureProgress("HandRightProgress ", result.Progress);
-                                    }
-                                    if (gesture.Name == "HandLeftProgress")
-                                    {
-                                        if (result.Progress < 0.2f && !HandLeftActive)
-                                        {
-                                            HandLeftActive = true;
-                                        }
-                                        RegisterGestureProgress("HandLeftProgress ", result.Progress);
-                                    }
-                                    */
                                 }
 
                             }
                         }
                     }
 
+                    currentContinuousGesture = maxContinuosGesture;
                     if (currentContinuousGesture.result != 0)
                     {
                         ActionManager.Instance.KinectGestureUpdate();
@@ -324,67 +300,9 @@ namespace Memoria
                                 ActiveZoomOut = true;
                             }
                         }
-                                                                               
-                        if (currentContinuousGesture.nombre == "HandDownProgress")
-                        {
-                            if (currentContinuousGesture.resultado > 0.7f && HandDownActive)
-                            {
-                                HandDownActive = false;
-                                dioManager.panelBgiies.SelectBt2();
-                                if (dioManager.useHapticGlove)
-                                {
-                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
-                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
-                                }
-                                ActiveZoomOut = false;
-                                return;
-                            }
-                            if(currentContinuousGesture.resultado < 5f)
-                            {
-                                ActiveZoomOut = true;
-                            }
-                        }
-                                        
-                        if(currentContinuousGesture.nombre == "HandRightProgress")
-                        {
-                            if (currentContinuousGesture.resultado > 0.6f && HandRightActive)
-                            {
-                                HandRightActive = false;
-                                dioManager.panelBgiies.SelectBt3();
-                                if (dioManager.useHapticGlove)
-                                {
-                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
-                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
-                                }
-                                ActiveZoomOut = false;
-                                return;
-                            }
-                            if(currentContinuousGesture.resultado < 4)
-                            {
-                                ActiveZoomOut = true;
-                            }
-                        }
-                                        
-                        if (currentContinuousGesture.nombre == "HandLeftProgress")
-                        {
-                            if (currentContinuousGesture.resultado > 0.5f && HandLeftActive)
-                            {
-                                HandLeftActive = false;
-                                dioManager.panelBgiies.SelectBt4();
-                                if (dioManager.useHapticGlove)
-                                {
-                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
-                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
-                                }
-                                ActiveZoomOut = false;
-                                return;
-                            }
-                            if(currentContinuousGesture.resultado < 3f)
-                            {
-                                ActiveZoomOut = true;
-                            }
-                        }
                         */
+                                                                               
+                        
                     }
                 }                    
             }

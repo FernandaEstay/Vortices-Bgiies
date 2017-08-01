@@ -91,10 +91,10 @@ namespace Memoria
         }
         public override void DirectZoomInCall(Action finalAction)
         {
+            if (dioManager.kinectInput)
+                dioManager.kinectGestures.KinectZoomIn();
             if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
-            {
                 StartCoroutine(ZoomingIn(posibleActualPitchGrabObject, finalAction));
-            }
         }
 
         public override void DirectZoomInCall(PitchGrabObject pitchGrabObject, Action finalAction)
@@ -133,6 +133,8 @@ namespace Memoria
         }
         public override void DirectZoomOutCall(Action finalAction)
         {
+            if (dioManager.kinectInput)
+                dioManager.kinectGestures.kinectGestureZoomOut();
             if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !dioManager.movingSphere)
             {
                 StartCoroutine(ZoomingOut(finalAction));

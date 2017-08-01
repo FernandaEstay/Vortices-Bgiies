@@ -108,9 +108,19 @@ namespace Memoria
         public override void Inside()
         {
             if (!mostrarCategoria)
-                dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+            {
+                if (dioManager.kinectInput)
+                    dioManager.kinectGestures.KinectMovePlaneInside();
+                else
+                    dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+            }
             else
-                dioManager.lookPointerInstanceBgiies.InsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
+            {
+                if (dioManager.kinectInput)
+                    dioManager.kinectGestures.KinectMovePlaneOutside();
+                else
+                    dioManager.lookPointerInstanceBgiies.InsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
+            }
         }
 
         public override void Outside()

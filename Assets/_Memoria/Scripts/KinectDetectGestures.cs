@@ -86,62 +86,15 @@ namespace Memoria
                 }
                 if (body.IsTracked)
                 {
-                        if ((int)body.HandRightConfidence == 1)
-                        {
+                    if ((int)body.HandRightConfidence == 1)
                         kinectCurrentRightHandGesture = body.HandRightState;
-                        /*
-                            switch (body.HandRightState)
-                            {
-                                case HandState.Lasso:
-                                    dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                                    if (dioManager.useHapticGlove)
-                                    {
-                                        dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, intensityMax, dioManager.unityHapticGlove.gloveRight);
-                                        StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, intensityZero, dioManager.unityHapticGlove.gloveRight));
-                                    }
-                                    break;
-
-                                case HandState.Open:
-                                    if (!zoomIn)
-                                    {
-                                        zoomIn = true;
-                                        zoomOut = false;
-                                    }
-                                    break;
-                                case HandState.Closed:
-                                    if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
-                                    {
-                                        zoomOut = true;
-                                        zoomIn = false;
-                                    }
-                                    break;
-                            }*/
-                        }
-
-                        if ((int)body.HandLeftConfidence == 1)
-                        {
+                    if ((int)body.HandLeftConfidence == 1)
                         kinectCurrentLeftHandGesture = body.HandLeftState;
-                        /*
-                            switch (body.HandLeftState)
-                            {
-                                case HandState.Lasso:
-                                    dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-                                    if (dioManager.useHapticGlove)
-                                    {
-                                        dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, 255, dioManager.unityHapticGlove.gloveLeft);
-                                        Debug.Log("Guante izquierdo vibra");
-                                        StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, 0 , dioManager.unityHapticGlove.gloveLeft));
-                                        Debug.Log("Guante izquierdo no vibra");
-                                }
-                                    break;
-                                default:
-                                    break;
-                            }*/
-                        }
 
-                    }
                 }
             }
+        }
+    
         public bool kinectGestureZoomIn()
         {
             return zoomIn;
@@ -149,6 +102,44 @@ namespace Memoria
         public bool kinectGestureZoomOut()
         {
             return zoomOut;
+        }
+
+        public void KinectMovePlaneOutside()
+        {
+            dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+            if (dioManager.useHapticGlove)
+            {
+                dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, 255, dioManager.unityHapticGlove.gloveLeft);
+                StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, 0, dioManager.unityHapticGlove.gloveLeft));
+            }
+        }
+
+        public void KinectMovePlaneInside()
+        {
+            dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+            if (dioManager.useHapticGlove)
+            {
+                dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelection, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(1f, regionsSelection, intensityZero, dioManager.unityHapticGlove.gloveRight));
+            }
+        }
+
+        public void KinectZoomIn()
+        {
+            if (!zoomIn)
+            {
+                zoomIn = true;
+                zoomOut = false;
+            }
+        }
+
+        public void KinectZoomOut()
+        {
+            if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
+            {
+                zoomOut = true;
+                zoomIn = false;
+            }
         }
     }
 }
