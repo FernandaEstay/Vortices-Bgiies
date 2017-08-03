@@ -90,7 +90,6 @@ namespace Memoria
                         kinectCurrentRightHandGesture = body.HandRightState;
                     if ((int)body.HandLeftConfidence == 1)
                         kinectCurrentLeftHandGesture = body.HandLeftState;
-
                 }
             }
         }
@@ -135,7 +134,7 @@ namespace Memoria
 
         public void KinectZoomOut()
         {
-            if (!zoomOut && dioManager.kinectGestureManager.ActiveZoomOut)
+            if (!zoomOut)
             {
                 zoomOut = true;
                 zoomIn = false;

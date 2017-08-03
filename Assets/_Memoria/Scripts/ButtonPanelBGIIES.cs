@@ -107,31 +107,36 @@ namespace Memoria
         }
         public override void Inside()
         {
+            Debug.Log("llega a Inside");
             if (!mostrarCategoria)
-            {
-                if (dioManager.kinectInput)
-                    dioManager.kinectGestures.KinectMovePlaneInside();
-                else
-                    dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
-            }
+                dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
             else
-            {
-                if (dioManager.kinectInput)
-                    dioManager.kinectGestures.KinectMovePlaneOutside();
-                else
-                    dioManager.lookPointerInstanceBgiies.InsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
-            }
+                dioManager.lookPointerInstanceBgiies.InsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
         }
 
         public override void Outside()
         {
+            Debug.Log("llega a Outside");
             if(!mostrarCategoria)
                 dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
             else
                 dioManager.lookPointerInstanceBgiies.OutsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
         }
 
-
+        public void ZoomIn()
+        {
+            if (dioManager.kinectInput)
+                dioManager.kinectGestures.KinectZoomIn();
+            else
+                dioManager.lookPointerInstanceBgiies.DirectZoomInCall(null);
+        }
+        public void ZoomOut()
+        {
+            if (dioManager.kinectInput)
+                dioManager.kinectGestures.KinectZoomOut();
+            else
+                dioManager.lookPointerInstanceBgiies.DirectZoomOutCall(null);
+        }
         public void SelectBt1()
         {
             if (!mostrarCategoria)

@@ -13,7 +13,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     [HideInInspector]
     public static ActionManager Instance { set; get; }
     public bool initialized = false;
-    protected DIOManager dioManager;
+    public DIOManager dioManager;
     #region Variable declaration
     Action[] vorticesActionList;
     [HideInInspector]
@@ -95,8 +95,8 @@ public class ActionManager : MonoBehaviour, IAwake {
             () => dioManager.panelBgiies.SelectBt2(),
             () => dioManager.panelBgiies.SelectBt3(),
             () => dioManager.panelBgiies.SelectBt4(),
-            () => dioManager.lookPointerInstanceBgiies.DirectZoomInCall(null),
-            () => dioManager.lookPointerInstanceBgiies.DirectZoomOutCall(null)
+            () => dioManager.panelBgiies.ZoomIn(),
+            () => dioManager.panelBgiies.ZoomOut()
         };
 
         bgiiesActionListNames = new string[]{
@@ -233,8 +233,14 @@ public class ActionManager : MonoBehaviour, IAwake {
                     function();
             }
         }
-
-        
+        if (dioManager.kinectInput)
+        {
+            foreach (Action function in updateActionsKinectGestures)
+            {
+                if (function != null)
+                    function();
+            }
+        }
         
     }
 

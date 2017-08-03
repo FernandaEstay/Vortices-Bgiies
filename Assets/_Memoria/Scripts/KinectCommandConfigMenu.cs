@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Gamelogic;
+using Memoria;
+using System;
 
 public class KinectCommandConfigMenu : MonoBehaviour {
-    
+
+    public DIOManager dioManager;
+
     public Dropdown basicGesturesActionsDropdown, basicGesturesDropdown, dbGesturesActionsDropdown, dbGesturesDropdown;
     public Slider dbGestureTriggerLevel, dbGestureUntriggerLevel;
     float gesture1TriggerLevel, gesture2TriggerLevel, gesture3TriggerLevel, gesture4TriggerLevel, gesture5TriggerLevel, gesture6TriggerLevel, gesture7TriggerLevel, gesture1UntriggerLevel, gesture2UntriggerLevel, gesture3UntriggerLevel, gesture4UntriggerLevel, gesture5UntriggerLevel, gesture6UntriggerLevel, gesture7UntriggerLevel;
@@ -246,9 +250,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         if (lassoHandRightAssignedActionIndex != 0)
         {
+
             ActionManager.Instance.updateActionsKinectGestures[4] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, true),
-                ActionManager.Instance.currentActionList[lassoHandRightAssignedActionIndex]
+                //ActionManager.Instance.currentActionList[lassoHandRightAssignedActionIndex]
+                ActionManager.Instance.currentActionList[1]
                 );
         }
         else
@@ -258,9 +264,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         if (lassoHandLeftAssignedActionIndex != 0)
         {
+            
             ActionManager.Instance.updateActionsKinectGestures[5] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, false),
-                ActionManager.Instance.currentActionList[lassoHandLeftAssignedActionIndex]
+                //ActionManager.Instance.currentActionList[lassoHandLeftAssignedActionIndex]
+                ActionManager.Instance.currentActionList[2]
                 );
         }
         else
