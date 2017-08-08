@@ -96,8 +96,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     public void Awake () {
         Instance = this;
     }
-
-
+    
     #endregion
 
     #region Update functions
