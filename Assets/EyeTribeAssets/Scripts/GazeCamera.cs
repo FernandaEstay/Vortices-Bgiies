@@ -49,7 +49,7 @@ public class GazeCamera : MonoBehaviour, IGazeListener
 
     public void Initialize()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         cam = Camera.main;
         transform.SetParent(cam.transform);
         if (useGazeTracker)

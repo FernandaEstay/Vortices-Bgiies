@@ -48,7 +48,7 @@ public class EmotivCtrl : MonoBehaviour {
 	public void StartEmotivInsight () 
 	{
         engine = EmoEngine.Instance;
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         engine.MentalCommandTrainingStarted += new EmoEngine.MentalCommandTrainingStartedEventEventHandler (TrainingStarted);
 		engine.MentalCommandTrainingSucceeded += new EmoEngine.MentalCommandTrainingSucceededEventHandler (TrainingSucceeded);
 		engine.MentalCommandTrainingCompleted += new EmoEngine.MentalCommandTrainingCompletedEventHandler (TrainingCompleted);
@@ -79,6 +79,7 @@ public class EmotivCtrl : MonoBehaviour {
          * Initializes the CvsCreator to store data in a log
          */
         dataLogPath = GLPlayerPrefs.GetString(Scope, "EmotivInsightDataPath");
+        
         Debug.Log("emotiv path: " + GLPlayerPrefs.GetString(Scope, "EmotivInsightDataPath"));
         if (dataLogPath.Equals(""))
         {

@@ -160,7 +160,7 @@ namespace Memoria
 
         public void Start()
         {
-            Scope = ProfileManager.Instance.currentProfileScope;
+            Scope = ProfileManager.Instance.currentEvaluationScope;
             SetVariables();
 
             var visualizationTextureIndex = 0;

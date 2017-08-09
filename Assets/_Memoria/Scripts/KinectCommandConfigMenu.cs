@@ -20,7 +20,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
     void OnEnable()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
 
         if (ActionManager.Instance.bgiiesMode)
         {

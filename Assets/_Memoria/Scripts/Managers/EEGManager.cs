@@ -70,7 +70,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #region Initialization
     public void InitializeManager()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         useEmotivInsight = GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight");
         Debug.Log("Use emotiv:"+GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight").ToString());
         if (useEmotivInsight){

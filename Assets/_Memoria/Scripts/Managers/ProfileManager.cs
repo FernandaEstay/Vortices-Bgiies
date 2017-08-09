@@ -8,33 +8,58 @@ public class ProfileManager : MonoBehaviour {
 
     public static ProfileManager Instance { set; get; }
     [HideInInspector]
-    public string currentProfileScope;
+    public string currentEvaluationScope;
+    [HideInInspector]
+    public string profileScope;
     
     [HideInInspector]
-    public int lastProfileUsed;
+    public int currentProfile;
+    [HideInInspector]
+    public int currentEvaluation;
     [HideInInspector]
     public string[] profiles;
+    [HideInInspector]
+    public string[] evaluations;
 
-    string profileManagerScope = "ProfileManagerData";
+    string profileManagerScope = "ProfileManager3";
     // Use this for initialization
     public void Awake () {
         Instance = this;
-        DontDestroyOnLoad(this);        
+        DontDestroyOnLoad(this);
+        //If there are no profiles found in the systems registry, it creates a new array of names. This is because there is no default value for arrays, but there are for all other data types used.
+        if(!GLPlayerPrefs.GetBool(profileManagerScope, "RegistryFound")){
+            string[] aux = new string[1];
+            aux[0] = "Default Profile";
+            GLPlayerPrefs.SetStringArray(profileManagerScope, "ProfileNamesList", aux);
+            GLPlayerPrefs.SetBool(profileManagerScope, "RegistryFound", true);
+            aux = new string[1];
+            aux[0] = "Default Evaluation";
+            GLPlayerPrefs.SetStringArray("Default Profile", "EvaluationNamesList", aux);
+        }
         profiles = GLPlayerPrefs.GetStringArray(profileManagerScope,"ProfileNamesList");
-        lastProfileUsed = GLPlayerPrefs.GetInt(profileManagerScope, "LastProfileUsed");
-        currentProfileScope = profiles[lastProfileUsed];
+        currentProfile = GLPlayerPrefs.GetInt(profileManagerScope, "CurrentProfile");
+        profileScope = profiles[currentProfile];
+        currentEvaluation = GLPlayerPrefs.GetInt(profileScope, "CurrentEvaluation");
+        evaluations = GLPlayerPrefs.GetStringArray(profileScope, "EvaluationNamesList");
+        currentEvaluationScope = profileScope + evaluations[currentEvaluation];
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public bool UpdateCurrentProfile(int lastProfileUsedNumber)
     {
-        lastProfileUsed = lastProfileUsedNumber;
-        GLPlayerPrefs.SetInt(profileManagerScope, "LastProfileUsed", lastProfileUsed);
-        currentProfileScope = profiles[lastProfileUsed];
+        currentProfile = lastProfileUsedNumber;
+        GLPlayerPrefs.SetInt(profileManagerScope, "CurrentProfile", currentProfile);
+        profileScope = profiles[currentProfile];
+        currentEvaluation = GLPlayerPrefs.GetInt(profileScope, "CurrentEvaluation");
+        evaluations = GLPlayerPrefs.GetStringArray(profileScope, "EvaluationNamesList");
+        currentEvaluationScope = profileScope + evaluations[currentEvaluation];
+        return true;
+    }
+
+    public bool UpdateCurrentEvaluation(int lastEvaluationUsedNumber)
+    {
+        currentEvaluation = lastEvaluationUsedNumber;
+        GLPlayerPrefs.SetInt(profileScope, "CurrentEvaluation", currentEvaluation);
+        currentEvaluationScope = profileScope + evaluations[currentEvaluation];
         return true;
     }
 
@@ -49,6 +74,10 @@ public class ProfileManager : MonoBehaviour {
             aux.CopyTo(profiles, 0);
             profiles[newLength - 1] = newProfile;
             GLPlayerPrefs.SetStringArray(profileManagerScope, "ProfileNamesList", profiles);
+            aux = new string[1];
+            aux[0] = "Default Evaluation";
+            GLPlayerPrefs.SetStringArray(newProfile, "EvaluationNamesList", aux);
+            UpdateCurrentProfile(newLength - 1);
             return true;
         }
         else
@@ -62,6 +91,36 @@ public class ProfileManager : MonoBehaviour {
         foreach(string s in profiles)
         {
             if (newProfile.Equals(s))
+                return false;
+        }
+        return true;
+    }
+
+    public bool AddNewEvaluation(string newEvaluation)
+    {
+        if (CheckRepeatedEvaluationName(newEvaluation))
+        {
+            string[] aux = new string[evaluations.Length];
+            evaluations.CopyTo(aux, 0);
+            int newLength = evaluations.Length + 1;
+            evaluations = new string[newLength];
+            aux.CopyTo(evaluations, 0);
+            evaluations[newLength - 1] = newEvaluation;
+            GLPlayerPrefs.SetStringArray(profileScope, "EvaluationNamesList", evaluations);
+            UpdateCurrentEvaluation(newLength - 1);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool CheckRepeatedEvaluationName(string newEvaluation)
+    {
+        foreach (string s in evaluations)
+        {
+            if (newEvaluation.Equals(s))
                 return false;
         }
         return true;

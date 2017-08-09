@@ -47,7 +47,7 @@ public class ProfileConfigMenu : MonoBehaviour {
         {
             profilesDropdown.options.Add(new Dropdown.OptionData() { text = s });
         }
-        profilesDropdown.value = ProfileManager.Instance.lastProfileUsed;
+        profilesDropdown.value = ProfileManager.Instance.currentProfile;
         profilesDropdown.RefreshShownValue();
     }
 

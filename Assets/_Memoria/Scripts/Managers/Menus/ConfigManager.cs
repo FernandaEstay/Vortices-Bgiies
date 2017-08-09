@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ConfigManager : MonoBehaviour {
 
+    string outputPath;
 	// Use this for initialization
 	void Start () {
 		
@@ -14,21 +15,21 @@ public class ConfigManager : MonoBehaviour {
 	void Update () {
 		
 	}
-    /*
-    public void ExaminarFolderPath()
+
+    public void ExploreFolderPath()
     {
         FileBrowser.AddQuickLink(null, "Users", "C:\\Users");
         FileBrowser.ShowLoadDialog(null, null, true, null, "Load", "Select");
-        StartCoroutine(ObtenerGroupFolder());
+        StartCoroutine(GetOutputFolder());
     }
-    IEnumerator ObtenerGroupFolder()
+    IEnumerator GetOutputFolder()
     {
         yield return FileBrowser.WaitForLoadDialog(true, null, "Load File", "Load");
         if (FileBrowser.Result != null)
-            folderImageAssetText.text = FileBrowser.Result + "\\";
+            Debug.Log(FileBrowser.Result+"\\testfolder\\data.csv");
 
     }
-
+    /*
     public void ExaminarGroupPath()
     {
         FileBrowser.AddQuickLink(null, "Users", "C:\\Users");

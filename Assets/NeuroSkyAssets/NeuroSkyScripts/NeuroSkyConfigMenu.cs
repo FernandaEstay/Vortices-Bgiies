@@ -66,7 +66,7 @@ public class NeuroSkyConfigMenu : MonoBehaviour {
 
     void LoadPlayerPreferences()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
 
         if (ActionManager.Instance.bgiiesMode)
         {
@@ -92,7 +92,7 @@ public class NeuroSkyConfigMenu : MonoBehaviour {
 
     void SavePlayerPreferences()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         if (ActionManager.Instance.bgiiesMode)
         {
             GLPlayerPrefs.SetInt(Scope, "NeuroSkyBlinkActionIndexBgiies", blinkAssignedActionIndex);

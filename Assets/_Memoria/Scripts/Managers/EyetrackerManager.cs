@@ -39,7 +39,7 @@ public class EyetrackerManager : MonoBehaviour, IAwake
     public void InitializeManager(DIOManager fatherDioManager)
     {
         dioManager = fatherDioManager;
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         _useEyetribe = GLPlayerPrefs.GetBool(Scope, "UseTheEyeTribe");
         Debug.Log("Use eyetribe:" + GLPlayerPrefs.GetBool(Scope, "UseTheEyeTribe").ToString());
         _useMouse = GLPlayerPrefs.GetBool(Scope, "UseMouse");

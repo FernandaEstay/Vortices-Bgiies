@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gamelogic;
 
 public class MOTIONSManager : MonoBehaviour {
     public static MOTIONSManager Instance { set; get; }
-    public GameObject eegManagerPrefab;
-    GameObject eegManager;
     [HideInInspector]
     public List<GameObject> activatedGameObjects;
 
@@ -16,12 +15,16 @@ public class MOTIONSManager : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        eegManager = Instantiate(eegManagerPrefab);
-        eegManager.SetActive(false);
+
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void StartEvaluation()
+    {
+        GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
+    }
 }

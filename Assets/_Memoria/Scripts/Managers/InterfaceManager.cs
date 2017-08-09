@@ -12,7 +12,7 @@ public class InterfaceManager : MonoBehaviour {
     //Every check should be as large as the amount of devices available. It does not matter how large it gets, this will only trigger on evaluation start so the loading time is fine
     public void CheckEEGInterfaces()
     {        
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         if (GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight") || 
             GLPlayerPrefs.GetBool(Scope, "UseNeuroSkyMindwave"))
         {

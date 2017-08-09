@@ -150,7 +150,7 @@ public class ActionManager : MonoBehaviour, IAwake {
 
     public void ChangeActiveActionsList()
     {
-        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode");
+        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode");
         if (aux)
         {
             currentActionList = new Action[bgiiesActionList.Length];
