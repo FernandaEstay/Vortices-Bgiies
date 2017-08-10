@@ -22,7 +22,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
     public static bool[] gestureActive = { true, true, true, true, true, true, true };
     void OnEnable()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
 
         if (ActionManager.Instance.bgiiesMode)
         {

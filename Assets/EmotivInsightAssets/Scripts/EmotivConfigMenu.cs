@@ -156,7 +156,7 @@ public class EmotivConfigMenu : MonoBehaviour {
 
     public void LoadPlayerPreferences()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
 
         if (ActionManager.Instance.bgiiesMode)
         {

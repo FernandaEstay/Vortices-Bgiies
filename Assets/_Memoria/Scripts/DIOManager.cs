@@ -160,7 +160,7 @@ namespace Memoria
 
         public void Start()
         {
-            Scope = ProfileManager.Instance.currentProfileScope;
+            Scope = ProfileManager.Instance.currentEvaluationScope;
             SetVariables();
 
             var visualizationTextureIndex = 0;
@@ -318,10 +318,6 @@ namespace Memoria
                 panelBgiies.EnableMoveCameraInside();
                 panelBgiies.EnableMoveCameraOutside();
             };
-
-            ActionManager.Instance.InitializeManager(this);
-            EEGManager.Instance.InitializeManager(this);
-            EyetrackerManager.Instance.InitializeManager(this);
             
         }
 

@@ -57,7 +57,7 @@ public class NeuroSkyData : MonoBehaviour, IAwake
     public void StartNeuroSkyData()
     {
         transform.SetParent(Camera.main.transform);
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         GameObject prefab = Instantiate(TCGConnectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         controller = prefab.GetComponent<TGCConnectionController>();

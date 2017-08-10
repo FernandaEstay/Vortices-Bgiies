@@ -52,7 +52,7 @@ public class ConfigurationManager : MonoBehaviour
 
     public void Start()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         SetVariables();
     }
 
@@ -62,7 +62,7 @@ public class ConfigurationManager : MonoBehaviour
     }
     public void SetVariables()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         useLeapMotionToggle.isOn = GLPlayerPrefs.GetBool(Scope, "UseLeapMotion");
         if (useLeapMotionToggle.isOn)
         {
@@ -114,7 +114,7 @@ public class ConfigurationManager : MonoBehaviour
 
     public void UpdateProfileValues()
     {
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         GLPlayerPrefs.SetBool(Scope, "UseLeapMotion", useLeapMotionToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UsePitchGrab", usePitchGrabToggle.isOn);
         GLPlayerPrefs.SetBool(Scope, "UseHapticGlove", useUnityOpenGlove.isOn);
@@ -266,7 +266,7 @@ public class ConfigurationManager : MonoBehaviour
 
             useLeapMotionToggle.gameObject.SetActive(true);
             useJoystickToggle.gameObject.SetActive(true);
-            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode", false);
+            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode", false);
             ActionManager.Instance.ChangeActiveActionsList();
         }
         else
@@ -280,7 +280,7 @@ public class ConfigurationManager : MonoBehaviour
 
             kinectInput.gameObject.SetActive(true);
             mouseInput.gameObject.SetActive(true);
-            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentProfileScope, "BGIIESMode", true);
+            GLPlayerPrefs.SetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode", true);
             ActionManager.Instance.ChangeActiveActionsList();
         }
     }

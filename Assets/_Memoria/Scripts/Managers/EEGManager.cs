@@ -12,7 +12,6 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     [HideInInspector]
     public static EEGManager Instance { set; get; }
     private bool initialized = false;
-    protected DIOManager dioManager;
     private string Scope = "Vortices2Config";
     #region Variable declaration
     /*
@@ -69,10 +68,9 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #endregion
 
     #region Initialization
-    public void InitializeManager(DIOManager fatherDioManager)
+    public void InitializeManager()
     {
-        dioManager = fatherDioManager;
-        Scope = ProfileManager.Instance.currentProfileScope;
+        Scope = ProfileManager.Instance.currentEvaluationScope;
         useEmotivInsight = GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight");
         Debug.Log("Use emotiv:"+GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight").ToString());
         if (useEmotivInsight){
@@ -98,13 +96,13 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     public void Awake () {
         Instance = this;
     }
-
-
+    
     #endregion
 
     #region Update functions
     // Update is called once per frame
     void Update () {
+        Debug.Log("update triggered");
         if (!initialized)
             return;
 
