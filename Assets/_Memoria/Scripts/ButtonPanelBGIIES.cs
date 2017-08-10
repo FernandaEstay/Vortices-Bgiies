@@ -11,7 +11,8 @@ using OpenGlove_API_C_Sharp_HL.ServiceReference1;
 
 namespace Memoria
 {
-    public enum Categorias {
+    public enum Categorias
+    {
         Categoria1,
         Categoria2,
         Categoria3,
@@ -85,7 +86,7 @@ namespace Memoria
             seg = 0;
             while (min != 1)
             {
-                if(seg == 60)
+                if (seg == 60)
                 {
                     min++;
                     seg = 0;
@@ -117,7 +118,7 @@ namespace Memoria
         public override void Outside()
         {
             Debug.Log("llega a Outside");
-            if(!mostrarCategoria)
+            if (!mostrarCategoria)
                 dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
             else
                 dioManager.lookPointerInstanceBgiies.OutsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
@@ -340,4 +341,3 @@ namespace Memoria
 
     }
 }
-

@@ -10,7 +10,8 @@ using Windows.Kinect;
 using Gamelogic;
 using Assets.Scripts;
 
-public class ActionManager : MonoBehaviour, IAwake {
+public class ActionManager : MonoBehaviour, IAwake
+{
     [HideInInspector]
     public static ActionManager Instance { set; get; }
     public bool initialized = false;
@@ -53,9 +54,10 @@ public class ActionManager : MonoBehaviour, IAwake {
     int emoStateNeutralTicking = 0;
     #endregion
     // Use this for initialization
-    public void Awake () {
+    public void Awake()
+    {
         Instance = this;
-        
+
     }
 
     public void Start()
@@ -121,7 +123,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     public void InitializeManager(DIOManager fatherDioManager)
     {
         dioManager = fatherDioManager;
-        
+
 
         //This part requires an explanation. As the script was made, the data of the configuration menu was stored upon disabling the game object that held the menu script.
         //  Along with it, the ActionManager actions were also asigned in the OnDisable function inside the scripts, so in order to load the actions, the config menu had to be
@@ -144,7 +146,7 @@ public class ActionManager : MonoBehaviour, IAwake {
             emotivConfigMenu.SetActive(true);
             emotivConfigMenu.SetActive(false);
         }
-        
+
 
         initialized = true;
     }
@@ -184,7 +186,7 @@ public class ActionManager : MonoBehaviour, IAwake {
             }
             actionListDropdown.RefreshShownValue();
         }
-        
+
     }
 
     // Update is called once per frame
@@ -192,12 +194,10 @@ public class ActionManager : MonoBehaviour, IAwake {
      * Here is where the actions should be added with keys or any other input (like Emotiv Mental Commands, Neurosky values or Keyboard).
      * 
      * useful functions or codes for reference:
-
      Input.GetKey(KeyCode.keyboardkey )
      Input.GetKeyDown(Keycode)
      Input.GetButton("ButtonName")
      Input.GetButtonDown("ButtonName")
-
      */
 
     /*
@@ -217,7 +217,7 @@ public class ActionManager : MonoBehaviour, IAwake {
      MC_ROTATE_REVERSE
      MC_DISAPPEAR
      */
-    void Update ()
+    void Update()
     {
         if (!initialized)
             return;
@@ -242,7 +242,7 @@ public class ActionManager : MonoBehaviour, IAwake {
                     function();
             }
         }
-        
+
     }
 
     //This function is called every time the emo state is updated. The tickTimer is there so that the functions are not all called every single update, but rather only
@@ -397,6 +397,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     //kinect hand detectioj
     public bool ActionConditionKinect(HandState gesture, bool isRightHand)
     {
+        Debug.Log("action condition Kinect");
         if (isRightHand)
         {
             if (gesture == KinectDetectGestures.kinectCurrentRightHandGesture)
@@ -418,10 +419,10 @@ public class ActionManager : MonoBehaviour, IAwake {
     {
         if (KinectCommandConfigMenu.gestureNames[gestureIndex].Equals(KinectGestureManager.currentContinuousGesture))
         {
-            //if (gestureTrigger < KinectGestureManager.currentContinuousGesture.result && KinectGestureManager.isGestureActive[gestureIndex])
-           // {
+            if (gestureTrigger < KinectCommandConfigMenu.currentGestureContinuous.result && KinectCommandConfigMenu.gestureActive[gestureIndex])
+            {
                 return true;
-            //}
+            }
         }
         return false;
     }

@@ -45,7 +45,7 @@ namespace Memoria
         VisualGestureBuilderDatabase database;
 
         DIOManager dioManager;
-
+        KinectCommandConfigMenu kinectCommandConfigMenu;
         bool HandUpActive = true;
         bool HandDownActive = true;
         bool HandRightActive = true;
@@ -69,7 +69,7 @@ namespace Memoria
         //public float[] gestureUntrigger = new float[7];
         //public static bool[] isGestureActive = {true, true, true, true, true, true, true };
 
-        public static IList<Gesture> currentGestures;
+        public static IList<GestureContinuous> currentGestures;
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
         public event GestureAction OnGesture;
@@ -112,7 +112,7 @@ namespace Memoria
             }
 
             database = VisualGestureBuilderDatabase.Create("C:\\Users\\feres\\Documents\\Vortices-Bgiies\\Assets\\StreamingAssets\\kinectBDGestures.gbd");
-            foreach (Gesture gesture in database.AvailableGestures)
+            foreach (GestureContinuous gesture in database.AvailableGestures)
             {
                 this.vgbFrameSource.AddGesture(gesture);
             }
@@ -235,16 +235,27 @@ namespace Memoria
                 if (frame != null)
                 {
                     // get the discrete gesture results which arrived with the latest frame
-                    IDictionary<Gesture, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
-                    var continuosResults = frame.ContinuousGestureResults;
+                    IDictionary<GestureContinuous, DiscreteGestureResult> discreteResults = frame.DiscreteGestureResults;
+                    IDictionary<GestureContinuous, ContinuousGestureResult> continuosResults = frame.ContinuousGestureResults;
                     // we only have one gesture in this source object, but you can get multiple gestures
 
                     //List<gesturesContinuous> gestures = new List<gesturesContinuous>();
 
-                    currentGestures = vgbFrameSource.Gestures;
-                    /*
-                    foreach (Gesture gesture in this.vgbFrameSource.Gestures)
+                    //currentGestures = vgbFrameSource.Gestures;
+
+                    foreach (GestureContinuous gesture in this.vgbFrameSource.Gestures)
                     {
+                        if(continuosResults != null)
+                        {
+                            if(gesture.GestureType == GestureType.Continuous)
+                            {
+                                currentGestures.Add(gesture);
+                            }
+                        }
+                    }
+                    if(continuosResults != null)
+                        kinectCommandConfigMenu.CurrentGestureUpdate(currentGestures, continuosResults);
+                    /*
                         if (continuosResults != null)
                         {
                             if (gesture.GestureType == GestureType.Continuous)
