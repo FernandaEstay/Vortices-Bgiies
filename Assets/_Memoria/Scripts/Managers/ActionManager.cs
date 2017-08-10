@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Windows.Kinect;
 using Gamelogic;
+using Assets.Scripts;
 
 public class ActionManager : MonoBehaviour, IAwake {
     [HideInInspector]
@@ -415,12 +416,12 @@ public class ActionManager : MonoBehaviour, IAwake {
 
     public bool ActionConditionKinect(int gestureIndex, float gestureTrigger)
     {
-        if (KinectGestureManager.gestureNames[gestureIndex].Equals(KinectGestureManager.currentContinuousGesture.name))
+        if (KinectCommandConfigMenu.gestureNames[gestureIndex].Equals(KinectGestureManager.currentContinuousGesture))
         {
-            if (gestureTrigger < KinectGestureManager.currentContinuousGesture.result && KinectGestureManager.isGestureActive[gestureIndex])
-            {
+            //if (gestureTrigger < KinectGestureManager.currentContinuousGesture.result && KinectGestureManager.isGestureActive[gestureIndex])
+           // {
                 return true;
-            }
+            //}
         }
         return false;
     }

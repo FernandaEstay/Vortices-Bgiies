@@ -65,9 +65,11 @@ namespace Memoria
         bool initialize = false;
 
         //public values
-        public static string[] gestureNames = new string[7];
-        public float[] gestureUntrigger = new float[7];
-        public static bool[] isGestureActive = {true, true, true, true, true, true, true };
+        //public static string[] gestureNames = new string[7];
+        //public float[] gestureUntrigger = new float[7];
+        //public static bool[] isGestureActive = {true, true, true, true, true, true, true };
+
+        public static IList<Gesture> currentGestures;
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
         public event GestureAction OnGesture;
@@ -109,15 +111,11 @@ namespace Memoria
                 vgbFrameReader.FrameArrived += this.GestureFrameArrived;
             }
 
-            database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/KinectDB.gbd");
-            int i = 0;
+            database = VisualGestureBuilderDatabase.Create("C:\\Users\\feres\\Documents\\Vortices-Bgiies\\Assets\\StreamingAssets\\kinectBDGestures.gbd");
             foreach (Gesture gesture in database.AvailableGestures)
             {
                 this.vgbFrameSource.AddGesture(gesture);
-                gestureNames[i] = gesture.Name;
-                i++;
             }
-
             initialize = true;
 
         }
@@ -241,9 +239,10 @@ namespace Memoria
                     var continuosResults = frame.ContinuousGestureResults;
                     // we only have one gesture in this source object, but you can get multiple gestures
 
-                    List<gesturesContinuous> gestures = new List<gesturesContinuous>();
+                    //List<gesturesContinuous> gestures = new List<gesturesContinuous>();
 
-                    resultRel = 0;
+                    currentGestures = vgbFrameSource.Gestures;
+                    /*
                     foreach (Gesture gesture in this.vgbFrameSource.Gestures)
                     {
                         if (continuosResults != null)
@@ -259,7 +258,7 @@ namespace Memoria
                                         resultRel = result.Progress;
                                         maxContinuosGesture = new gesturesContinuous(gesture.Name, resultRel);
                                     }
-
+                                    /*
                                     for(int i = 0; i < 7; i++)
                                     {
                                         if (gesture.Name.Equals(gestureNames[i]))
@@ -270,15 +269,17 @@ namespace Memoria
                                             }
                                         }                                    
                                     }
+                                    
                                 }
 
                             }
                         }
-                    }
+                    }*/
 
                     currentContinuousGesture = maxContinuosGesture;
                     if (currentContinuousGesture.result != 0)
                     {
+                        Debug.Log("llega a kinect gesture Manager");
                         ActionManager.Instance.KinectGestureUpdate();
                         /*
                         if (currentContinuousGesture.nombre.Equals("HandUpProgress"))

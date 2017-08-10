@@ -18,6 +18,8 @@ public class KinectCommandConfigMenu : MonoBehaviour {
     public Text openHandRightAssignedActionText, openHandLeftAssignedActionText, closeHandRightAssignedActionText, closeHandLeftAssignedActionText, lassoHandRightAssignedActionText, lassoHandLeftAssignedActionText, gesture1AssignedActionText, gesture2AssignedActionText, gesture3AssignedActionText, gesture4AssignedActionText, gesture5AssignedActionText, gesture6AssignedActionText, gesture7AssignedActionText;
     string Scope;
 
+    public static string[] gestureNames = {"HandUpProgress", "HandDownProgress", "HandRightProgress", "HandLeftProgress", null, null, null };
+    public static bool[] gestureActive = { true, true, true, true, true, true, true };
     void OnEnable()
     {
         Scope = ProfileManager.Instance.currentProfileScope;
