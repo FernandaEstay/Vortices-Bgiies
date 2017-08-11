@@ -69,7 +69,7 @@ namespace Memoria
         //public float[] gestureUntrigger = new float[7];
         //public static bool[] isGestureActive = {true, true, true, true, true, true, true };
 
-        public static IList<GestureContinuous> currentGestures;
+        public IList<GestureContinuous> currentGestures;
         // Gesture Detection Events
         public delegate void GestureAction(EventArgs e);
         public event GestureAction OnGesture;
@@ -242,19 +242,20 @@ namespace Memoria
                     //List<gesturesContinuous> gestures = new List<gesturesContinuous>();
 
                     //currentGestures = vgbFrameSource.Gestures;
-
+                    //currentGestures.Clear();
+                    
+                    List<GestureContinuous> gesturesPrueba = new List<GestureContinuous>();
                     foreach (GestureContinuous gesture in this.vgbFrameSource.Gestures)
                     {
                         if(continuosResults != null)
                         {
                             if(gesture.GestureType == GestureType.Continuous)
                             {
-                                currentGestures.Add(gesture);
+                                gesturesPrueba.Add(gesture);
                             }
                         }
                     }
-                    if(continuosResults != null)
-                        kinectCommandConfigMenu.CurrentGestureUpdate(currentGestures, continuosResults);
+                    KinectCommandConfigMenu.CurrentGestureUpdate(gesturesPrueba, continuosResults);
                     /*
                         if (continuosResults != null)
                         {
@@ -286,7 +287,7 @@ namespace Memoria
                             }
                         }
                     }*/
-
+                    /*
                     currentContinuousGesture = maxContinuosGesture;
                     if (currentContinuousGesture.result != 0)
                     {
@@ -312,19 +313,21 @@ namespace Memoria
                                 ActiveZoomOut = true;
                             }
                         }
-                        */
+                        
                                                                                
                         
-                    }
+                    }*/
                 }                    
             }
         }
-        public void RegisterGestureProgress(string action , float progress)
-        { 
+            /*
+       public void RegisterGestureProgress(string action , float progress)
+       { 
 
-            dioManager.csvCreator.AddLines(action, progress.ToString());
+           dioManager.csvCreator.AddLines(action, progress.ToString());
+       }*/
+
         }
 
-    }
 
 }

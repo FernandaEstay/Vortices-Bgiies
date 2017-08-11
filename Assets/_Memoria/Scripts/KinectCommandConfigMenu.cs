@@ -27,7 +27,8 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
     public Dropdown basicGesturesActionsDropdown, basicGesturesDropdown, dbGesturesActionsDropdown, dbGesturesDropdown;
     public Slider dbGestureTriggerLevel, dbGestureUntriggerLevel;
-    float gesture1TriggerLevel, gesture2TriggerLevel, gesture3TriggerLevel, gesture4TriggerLevel, gesture5TriggerLevel, gesture6TriggerLevel, gesture7TriggerLevel, gesture1UntriggerLevel, gesture2UntriggerLevel, gesture3UntriggerLevel, gesture4UntriggerLevel, gesture5UntriggerLevel, gesture6UntriggerLevel, gesture7UntriggerLevel;
+    float gesture1TriggerLevel, gesture2TriggerLevel, gesture3TriggerLevel, gesture4TriggerLevel, gesture5TriggerLevel, gesture6TriggerLevel, gesture7TriggerLevel;
+    public static float gesture1UntriggerLevel, gesture2UntriggerLevel, gesture3UntriggerLevel, gesture4UntriggerLevel, gesture5UntriggerLevel, gesture6UntriggerLevel, gesture7UntriggerLevel;
     int openHandRightAssignedActionIndex, openHandLeftAssignedActionIndex, closeHandRightAssignedActionIndex, closeHandLeftAssignedActionIndex, lassoHandRightAssignedActionIndex, lassoHandLeftAssignedActionIndex, gesture1AssignedActionIndex, gesture2AssignedActionIndex, gesture3AssignedActionIndex, gesture4AssignedActionIndex, gesture5AssignedActionIndex, gesture6AssignedActionIndex, gesture7AssignedActionIndex;
     public Text dbGestureTriggerNumber, dbGestureUntriggerNumber;
     public Text openHandRightAssignedActionText, openHandLeftAssignedActionText, closeHandRightAssignedActionText, closeHandLeftAssignedActionText, lassoHandRightAssignedActionText, lassoHandLeftAssignedActionText, gesture1AssignedActionText, gesture2AssignedActionText, gesture3AssignedActionText, gesture4AssignedActionText, gesture5AssignedActionText, gesture6AssignedActionText, gesture7AssignedActionText;
@@ -300,9 +301,11 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         if (gesture1AssignedActionIndex != 0)
         {
+            Debug.Log("******************************************************************action index " + gesture1AssignedActionIndex);
             ActionManager.Instance.updateActionsKinectGestures[6] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(1, gesture1TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[3]
                 );
         }
         else
@@ -314,7 +317,8 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[7] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(2, gesture2TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture2AssignedActionIndex]
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[4]
                 );
         }
         else
@@ -326,7 +330,8 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[8] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(3, gesture3TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture3AssignedActionIndex]
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[5]
                 );
         }
         else
@@ -338,7 +343,8 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[9] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(4, gesture4TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture4AssignedActionIndex]
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[6]
                 );
         }
         else
@@ -385,18 +391,19 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         Debug.Log("Action asignation completed");
     }
 
-    public void CurrentGestureUpdate(IList<GestureContinuous> currentGestures, IDictionary<GestureContinuous, ContinuousGestureResult> continuosResults)
+    public static void CurrentGestureUpdate(List<GestureContinuous> currentGestures, IDictionary<GestureContinuous, ContinuousGestureResult> continuosResults)
     {
         gesturesContinuous currentGesture = new gesturesContinuous();
         float maxGestureTrigger = 0;
-        foreach(var gesture in currentGestures)
+        for (int i = 0; i < currentGestures.Count; i++)
         {
-            foreach(var name in gestureNames)
-            {
-                if (name.Equals(gesture.Name))
-                {
+        
+            foreach(string name in gestureNames)
+            {             
+                if (name == currentGestures[i].Name)
+                {                    
                     ContinuousGestureResult result = null;
-                    continuosResults.TryGetValue(gesture, out result);
+                    continuosResults.TryGetValue(currentGestures[i], out result);
                     switch (Array.IndexOf(gestureNames, name))
                     {
                         case 0:
@@ -696,7 +703,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         }
     }
 
-    void SetCurrentGesture(gesturesContinuous gesture)
+    public static void SetCurrentGesture(gesturesContinuous gesture)
     {
         currentGestureContinuous = gesture;
     }

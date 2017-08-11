@@ -397,7 +397,6 @@ public class ActionManager : MonoBehaviour, IAwake
     //kinect hand detectioj
     public bool ActionConditionKinect(HandState gesture, bool isRightHand)
     {
-        Debug.Log("action condition Kinect");
         if (isRightHand)
         {
             if (gesture == KinectDetectGestures.kinectCurrentRightHandGesture)
@@ -417,11 +416,19 @@ public class ActionManager : MonoBehaviour, IAwake
 
     public bool ActionConditionKinect(int gestureIndex, float gestureTrigger)
     {
-        if (KinectCommandConfigMenu.gestureNames[gestureIndex].Equals(KinectGestureManager.currentContinuousGesture))
+        Debug.Log("Action condition Kinect gestureIndex " + gestureIndex + " gesture Trigger " + gestureTrigger);
+        Debug.Log("Nombre gesto current " + KinectCommandConfigMenu.currentGestureContinuous.name);
+        foreach(string name in KinectCommandConfigMenu.gestureNames)
         {
-            if (gestureTrigger < KinectCommandConfigMenu.currentGestureContinuous.result && KinectCommandConfigMenu.gestureActive[gestureIndex])
+            if(name == KinectCommandConfigMenu.currentGestureContinuous.name)
             {
-                return true;
+                Debug.Log("Encuentra gesto con mismo nombre" + "trigger " + KinectCommandConfigMenu.currentGestureContinuous.result + "active " + KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)]);
+                if(KinectCommandConfigMenu.currentGestureContinuous.result >= gestureTrigger && KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)])
+                {
+                    KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)] = false;
+                    Debug.Log("Realizar accion !!! " + "Gesture Name " + name);
+                    return true;
+                }
             }
         }
         return false;
