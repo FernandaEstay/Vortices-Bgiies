@@ -10,6 +10,9 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
     {
         internal RootSystem.IntPtr _pNative;
+        private string name;
+        private ContinuousGestureResult result;
+
         RootSystem.IntPtr Helper.INativeWrapper.nativePtr { get { return _pNative; } }
 
         // Constructors and Finalizers
@@ -17,6 +20,12 @@ namespace Microsoft.Kinect.VisualGestureBuilder
         {
             _pNative = pNative;
             Microsoft_Kinect_VisualGestureBuilder_Gesture_AddRefObject(ref _pNative);
+        }
+
+        public GestureContinuous(string name, ContinuousGestureResult result)
+        {
+            this.name = name;
+            this.result = result;
         }
 
         ~GestureContinuous()
