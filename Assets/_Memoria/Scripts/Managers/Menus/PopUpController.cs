@@ -11,7 +11,7 @@ public class PopUpController : MonoBehaviour {
     public Action<string> confirmFunctionString;
     public InputField inputField;
     public GameObject acceptButton;
-    bool useInputField = false;
+    bool useInputField = false, useActionInButton = false;
 
     /// <summary>
     /// Creates a pop-up with window name, message and Accept button to close the window
@@ -19,6 +19,10 @@ public class PopUpController : MonoBehaviour {
     /// <param name="windowName"></param>
     /// <param name="messageText"></param>
 	public void LaunchPopUpMessage(string windowName, string messageText){
+        useActionInButton = false;
+        acceptButton.GetComponentInChildren<Text>().text = "Accept";
+        confirmFunctionString = null;
+        confirmFunction = null;
         useInputField = false;
         this.messageText.text = messageText;
         this.windowName.text = windowName;
@@ -38,6 +42,9 @@ public class PopUpController : MonoBehaviour {
     /// <param name="function"></param>
     public void LaunchPopUpConfirmationMessage(string windowName, string messageText, Action function)
     {
+        useActionInButton = true;
+        acceptButton.GetComponentInChildren<Text>().text = "Accept";
+        confirmFunctionString = null;
         useInputField = false;
         this.messageText.text = messageText;
         this.windowName.text = windowName;
@@ -58,6 +65,8 @@ public class PopUpController : MonoBehaviour {
     /// <param name="function"></param>
     public void LaunchPopUpConfirmationMessage(string windowName, string messageText, Action function, string acceptButtonText)
     {
+        useActionInButton = true;
+        confirmFunctionString = null;
         useInputField = false;
         this.messageText.text = messageText;
         this.windowName.text = windowName;
@@ -79,6 +88,9 @@ public class PopUpController : MonoBehaviour {
     /// <param name="function"></param>
     public void LaunchPopUpInputChangeMessage(string windowName, string labelText, Action<string> function, string inputPlaceholder, bool overwriteCurrentFunction)
     {
+        useActionInButton = false;
+        acceptButton.GetComponentInChildren<Text>().text = "Accept";
+        confirmFunction = null;
         useInputField = true;
         inputField.text = inputPlaceholder;
         inputTextLabel.text = labelText;
@@ -88,6 +100,7 @@ public class PopUpController : MonoBehaviour {
         inputTextLabel.gameObject.SetActive(true);
         inputField.gameObject.SetActive(true);
         cancelButton.SetActive(true);
+        SetAcceptPopUpFunction(function, overwriteCurrentFunction);
         this.messageText.gameObject.SetActive(false);
     }
 
@@ -97,18 +110,10 @@ public class PopUpController : MonoBehaviour {
         {
             confirmFunctionString(inputField.text);
         }
-        else
+        else if(useActionInButton)
         {
             confirmFunction();
-        }        
-    }
-
-    private void OnDisable()
-    {
-        confirmFunction = null;
-        confirmFunctionString = null;
-        acceptButton.GetComponentInChildren<Text>().text = "Accept";
-
+        }
     }
 
     public bool SetAcceptPopUpFunction(Action function, bool overwriteCurrentFunction)
@@ -139,7 +144,6 @@ public class PopUpController : MonoBehaviour {
         if (confirmFunctionString == null)
         {
             confirmFunctionString = function;
-            Debug.Log(function.ToString());
             return true;
         }
         else

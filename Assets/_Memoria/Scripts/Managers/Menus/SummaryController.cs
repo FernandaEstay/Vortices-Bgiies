@@ -9,10 +9,13 @@ public class SummaryController : MonoBehaviour {
     public Dropdown profilesDropdown, evaluationsDropdown;
     public InputField newProfileInputField, newEvaluationInputField;
     public PopUpController popUpWindowView;
-    public Text userIDText;
+    public Text userIDText, informationObjectText, visualizationText, immersionText, actionMappingText;
+    bool initialized = false;
 
     private void OnEnable()
     {
+        if (!initialized)
+            return;
         ReloadSummaryData();
     }
 
@@ -20,6 +23,7 @@ public class SummaryController : MonoBehaviour {
     void Start()
     {
         ReloadProfileDropdown();
+        initialized = true;
     }
 
     public void UpdateCurrentProfile()
@@ -112,7 +116,6 @@ public class SummaryController : MonoBehaviour {
     {
         int aux = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID");
         popUpWindowView.LaunchPopUpInputChangeMessage("Change user ID", "User ID: ", ChangeUserID, aux.ToString(), true);
-        popUpWindowView.confirmFunctionString = ChangeUserID;
     }
 
     public void ChangeUserID(string userID)
