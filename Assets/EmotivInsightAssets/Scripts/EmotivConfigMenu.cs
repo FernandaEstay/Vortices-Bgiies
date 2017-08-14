@@ -19,6 +19,21 @@ public class EmotivConfigMenu : MonoBehaviour {
     public Text mentalCommandTriggerNumber, facialExpressionTriggerNumber;
     public Text pushAssignedActionText, pullAssignedActionText, liftAssignedActionText, dropAssignedActionText, leftAssignedActionText, leftWinkAssignedActionText, rightWinkAssignedActionText, anyWinkAssignedActionText, smileAssignedActionText;
     string Scope;
+    string[] mentalCommandName = new string[]
+    {
+        "Push",
+        "Pull",
+        "Lift",
+        "Drop",
+        "Left"
+    };
+    string[] facialExpresionName = new string[]
+    {
+        "LeftWink",
+        "RightWink",
+        "AnyWink",
+        "Smile"
+    };
     /*
     EEGManager.Instance.MentalCommandCurrentActionPower;
     EEGManager.Instance.FacialExpressionIsRightEyeWinking;
@@ -200,7 +215,6 @@ public class EmotivConfigMenu : MonoBehaviour {
         }
         else
         {
-
             pushTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandTicksVortices");
             pullTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandTicksVortices");
             liftTicks = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandTicksVortices");
@@ -371,11 +385,11 @@ public class EmotivConfigMenu : MonoBehaviour {
     #region UI triggers
 
     public void SetTickConfigMenuValues()
-    {
-        
+    {        
         ActionManager.Instance.endTime = (tickSensibilityValue.value / 10);
         int aux = (int)tickSensibilityValue.value;
-        tickSensibilityText.text = aux.ToString();        
+        tickSensibilityText.text = aux.ToString();
+        GLPlayerPrefs.SetFloat(Scope, "EmotivTickSensibility", ActionManager.Instance.endTime);
     }
 
     public void SetMentalCommandConfigMenuValues()

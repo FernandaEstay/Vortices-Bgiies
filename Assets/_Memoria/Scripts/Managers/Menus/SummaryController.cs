@@ -9,7 +9,8 @@ public class SummaryController : MonoBehaviour {
     public Dropdown profilesDropdown, evaluationsDropdown;
     public InputField newProfileInputField, newEvaluationInputField;
     public PopUpController popUpWindowView;
-    public Text userIDText, informationObjectText, visualizationText, immersionText, actionMappingText;
+    public ScrolldownContent fullListScrollView;
+    public Text userIDText, informationObjectText, visualizationText, immersionText;
     bool initialized = false;
 
     private void OnEnable()
@@ -97,6 +98,9 @@ public class SummaryController : MonoBehaviour {
     void ReloadSummaryData()
     {
         ReloadUserIDText();
+        informationObjectText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
+        visualizationText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
+        immersionText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentImmersion");
     }
 
     void ReloadUserIDText()
@@ -104,6 +108,7 @@ public class SummaryController : MonoBehaviour {
         int aux1, aux2;
         aux1 = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID");
         aux2 = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed");
+        
         if (aux1 == aux2)
         {
             aux1++;

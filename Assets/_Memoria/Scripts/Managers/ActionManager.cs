@@ -23,7 +23,19 @@ public class ActionManager : MonoBehaviour, IAwake {
     [HideInInspector]
     public string[] bgiiesActionListNames;
     [HideInInspector]
+    //Current action list is composed of the visualization and object actions lists, same as the array with names.
+    //This is to be able to change visualization and objects separately without having to reset the asigned actions.
     public Action[] currentActionList;
+    [HideInInspector]
+    public string[] currentActionListNames;
+    [HideInInspector]
+    public Action[] currentVisualizationActions;
+    [HideInInspector]
+    public string[] currentVisualizationActionsNames;
+    [HideInInspector]
+    public Action[] currentObjectActions;
+    [HideInInspector]
+    public string[] currentObjectActionsNames;
     [HideInInspector]
     public bool bgiiesMode;
 
@@ -185,6 +197,26 @@ public class ActionManager : MonoBehaviour, IAwake {
             actionListDropdown.RefreshShownValue();
         }
         
+    }
+
+    public void ReloadMappingActionsDropdown(Dropdown availableActionsDropdown)
+    {
+        availableActionsDropdown.ClearOptions();
+        //deletes the previous action list and names by forming them again from the visualization and object arrays
+        currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length];
+        currentVisualizationActions.CopyTo(currentActionList, 0);
+        currentObjectActions.CopyTo(currentActionList, currentVisualizationActions.Length);
+
+        currentActionListNames = new string[currentObjectActionsNames.Length + currentVisualizationActionsNames.Length];
+        currentVisualizationActionsNames.CopyTo(currentActionListNames, 0);
+        currentObjectActionsNames.CopyTo(currentActionListNames, currentVisualizationActions.Length);
+
+        availableActionsDropdown.options.Add(new Dropdown.OptionData() { text = "No Action" });
+        foreach (string s in currentActionListNames)
+        {
+            availableActionsDropdown.options.Add(new Dropdown.OptionData() { text = s });
+        }
+
     }
 
     // Update is called once per frame
