@@ -48,7 +48,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     [HideInInspector]
     public List<Action> updateActionsVorticesEmotivConfig = new List<Action>();
     [HideInInspector]
-    public Action[] updateActionsVorticesEmotiv;
+    public Action[] updateActionsEmotivInsight;
     [HideInInspector]
     public Action[] updateActionsKinectGestures;
     [HideInInspector]
@@ -125,7 +125,7 @@ public class ActionManager : MonoBehaviour, IAwake {
             };
 
         updateActionsNeuroSky = new Action[3];
-        updateActionsVorticesEmotiv = new Action[9];
+        updateActionsEmotivInsight = new Action[9];
         updateActionsKinectGestures = new Action[13];
         ChangeActiveActionsList();
     }
@@ -203,15 +203,28 @@ public class ActionManager : MonoBehaviour, IAwake {
     {
         availableActionsDropdown.ClearOptions();
         //deletes the previous action list and names by forming them again from the visualization and object arrays
-        currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length];
-        currentVisualizationActions.CopyTo(currentActionList, 0);
-        currentObjectActions.CopyTo(currentActionList, currentVisualizationActions.Length);
+        currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length - 1];
+        //For this to work propperly, the first action (index 0) of every array of Visualization/Objects actions MUST BE NULL
+        Action[] aux = new Action[currentVisualizationActions.Length - 1];
+        for(int i = 1; i < currentVisualizationActions.Length; i++)
+        {
+            aux[i - 1] = currentVisualizationActions[i];
+        }
+        aux.CopyTo(currentActionList, 0);
+        int actionListLen = aux.Length;
+        aux = new Action[currentObjectActions.Length - 1];
+        for (int i = 1; i < currentObjectActions.Length; i++)
+        {
+            aux[i - 1] = currentVisualizationActions[i];
+        }
+        aux.CopyTo(currentActionList, actionListLen);
 
-        currentActionListNames = new string[currentObjectActionsNames.Length + currentVisualizationActionsNames.Length];
-        currentVisualizationActionsNames.CopyTo(currentActionListNames, 0);
-        currentObjectActionsNames.CopyTo(currentActionListNames, currentVisualizationActions.Length);
+        // The first NAME must NOT be null, it's ok for the actions array to be 1 larger than the name array
+        currentActionListNames = new string[currentObjectActionsNames.Length + currentVisualizationActionsNames.Length + 1];
+        currentActionListNames[0] = "No Action";
+        currentVisualizationActionsNames.CopyTo(currentActionListNames, 1);
+        currentObjectActionsNames.CopyTo(currentActionListNames, currentVisualizationActionsNames.Length + 1);
 
-        availableActionsDropdown.options.Add(new Dropdown.OptionData() { text = "No Action" });
         foreach (string s in currentActionListNames)
         {
             availableActionsDropdown.options.Add(new Dropdown.OptionData() { text = s });
@@ -342,7 +355,7 @@ public class ActionManager : MonoBehaviour, IAwake {
                 {   emoStateTicksMistakes++;    }
             }
             
-            foreach (var function in updateActionsVorticesEmotiv)
+            foreach (var function in updateActionsEmotivInsight)
             {
                 function();
             }            

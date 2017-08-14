@@ -27,6 +27,16 @@ public class EmotivConfigMenu : MonoBehaviour {
         "Drop",
         "Left"
     };
+
+    Emotiv.EdkDll.IEE_MentalCommandAction_t[] mentalCommandCode = new Emotiv.EdkDll.IEE_MentalCommandAction_t[]
+    {
+        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PUSH,
+        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PULL,
+        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LIFT,
+        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_DROP,
+        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT
+    };
+
     string[] facialExpresionName = new string[]
     {
         "LeftWink",
@@ -34,6 +44,23 @@ public class EmotivConfigMenu : MonoBehaviour {
         "AnyWink",
         "Smile"
     };
+
+    Emotiv.EdkDll.IEE_FacialExpressionAlgo_t[] facialExpresionCode = new Emotiv.EdkDll.IEE_FacialExpressionAlgo_t[]
+    {
+        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_LEFT,
+        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_RIGHT,
+        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_BLINK,
+        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_SMILE
+    };
+
+    bool[] facilExpresionIsUpperFace = new bool[]
+    {
+        true,
+        true,
+        true,
+        false
+    };
+
     /*
     EEGManager.Instance.MentalCommandCurrentActionPower;
     EEGManager.Instance.FacialExpressionIsRightEyeWinking;
@@ -58,7 +85,6 @@ public class EmotivConfigMenu : MonoBehaviour {
 
     void OnEnable()
     {
-        LoadPlayerPreferences();
         SetActionNameByIndex(pushAssignedActionText, pushAssignedActionIndex);
         SetActionNameByIndex(pullAssignedActionText, pullAssignedActionIndex);
         SetActionNameByIndex(liftAssignedActionText, liftAssignedActionIndex);
@@ -83,301 +109,18 @@ public class EmotivConfigMenu : MonoBehaviour {
 
     private void OnDisable()
     {
-        UpdateActionsEmotivInsight();
-        SavePlayerPreferences();
+        
     }
-
-    public void SavePlayerPreferences()
-    {
-        if (ActionManager.Instance.bgiiesMode)
-        {
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandTicksBgiies", pushTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandTicksBgiies", pullTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandTicksBgiies", liftTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandTicksBgiies", dropTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandTicksBgiies", leftTicks);
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandMistakesBgiies", pushMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandMistakesBgiies", pullMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandMistakesBgiies", liftMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandMistakesBgiies", dropMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandMistakesBgiies", leftMistakes);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivPushCommandTriggerLevelBgiies", pushTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivPullCommandTriggerLevelBgiies", pullTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLiftCommandTriggerLevelBgiies", liftTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivDropCommandTriggerLevelBgiies", dropTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLeftCommandTriggerLevelBgiies", leftTriggerLevel);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLeftWinkExpressionTriggerLevelBgiies", leftWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivRightWinkExpressionTriggerLevelBgiies", rightWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivAnyWinkExpressionTriggerLevelBgiies", anyWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivSmileExpressionTriggerLevelBgiies", smileTriggerLevel);
-
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandActionIndexBgiies", pushAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandActionIndexBgiies", pullAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandActionIndexBgiies", liftAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandActionIndexBgiies", dropAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandActionIndexBgiies", leftAssignedActionIndex);
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftWinkExpressionActionIndexBgiies", leftWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivRightWinkExpressionActionIndexBgiies", rightWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivAnyWinkExpressionActionIndexBgiies", anyWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivSmileExpressionActionIndexBgiies", smileAssignedActionIndex);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivTickSensibilityBgiies", ActionManager.Instance.endTime);
-        }
-        else
-        {
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandTicksVortices", pushTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandTicksVortices", pullTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandTicksVortices", liftTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandTicksVortices", dropTicks);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandTicksVortices", leftTicks);
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandMistakesVortices", pushMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandMistakesVortices", pullMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandMistakesVortices", liftMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandMistakesVortices", dropMistakes);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandMistakesVortices", leftMistakes);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivPushCommandTriggerLevelVortices", pushTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivPullCommandTriggerLevelVortices", pullTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLiftCommandTriggerLevelVortices", liftTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivDropCommandTriggerLevelVortices", dropTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLeftCommandTriggerLevelVortices", leftTriggerLevel);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivLeftWinkExpressionTriggerLevelVortices", leftWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivRightWinkExpressionTriggerLevelVortices", rightWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivAnyWinkExpressionTriggerLevelVortices", anyWinkTriggerLevel);
-            GLPlayerPrefs.SetFloat(Scope, "EmotivSmileExpressionTriggerLevelVortices", smileTriggerLevel);
-
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivPushCommandActionIndexVortices", pushAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivPullCommandActionIndexVortices", pullAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLiftCommandActionIndexVortices", liftAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivDropCommandActionIndexVortices", dropAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftCommandActionIndexVortices", leftAssignedActionIndex);
-
-            GLPlayerPrefs.SetInt(Scope, "EmotivLeftWinkExpressionActionIndexVortices", leftWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivRightWinkExpressionActionIndexVortices", rightWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivAnyWinkExpressionActionIndexVortices", anyWinkAssignedActionIndex);
-            GLPlayerPrefs.SetInt(Scope, "EmotivSmileExpressionActionIndexVortices", smileAssignedActionIndex);
-
-            GLPlayerPrefs.SetFloat(Scope, "EmotivTickSensibilityVortices", ActionManager.Instance.endTime);
-        }
-    }
-
-    public void LoadPlayerPreferences()
-    {
-        Scope = ProfileManager.Instance.currentEvaluationScope;
-
-        if (ActionManager.Instance.bgiiesMode)
-        {
-
-            pushTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandTicksBgiies");
-            pullTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandTicksBgiies");
-            liftTicks = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandTicksBgiies");
-            dropTicks = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandTicksBgiies");
-            leftTicks = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandTicksBgiies");
-
-            pushMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandMistakesBgiies");
-            pullMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandMistakesBgiies");
-            liftMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandMistakesBgiies");
-            dropMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandMistakesBgiies");
-            leftMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandMistakesBgiies");
-
-            pushTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivPushCommandTriggerLevelBgiies");
-            pullTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivPullCommandTriggerLevelBgiies");
-            liftTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLiftCommandTriggerLevelBgiies");
-            dropTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivDropCommandTriggerLevelBgiies");
-            leftTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLeftCommandTriggerLevelBgiies");
-
-            leftWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLeftWinkExpressionTriggerLevelBgiies");
-            rightWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivRightWinkExpressionTriggerLevelBgiies");
-            anyWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivAnyWinkExpressionTriggerLevelBgiies");
-            smileTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivSmileExpressionTriggerLevelBgiies");
-
-
-            pushAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandActionIndexBgiies");
-            pullAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandActionIndexBgiies");
-            liftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandActionIndexBgiies");
-            dropAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandActionIndexBgiies");
-            leftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandActionIndexBgiies");
-
-            leftWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLeftWinkExpressionActionIndexBgiies");
-            rightWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivRightWinkExpressionActionIndexBgiies");
-            anyWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivAnyWinkExpressionActionIndexBgiies");
-            smileAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivSmileExpressionActionIndexBgiies");
-
-            ActionManager.Instance.endTime = GLPlayerPrefs.GetFloat(Scope, "EmotivTickSensibilityBgiies");
-        }
-        else
-        {
-            pushTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandTicksVortices");
-            pullTicks = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandTicksVortices");
-            liftTicks = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandTicksVortices");
-            dropTicks = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandTicksVortices");
-            leftTicks = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandTicksVortices");
-
-            pushMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandMistakesVortices");
-            pullMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandMistakesVortices");
-            liftMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandMistakesVortices");
-            dropMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandMistakesVortices");
-            leftMistakes = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandMistakesVortices");
-
-            pushTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivPushCommandTriggerLevelVortices");
-            pullTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivPullCommandTriggerLevelVortices");
-            liftTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLiftCommandTriggerLevelVortices");
-            dropTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivDropCommandTriggerLevelVortices");
-            leftTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLeftCommandTriggerLevelVortices");
-
-            leftWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivLeftWinkExpressionTriggerLevelVortices");
-            rightWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivRightWinkExpressionTriggerLevelVortices");
-            anyWinkTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivAnyWinkExpressionTriggerLevelVortices");
-            smileTriggerLevel = GLPlayerPrefs.GetFloat(Scope, "EmotivSmileExpressionTriggerLevelVortices");
-
-
-            pushAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivPushCommandActionIndexVortices");
-            pullAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivPullCommandActionIndexVortices");
-            liftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLiftCommandActionIndexVortices");
-            dropAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivDropCommandActionIndexVortices");
-            leftAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLeftCommandActionIndexVortices");
-
-            leftWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivLeftWinkExpressionActionIndexVortices");
-            rightWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivRightWinkExpressionActionIndexVortices");
-            anyWinkAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivAnyWinkExpressionActionIndexVortices");
-            smileAssignedActionIndex = GLPlayerPrefs.GetInt(Scope, "EmotivSmileExpressionActionIndexVortices");
-
-            ActionManager.Instance.endTime = GLPlayerPrefs.GetFloat(Scope, "EmotivTickSensibilityVortices");
-        }
-    }
+    
 
     #region Manage actions added
 
     void CleanEmotivActions()
     {
-        for(int i=0; i < ActionManager.Instance.updateActionsVorticesEmotiv.Length; i++)
+        for(int i=0; i < ActionManager.Instance.updateActionsEmotivInsight.Length; i++)
         {
-            ActionManager.Instance.updateActionsVorticesEmotiv[i] = null;
+            ActionManager.Instance.updateActionsEmotivInsight[i] = null;
         }
-    }
-
-    public void UpdateActionsEmotivInsight()
-    {
-
-        // First five slots are for the mental commands
-        //
-        //
-        if (pushAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[0] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PUSH, pushTicks, pushMistakes, pushTriggerLevel),
-                ActionManager.Instance.currentActionList[pushAssignedActionIndex]
-                );
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[0] = null;
-        }
-
-        if (pullAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[1] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PULL, pullTicks, pullMistakes, pullTriggerLevel),
-                ActionManager.Instance.currentActionList[pullAssignedActionIndex]
-                );
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[1] = null;
-        }
-
-        if (liftAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[2] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LIFT, liftTicks, liftMistakes, liftTriggerLevel),
-                ActionManager.Instance.currentActionList[liftAssignedActionIndex]
-                );
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[2] = null;
-        }
-
-        if (dropAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[3] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_DROP, dropTicks, dropMistakes, dropTriggerLevel),
-                ActionManager.Instance.currentActionList[dropAssignedActionIndex]
-                );
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[3] = null;
-        }
-
-        if (leftAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[4] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT, leftTicks, leftMistakes, leftTriggerLevel),
-                ActionManager.Instance.currentActionList[leftAssignedActionIndex]
-                );
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[4] = null;
-        }
-
-        //last 4 slots are for facial expressions
-        //
-        //
-
-        if (anyWinkAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[5] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_BLINK, true, anyWinkTriggerLevel),
-                ActionManager.Instance.currentActionList[anyWinkAssignedActionIndex]);
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[5] = null;
-        }
-
-        if (leftWinkAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[6] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_LEFT, true, leftWinkTriggerLevel),
-                ActionManager.Instance.currentActionList[leftWinkAssignedActionIndex]);
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[6] = null;
-        }
-
-        if (rightWinkAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[7] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_RIGHT, true, rightWinkTriggerLevel),
-                ActionManager.Instance.currentActionList[rightWinkAssignedActionIndex]);
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[7] = null;
-        }
-
-        if (smileAssignedActionIndex != 0)
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[8] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionEmotiv(Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_SMILE, false, smileTriggerLevel),
-                ActionManager.Instance.currentActionList[smileAssignedActionIndex]);
-        }
-        else
-        {
-            ActionManager.Instance.updateActionsVorticesEmotiv[8] = null;
-        }
-        Debug.Log("Action asignation completed");
     }
 
     #endregion
@@ -394,200 +137,169 @@ public class EmotivConfigMenu : MonoBehaviour {
 
     public void SetMentalCommandConfigMenuValues()
     {
-        switch (mentalCommandDropdown.value)
+        int command = mentalCommandDropdown.value;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int visIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + currentVisualization + "VisualizationIndex");
+        int objIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + currentObject + "ObjectIndex");
+        if (visIndex != 0)
         {
-            case 0:
-                mentalCommandActionsDropdow.value = pushAssignedActionIndex;
-                SetTriggerValues(pushTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                SetTriggerValues(pushMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                SetTriggerValues(pushTriggerLevel*10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 1:
-                mentalCommandActionsDropdow.value = pullAssignedActionIndex;
-                SetTriggerValues(pullTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                SetTriggerValues(pullMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                SetTriggerValues(pullTriggerLevel*10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 2:
-                mentalCommandActionsDropdow.value = liftAssignedActionIndex;
-                SetTriggerValues(liftTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                SetTriggerValues(liftMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                SetTriggerValues(liftTriggerLevel*10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 3:
-                mentalCommandActionsDropdow.value = dropAssignedActionIndex;
-                SetTriggerValues(dropTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                SetTriggerValues(dropMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                SetTriggerValues(dropTriggerLevel*10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 4:
-                mentalCommandActionsDropdow.value = leftAssignedActionIndex;
-                SetTriggerValues(leftTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                SetTriggerValues(leftMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                SetTriggerValues(leftTriggerLevel*10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
+            mentalCommandActionsDropdow.value = visIndex;
+        } else if (objIndex != 0)
+        {
+            mentalCommandActionsDropdow.value = objIndex;
         }
+        else
+        {
+            mentalCommandActionsDropdow.value = 0;
+        } 
+
+        SetTriggerValues(GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandTicks"), mentalCommandSensibilityValue, mentalCommandSensibilityText);
+        SetTriggerValues(GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandMistakes"), mentalCommandMistakeValue, mentalCommandMistakeText);
+        SetTriggerValues(GLPlayerPrefs.GetFloat(Scope, "Emotiv" + mentalCommandName[command] + "CommandTriggerLevel") * 10, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
+
         mentalCommandActionsDropdow.RefreshShownValue();
     }
 
     public void SetFacialExpressionConfigMenuValues()
     {
-        switch (facialExpresionDropdown.value)
+        int facial = facialExpresionDropdown.value;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int visIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + facialExpresionName[facial] + currentVisualization + "VisualizationIndex");
+        int objIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + facialExpresionName[facial] + currentObject + "ObjectIndex");
+        if (visIndex != 0)
         {
-            case 0:
-                facialExpresionActionsDropdown.value = anyWinkAssignedActionIndex;
-                SetTriggerValues(anyWinkTriggerLevel * 10, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 1:
-                facialExpresionActionsDropdown.value = leftWinkAssignedActionIndex;
-                SetTriggerValues(leftWinkTriggerLevel * 10, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 2:
-                facialExpresionActionsDropdown.value = rightWinkAssignedActionIndex;
-                SetTriggerValues(rightWinkTriggerLevel * 10, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 3:
-                facialExpresionActionsDropdown.value = smileAssignedActionIndex;
-                SetTriggerValues(smileTriggerLevel * 10, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
+            facialExpresionActionsDropdown.value = visIndex;
+        }else if (objIndex != 0)
+        {
+            int aux = objIndex + ActionManager.Instance.currentVisualizationActions.Length + 1;
+            facialExpresionActionsDropdown.value = aux;
         }
+        else
+        {
+            facialExpresionActionsDropdown.value = 0;
+        }
+
+        SetTriggerValues(GLPlayerPrefs.GetFloat(Scope, "Emotiv" + facialExpresionName[facial] + "TriggerLevel" ) * 10, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
+
         facialExpresionActionsDropdown.RefreshShownValue();
     }
 
     public void UpdateMentalCommandActionDropdownValues()
     {
-        switch (mentalCommandDropdown.value)
+        int command = mentalCommandDropdown.value;
+        int action = mentalCommandActionsDropdow.value;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int aux; 
+        if(action == 0)
         {
-            case 0:
-                pushAssignedActionIndex = mentalCommandActionsDropdow.value;
-                SetActionNameByIndex(pushAssignedActionText, pushAssignedActionIndex);
-                break;
-            case 1:
-                pullAssignedActionIndex = mentalCommandActionsDropdow.value;
-                SetActionNameByIndex(pullAssignedActionText, pullAssignedActionIndex);
-                break;
-            case 2:
-                liftAssignedActionIndex = mentalCommandActionsDropdow.value;
-                SetActionNameByIndex(liftAssignedActionText, liftAssignedActionIndex);
-                break;
-            case 3:
-                dropAssignedActionIndex = mentalCommandActionsDropdow.value;
-                SetActionNameByIndex(dropAssignedActionText, dropAssignedActionIndex);
-                break;
-            case 4:
-                leftAssignedActionIndex = mentalCommandActionsDropdow.value;
-                SetActionNameByIndex(leftAssignedActionText, leftAssignedActionIndex);
-                break;
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentVisualization + "VisualizationIndex", 0);
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentObject + "ObjectIndex", 0);
+        }else if (action < ActionManager.Instance.currentVisualizationActions.Length)
+        {
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentVisualization + "VisualizationIndex", action);
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentObject + "ObjectIndex", 0);
         }
-    }
+        else
+        {
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentVisualization + "VisualizationIndex", 0);
+            aux = action - ActionManager.Instance.currentVisualizationActions.Length + 1;
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + currentObject + "ObjectIndex", aux);
+        }
+        //
+        //
+        // First five slots are for the mental commands
+        int ticks = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandTicks");
+        int mistakes = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandMistakes");
+        float triggerLevel = GLPlayerPrefs.GetFloat(Scope, "Emotiv" + mentalCommandName[command] + "CommandTriggerLevel");
+        ActionManager.Instance.updateActionsEmotivInsight[command] = () => ActionManager.Instance.ActionPairing(
+            ActionManager.Instance.ActionConditionEmotiv(mentalCommandCode[command], ticks, mistakes, triggerLevel),
+            ActionManager.Instance.currentActionList[action]);
 
-    public void UpdateMentalCommandSensibilityValues()
-    {
-        switch (mentalCommandDropdown.value)
-        {
-            case 0:
-                UpdateTriggerValues(ref pushTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                break;
-            case 1:
-                UpdateTriggerValues(ref pullTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                break;
-            case 2:
-                UpdateTriggerValues(ref liftTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                break;
-            case 3:
-                UpdateTriggerValues(ref dropTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                break;
-            case 4:
-                UpdateTriggerValues(ref leftTicks, mentalCommandSensibilityValue, mentalCommandSensibilityText);
-                break;
-        }
-    }
-
-    public void UpdateMentalCommandMistakesValues()
-    {
-        switch (mentalCommandDropdown.value)
-        {
-            case 0:
-                UpdateTriggerValues(ref pushMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                break;
-            case 1:
-                UpdateTriggerValues(ref pullMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                break;
-            case 2:
-                UpdateTriggerValues(ref liftMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                break;
-            case 3:
-                UpdateTriggerValues(ref dropMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                break;
-            case 4:
-                UpdateTriggerValues(ref leftMistakes, mentalCommandMistakeValue, mentalCommandMistakeText);
-                break;
-        }
-    }
-
-    public void UpdateMentalCommandTriggerValues()
-    {
-        switch (mentalCommandDropdown.value)
-        {
-            case 0:
-                UpdateTriggerValues(ref pushTriggerLevel, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 1:
-                UpdateTriggerValues(ref pullTriggerLevel, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 2:
-                UpdateTriggerValues(ref liftTriggerLevel, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 3:
-                UpdateTriggerValues(ref dropTriggerLevel, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-            case 4:
-                UpdateTriggerValues(ref leftTriggerLevel, mentalCommandTriggerLevel, mentalCommandTriggerNumber);
-                break;
-        }
-    }
-
-    public void UpdateUpperFacialExpressionTriggerValues()
-    {
-        switch (facialExpresionDropdown.value)
-        {
-            case 0:
-                UpdateTriggerValues(ref anyWinkTriggerLevel, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 1:
-                UpdateTriggerValues(ref leftWinkTriggerLevel, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 2:
-                UpdateTriggerValues(ref rightWinkTriggerLevel, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-            case 3:
-                UpdateTriggerValues(ref smileTriggerLevel, facialExpressionTriggerLevel, facialExpressionTriggerNumber);
-                break;
-        }
+        //
+        //
+        //  Here, store the name to the list of asigned actions
+        //
+        //
     }
 
     public void UpdateFacialExpressionActionDropdownValues()
     {
-        switch (facialExpresionDropdown.value)
+        int expresion = facialExpresionDropdown.value;
+        int action = facialExpresionActionsDropdown.value;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int aux;
+
+        if (action == 0)
         {
-            case 0:
-                anyWinkAssignedActionIndex = facialExpresionActionsDropdown.value;
-                SetActionNameByIndex(anyWinkAssignedActionText, anyWinkAssignedActionIndex);
-                break;
-            case 1:
-                leftWinkAssignedActionIndex = facialExpresionActionsDropdown.value;
-                SetActionNameByIndex(leftWinkAssignedActionText, leftWinkAssignedActionIndex);
-                break;
-            case 2:
-                rightWinkAssignedActionIndex = facialExpresionActionsDropdown.value;
-                SetActionNameByIndex(rightWinkAssignedActionText, rightWinkAssignedActionIndex);
-                break;
-            case 3:
-                smileAssignedActionIndex = facialExpresionActionsDropdown.value;
-                SetActionNameByIndex(smileAssignedActionText, smileAssignedActionIndex);
-                break;
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentVisualization + "VisualizationIndex", 0);
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentObject + "ObjectIndex", 0);
         }
+        else if (action < ActionManager.Instance.currentVisualizationActions.Length)
+        {
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentVisualization + "VisualizationIndex", action);
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentObject + "ObjectIndex", 0);
+        }
+        else
+        {
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentVisualization + "VisualizationIndex", 0);
+            aux = action - ActionManager.Instance.currentVisualizationActions.Length + 1;
+            GLPlayerPrefs.SetInt(Scope, "Emotiv" + facialExpresionName[expresion] + currentObject + "ObjectIndex", aux);
+        }
+
+        float triggerLevel = GLPlayerPrefs.GetFloat(Scope, "Emotiv" + facialExpresionName[expresion] + "TriggerLevel");
+        aux = expresion + 5;
+        ActionManager.Instance.updateActionsEmotivInsight[aux] = () => ActionManager.Instance.ActionPairing(
+            ActionManager.Instance.ActionConditionEmotiv(facialExpresionCode[expresion], facilExpresionIsUpperFace[expresion] ,triggerLevel),
+            ActionManager.Instance.currentActionList[action]);
+        //
+        //
+        //  Here, store the name to the list of asigned actions
+        //
+        //
+
     }
+
+    public void UpdateMentalCommandSensibilityValues()
+    {
+        int command = mentalCommandDropdown.value;
+        int aux = (int)mentalCommandSensibilityValue.value;
+        GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandTicks", aux);
+        mentalCommandSensibilityText.text = aux.ToString();
+    }
+
+    public void UpdateMentalCommandMistakesValues()
+    {
+        int command = mentalCommandDropdown.value;
+        int aux = (int)mentalCommandMistakeValue.value;
+        GLPlayerPrefs.SetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandMistakes", aux);
+        mentalCommandMistakeText.text = aux.ToString();
+
+    }
+
+    public void UpdateMentalCommandTriggerValues()
+    {
+        int command = mentalCommandDropdown.value;
+        float trigger = (mentalCommandTriggerLevel.value / 10);
+        int aux = (int)mentalCommandTriggerLevel.value;
+        GLPlayerPrefs.SetFloat(Scope, "Emotiv" + mentalCommandName[command] + "CommandTriggerLevel", trigger);
+        mentalCommandTriggerNumber.text = aux.ToString();
+
+    }
+
+    public void UpdateUpperFacialExpressionTriggerValues()
+    {
+        int expresion = facialExpresionDropdown.value;
+        float trigger = (facialExpressionTriggerLevel.value / 10);
+        int aux = (int)facialExpressionTriggerLevel.value;
+        GLPlayerPrefs.SetFloat(Scope, "Emotiv" + facialExpresionName[expresion] + "TriggerLevel", trigger);
+        facialExpressionTriggerNumber.text = aux.ToString();
+    }
+
+    
 
 #endregion
 
