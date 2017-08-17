@@ -54,7 +54,7 @@ namespace Memoria
         public bool ActiveZoomOut;
         float resultRel = 0;
         public static gesturesContinuous currentContinuousGesture = new gesturesContinuous();
-        public gesturesContinuous maxContinuosGesture = new gesturesContinuous();
+        public KinectCommandConfigMenu.gesturesContinuous maxContinuosGesture = new KinectCommandConfigMenu.gesturesContinuous();
 
         KinectSensor kinectSensor;
         private Body[] bodies;
@@ -111,7 +111,8 @@ namespace Memoria
                 vgbFrameReader.FrameArrived += this.GestureFrameArrived;
             }
 
-            database = VisualGestureBuilderDatabase.Create("C:\\Users\\feres\\Documents\\Vortices-Bgiies\\Assets\\StreamingAssets\\kinectBDGestures.gbd");
+            //database = VisualGestureBuilderDatabase.Create("C:\\Users\\feres\\Documents\\Vortices-Bgiies\\Assets\\StreamingAssets\\kinectBDGestures.gbd");
+            database = VisualGestureBuilderDatabase.Create(Application.streamingAssetsPath + "/KinectDB.gbd");
             foreach (GestureContinuous gesture in database.AvailableGestures)
             {
                 this.vgbFrameSource.AddGesture(gesture);
@@ -158,9 +159,9 @@ namespace Memoria
                     {
                         if (body.IsTracked)
                         {
-                            if(!dioManager.panelBgiies.primerMovimiento)
+                            if (!dioManager.panelBgiies.primerMovimiento)
                                 SetBody(body.TrackingId);
-                                break;
+                            break;
                         }
                     }
                 }
@@ -243,20 +244,11 @@ namespace Memoria
 
                     //currentGestures = vgbFrameSource.Gestures;
                     //currentGestures.Clear();
-                    
+
                     List<GestureContinuous> gesturesPrueba = new List<GestureContinuous>();
-                    foreach (GestureContinuous gesture in this.vgbFrameSource.Gestures)
+                    resultRel = 0;
+                    foreach (var gesture in this.vgbFrameSource.Gestures)
                     {
-                        if(continuosResults != null)
-                        {
-                            if(gesture.GestureType == GestureType.Continuous)
-                            {
-                                gesturesPrueba.Add(gesture);
-                            }
-                        }
-                    }
-                    KinectCommandConfigMenu.CurrentGestureUpdate(gesturesPrueba, continuosResults);
-                    /*
                         if (continuosResults != null)
                         {
                             if (gesture.GestureType == GestureType.Continuous)
@@ -268,58 +260,141 @@ namespace Memoria
                                     if (result.Progress > resultRel)
                                     {
                                         resultRel = result.Progress;
-                                        maxContinuosGesture = new gesturesContinuous(gesture.Name, resultRel);
+                                        maxContinuosGesture = new KinectCommandConfigMenu.gesturesContinuous(gesture.Name, resultRel);
                                     }
-                                    /*
-                                    for(int i = 0; i < 7; i++)
+                                    foreach (string n in KinectCommandConfigMenu.gestureNames)
                                     {
-                                        if (gesture.Name.Equals(gestureNames[i]))
+                                        if (n == gesture.Name)
                                         {
-                                           if(result.Progress < gestureUntrigger[i] && !isGestureActive[i])
+                                            int index = Array.IndexOf(KinectCommandConfigMenu.gestureNames, n);
+                                            switch (index)
                                             {
-                                                isGestureActive[i] = true;
+                                                case 0:
+                                                    Debug.Log("Hand up progress " + result.Progress);
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture1UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 1:
+                                                    Debug.Log("Hand Down progress " + result.Progress);
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture2UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 2:
+                                                    Debug.Log("Hand Right  progress " + result.Progress);
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture3UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 3:
+                                                    Debug.Log("Hand Left progress " + result.Progress);
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture4UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 4:
+                                                    //Debug.Log("Hand Left progress " + result.Progress);
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture5UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 5:
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture6UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
+                                                case 6:
+                                                    if (result.Progress <= KinectCommandConfigMenu.gesture7UntriggerLevel && !KinectCommandConfigMenu.gestureActive[index])
+                                                        KinectCommandConfigMenu.gestureActive[index] = true;
+                                                    break;
                                             }
-                                        }                                    
+                                        }
                                     }
-                                    
+
                                 }
 
                             }
                         }
-                    }*/
-                    /*
-                    currentContinuousGesture = maxContinuosGesture;
-                    if (currentContinuousGesture.result != 0)
-                    {
-                        Debug.Log("llega a kinect gesture Manager");
-                        ActionManager.Instance.KinectGestureUpdate();
-                        /*
-                        if (currentContinuousGesture.nombre.Equals("HandUpProgress"))
-                        {
-                            if (currentContinuousGesture.resultado > 0.6f && HandUpActive)
-                            {
-                                HandUpActive = false;
-                                dioManager.panelBgiies.SelectBt1();
-                                if (dioManager.useHapticGlove)
-                                {
-                                    dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
-                                    StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
-                                }
-                                ActiveZoomOut = false;
-                                return;
-                            }
-                            if(currentContinuousGesture.resultado < 4f)
-                            {
-                                ActiveZoomOut = true;
-                            }
-                        }
-                        
-                                                                               
-                        
-                    }*/
-                }                    
+                    }
+                    Debug.Log("========================max gesture kinect manager " + maxContinuosGesture.name + " trigger " + maxContinuosGesture.result);
+                    KinectCommandConfigMenu.SetCurrentGesture(maxContinuosGesture);
+
+                }
             }
         }
+    }
+}
+                /*
+                gesturesPrueba.Add(gesture);
+                ContinuousGestureResult result = null;
+                continuosResults.TryGetValue(gesture, out result);
+                if(resultRel < result.Progress)
+                {
+                    resultRel = result.Progress;
+                    nameS = gesture.Name;
+                }
+            }
+        }
+    }
+    Debug.Log("gesture max = " + nameS + " tiiger " + resultRel);
+    KinectCommandConfigMenu.CurrentGestureUpdate(gesturesPrueba, continuosResults);
+    /*
+        if (continuosResults != null)
+        {
+            if (gesture.GestureType == GestureType.Continuous)
+            {
+                ContinuousGestureResult result = null;
+                continuosResults.TryGetValue(gesture, out result);
+                if (result != null)
+                {
+                    if (result.Progress > resultRel)
+                    {
+                        resultRel = result.Progress;
+                        maxContinuosGesture = new gesturesContinuous(gesture.Name, resultRel);
+                    }
+                    /*
+                    for(int i = 0; i < 7; i++)
+                    {
+                        if (gesture.Name.Equals(gestureNames[i]))
+                        {
+                           if(result.Progress < gestureUntrigger[i] && !isGestureActive[i])
+                            {
+                                isGestureActive[i] = true;
+                            }
+                        }                                    
+                    }
+
+                }
+
+            }
+        }
+    }*/
+                /*
+                currentContinuousGesture = maxContinuosGesture;
+                if (currentContinuousGesture.result != 0)
+                {
+                    Debug.Log("llega a kinect gesture Manager");
+                    ActionManager.Instance.KinectGestureUpdate();
+                    /*
+                    if (currentContinuousGesture.nombre.Equals("HandUpProgress"))
+                    {
+                        if (currentContinuousGesture.resultado > 0.6f && HandUpActive)
+                        {
+                            HandUpActive = false;
+                            dioManager.panelBgiies.SelectBt1();
+                            if (dioManager.useHapticGlove)
+                            {
+                                dioManager.unityHapticGlove.ActiveMotorRegions(regionsSelectionSelect, intensityMax, dioManager.unityHapticGlove.gloveRight);
+                                StartCoroutine(dioManager.unityHapticGlove.DeactiveMotorRegions(0.5f, regionsSelectionSelect, intensityZero, dioManager.unityHapticGlove.gloveRight));
+                            }
+                            ActiveZoomOut = false;
+                            return;
+                        }
+                        if(currentContinuousGesture.resultado < 4f)
+                        {
+                            ActiveZoomOut = true;
+                        }
+                    }
+
+
+
+                }*/
+            
             /*
        public void RegisterGestureProgress(string action , float progress)
        { 
@@ -327,7 +402,3 @@ namespace Memoria
            dioManager.csvCreator.AddLines(action, progress.ToString());
        }*/
 
-        }
-
-
-}

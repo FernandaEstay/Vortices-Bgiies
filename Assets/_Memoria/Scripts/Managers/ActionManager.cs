@@ -416,19 +416,14 @@ public class ActionManager : MonoBehaviour, IAwake
 
     public bool ActionConditionKinect(int gestureIndex, float gestureTrigger)
     {
-        Debug.Log("Action condition Kinect gestureIndex " + gestureIndex + " gesture Trigger " + gestureTrigger);
-        Debug.Log("Nombre gesto current " + KinectCommandConfigMenu.currentGestureContinuous.name);
-        foreach(string name in KinectCommandConfigMenu.gestureNames)
+        if (KinectCommandConfigMenu.currentGestureContinuous.name == "")
+            return false;
+        if (KinectCommandConfigMenu.gestureNames[gestureIndex] == KinectCommandConfigMenu.currentGestureContinuous.name)
         {
-            if(name == KinectCommandConfigMenu.currentGestureContinuous.name)
+            if (KinectCommandConfigMenu.currentGestureContinuous.result >= gestureTrigger && KinectCommandConfigMenu.gestureActive[gestureIndex])
             {
-                Debug.Log("Encuentra gesto con mismo nombre" + "trigger " + KinectCommandConfigMenu.currentGestureContinuous.result + "active " + KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)]);
-                if(KinectCommandConfigMenu.currentGestureContinuous.result >= gestureTrigger && KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)])
-                {
-                    KinectCommandConfigMenu.gestureActive[Array.IndexOf(KinectCommandConfigMenu.gestureNames, name)] = false;
-                    Debug.Log("Realizar accion !!! " + "Gesture Name " + name);
-                    return true;
-                }
+                KinectCommandConfigMenu.gestureActive[gestureIndex] = false;
+                return true;
             }
         }
         return false;
