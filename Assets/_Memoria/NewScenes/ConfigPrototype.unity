@@ -4397,7 +4397,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6100,7 +6100,7 @@ RectTransform:
   - {fileID: 2090362334}
   - {fileID: 235597444}
   m_Father: {fileID: 723959727}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6095883, y: 0.54700005}
   m_AnchorMax: {x: 0.99200004, y: 0.6118855}
@@ -10442,20 +10442,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Miusov, as a man man of breeding and deilcacy, could not but feel some
-    inwrd qualms, when he reached the Father Superior's with Ivan: he felt ashamed
-    of havin lost his temper. He felt that he ought to have disdaimed that despicable
-    wretch, Fyodor Pavlovitch, too much to have been upset by him in Father Zossima's
-    cell, and so to have forgotten himself. \"Teh monks were not to blame, in any
-    case,\" he reflceted, on the steps. \"And if they're decent people here (and the
-    Father Superior, I understand, is a nobleman) why not be friendly and courteous
-    withthem? I won't argue, I'll fall in with everything, I'll win them by politness,
-    and show them that I've nothing to do with that Aesop, thta buffoon, that Pierrot,
-    and have merely been takken in over this affair, just as they have.\"\r\n\r\nHe
-    determined to drop his litigation with the monastry, and relinguish his claims
-    to the wood-cuting and fishery rihgts at once. He was the more ready to do this
-    becuase the rights had becom much less valuable, and he had indeed the vaguest
-    idea where the wood and river in quedtion were.\r\n"
+  m_Text: 'Select/Deselect image
+
+    Change to next sphere
+
+    Change to previous sphere
+
+'
 --- !u!222 &310627780
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13589,8 +13582,8 @@ RectTransform:
   m_Father: {fileID: 303601051}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -16008,7 +16001,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -22174,7 +22167,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -23356,7 +23349,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1561419467}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.07106672
+  m_Size: 0.07310894
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -24069,13 +24062,14 @@ GameObject:
   - component: {fileID: 723959726}
   - component: {fileID: 723959725}
   - component: {fileID: 723959724}
+  - component: {fileID: 723959728}
   m_Layer: 5
   m_Name: VisualizationCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &723959724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24149,6 +24143,7 @@ RectTransform:
   - {fileID: 165239296}
   - {fileID: 1499055487}
   - {fileID: 479720034}
+  - {fileID: 1197702251}
   - {fileID: 193087736}
   - {fileID: 1551547117}
   - {fileID: 1491791152}
@@ -24162,6 +24157,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &723959728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 723959723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f420cdceb5278e4fb8dc073ccd0585d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentVisualizationText: {fileID: 1610698186}
+  visualizationDropDown: {fileID: 1469031775}
+  sphereVideo: {fileID: 479720033}
+  planeVideo: {fileID: 1197702250}
+  actionsAvailables: {fileID: 310627779}
+  visualizationDescription: {fileID: 1111483540}
 --- !u!1 &724773038
 GameObject:
   m_ObjectHideFlags: 0
@@ -25991,7 +26003,7 @@ RectTransform:
   - {fileID: 1044479673}
   - {fileID: 1332854730}
   m_Father: {fileID: 723959727}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.030000001, y: 0.3133021}
   m_AnchorMax: {x: 0.59052944, y: 0.63569796}
@@ -29697,8 +29709,8 @@ RectTransform:
   m_Father: {fileID: 1713839579}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -31887,7 +31899,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -36884,7 +36896,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10.049988, y: 0}
-  m_SizeDelta: {x: 484, y: 1368}
+  m_SizeDelta: {x: 484, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1111483539
 MonoBehaviour:
@@ -36931,20 +36943,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Miusov, as a man man of breeding and deilcacy, could not but feel some
-    inwrd qualms, when he reached the Father Superior's with Ivan: he felt ashamed
-    of havin lost his temper. He felt that he ought to have disdaimed that despicable
-    wretch, Fyodor Pavlovitch, too much to have been upset by him in Father Zossima's
-    cell, and so to have forgotten himself. \"Teh monks were not to blame, in any
-    case,\" he reflceted, on the steps. \"And if they're decent people here (and the
-    Father Superior, I understand, is a nobleman) why not be friendly and courteous
-    withthem? I won't argue, I'll fall in with everything, I'll win them by politness,
-    and show them that I've nothing to do with that Aesop, thta buffoon, that Pierrot,
-    and have merely been takken in over this affair, just as they have.\"\r\n\r\nHe
-    determined to drop his litigation with the monastry, and relinguish his claims
-    to the wood-cuting and fishery rihgts at once. He was the more ready to do this
-    becuase the rights had becom much less valuable, and he had indeed the vaguest
-    idea where the wood and river in quedtion were.\r\n"
+  m_Text: This visualization is designed for immersive virtual reality environments
+    and shows objects distribuited in a spherical configuration around the subject.
 --- !u!222 &1111483541
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39626,6 +39626,86 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1197178958}
+--- !u!1 &1197702250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1197702251}
+  - component: {fileID: 1197702254}
+  - component: {fileID: 1197702253}
+  - component: {fileID: 1197702252}
+  m_Layer: 5
+  m_Name: PlaneVisualizationVideo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1197702251
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197702250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 723959727}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.012201571, y: 0.020000001}
+  m_AnchorMax: {x: 0.6015295, y: 0.6118855}
+  m_AnchoredPosition: {x: 1.5, y: -0.5}
+  m_SizeDelta: {x: -2, y: -1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1197702252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197702250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4700bcb2723079469d96902e6eb4ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  video: {fileID: 15200000, guid: 89bfff07be2f002428cb96f86b377389, type: 3}
+--- !u!114 &1197702253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197702250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 15200000, guid: 89bfff07be2f002428cb96f86b377389, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1197702254
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197702250}
 --- !u!1 &1204481480
 GameObject:
   m_ObjectHideFlags: 0
@@ -43138,8 +43218,8 @@ RectTransform:
   m_Father: {fileID: 1920292688}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -43954,7 +44034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1323123678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44073,8 +44153,8 @@ RectTransform:
   m_Father: {fileID: 78620985}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -45375,7 +45455,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -48182,11 +48262,20 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Plane
       m_Image: {fileID: 0}
-    - m_Text: Placeholder
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 723959728}
+        m_MethodName: VisualizationDropDownChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1469031776
@@ -49713,7 +49802,7 @@ RectTransform:
   - {fileID: 757513893}
   - {fileID: 1825220769}
   m_Father: {fileID: 723959727}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6095883, y: 0.020000001}
   m_AnchorMax: {x: 0.99200004, y: 0.46139586}
@@ -51175,7 +51264,7 @@ RectTransform:
   m_Children:
   - {fileID: 1633468733}
   m_Father: {fileID: 723959727}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6095883, y: 0.46400002}
   m_AnchorMax: {x: 0.99200004, y: 0.53400004}
@@ -51572,8 +51661,8 @@ RectTransform:
   m_Father: {fileID: 756508933}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.9268911}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -56173,7 +56262,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -59710,8 +59799,8 @@ RectTransform:
   m_Father: {fileID: 1254617025}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.75147146}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -60181,7 +60270,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1808827591}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.24852853
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -60284,7 +60373,7 @@ RectTransform:
   - {fileID: 1435757027}
   - {fileID: 1620246521}
   m_Father: {fileID: 723959727}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.030000001, y: 0.64100003}
   m_AnchorMax: {x: 0.59052944, y: 0.70930207}
@@ -68666,7 +68755,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10.049988, y: 0}
-  m_SizeDelta: {x: 538, y: 0}
+  m_SizeDelta: {x: 538, y: 6715.2983}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2083864011
 MonoBehaviour:
