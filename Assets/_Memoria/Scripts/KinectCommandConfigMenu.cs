@@ -5,14 +5,30 @@ using UnityEngine.UI;
 using Gamelogic;
 using Memoria;
 using System;
+using Microsoft.Kinect.VisualGestureBuilder;
 
 public class KinectCommandConfigMenu : MonoBehaviour {
+
+    public struct gesturesContinuous
+    {
+        public string name;
+        public float result;
+
+        public gesturesContinuous(string name, float result)
+        {
+            this.name = name;
+            this.result = result;
+        }
+    }
+
+    public static gesturesContinuous currentGestureContinuous;
 
     public DIOManager dioManager;
 
     public Dropdown basicGesturesActionsDropdown, basicGesturesDropdown, dbGesturesActionsDropdown, dbGesturesDropdown;
     public Slider dbGestureTriggerLevel, dbGestureUntriggerLevel;
-    float gesture1TriggerLevel, gesture2TriggerLevel, gesture3TriggerLevel, gesture4TriggerLevel, gesture5TriggerLevel, gesture6TriggerLevel, gesture7TriggerLevel, gesture1UntriggerLevel, gesture2UntriggerLevel, gesture3UntriggerLevel, gesture4UntriggerLevel, gesture5UntriggerLevel, gesture6UntriggerLevel, gesture7UntriggerLevel;
+    float gesture1TriggerLevel, gesture2TriggerLevel, gesture3TriggerLevel, gesture4TriggerLevel, gesture5TriggerLevel, gesture6TriggerLevel, gesture7TriggerLevel;
+    public static float gesture1UntriggerLevel, gesture2UntriggerLevel, gesture3UntriggerLevel, gesture4UntriggerLevel, gesture5UntriggerLevel, gesture6UntriggerLevel, gesture7UntriggerLevel;
     int openHandRightAssignedActionIndex, openHandLeftAssignedActionIndex, closeHandRightAssignedActionIndex, closeHandLeftAssignedActionIndex, lassoHandRightAssignedActionIndex, lassoHandLeftAssignedActionIndex, gesture1AssignedActionIndex, gesture2AssignedActionIndex, gesture3AssignedActionIndex, gesture4AssignedActionIndex, gesture5AssignedActionIndex, gesture6AssignedActionIndex, gesture7AssignedActionIndex;
     public Text dbGestureTriggerNumber, dbGestureUntriggerNumber;
     public Text openHandRightAssignedActionText, openHandLeftAssignedActionText, closeHandRightAssignedActionText, closeHandLeftAssignedActionText, lassoHandRightAssignedActionText, lassoHandLeftAssignedActionText, gesture1AssignedActionText, gesture2AssignedActionText, gesture3AssignedActionText, gesture4AssignedActionText, gesture5AssignedActionText, gesture6AssignedActionText, gesture7AssignedActionText;
@@ -252,7 +268,6 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         if (lassoHandRightAssignedActionIndex != 0)
         {
-
             ActionManager.Instance.updateActionsKinectGestures[4] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, true),
                 //ActionManager.Instance.currentActionList[lassoHandRightAssignedActionIndex]
@@ -266,7 +281,6 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         if (lassoHandLeftAssignedActionIndex != 0)
         {
-            
             ActionManager.Instance.updateActionsKinectGestures[5] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, false),
                 //ActionManager.Instance.currentActionList[lassoHandLeftAssignedActionIndex]
@@ -285,8 +299,9 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture1AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[6] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(1, gesture1TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.ActionConditionKinect(0, gesture1TriggerLevel),
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[3]
                 );
         }
         else
@@ -297,8 +312,9 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture2AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[7] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(2, gesture2TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture2AssignedActionIndex]
+                ActionManager.Instance.ActionConditionKinect(1, gesture2TriggerLevel),
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[4]
                 );
         }
         else
@@ -309,8 +325,9 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture3AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[8] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(3, gesture3TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture3AssignedActionIndex]
+                ActionManager.Instance.ActionConditionKinect(2, gesture3TriggerLevel),
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[5]
                 );
         }
         else
@@ -321,8 +338,9 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture4AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[9] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(4, gesture4TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture4AssignedActionIndex]
+                ActionManager.Instance.ActionConditionKinect(3, gesture4TriggerLevel),
+                //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
+                ActionManager.Instance.currentActionList[6]
                 );
         }
         else
@@ -333,7 +351,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture5AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[10] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(5, gesture5TriggerLevel),
+                ActionManager.Instance.ActionConditionKinect(4, gesture5TriggerLevel),
                 ActionManager.Instance.currentActionList[gesture5AssignedActionIndex]
                 );
         }
@@ -345,7 +363,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture6AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[11] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(6, gesture6TriggerLevel),
+                ActionManager.Instance.ActionConditionKinect(5, gesture6TriggerLevel),
                 ActionManager.Instance.currentActionList[gesture6AssignedActionIndex]
                 );
         }
@@ -357,7 +375,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         if (gesture7AssignedActionIndex != 0)
         {
             ActionManager.Instance.updateActionsKinectGestures[12] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionKinect(7, gesture7TriggerLevel),
+                ActionManager.Instance.ActionConditionKinect(6, gesture7TriggerLevel),
                 ActionManager.Instance.currentActionList[gesture7AssignedActionIndex]
                 );
         }
@@ -368,7 +386,79 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
         Debug.Log("Action asignation completed");
     }
+    /*
+    public static void CurrentGestureUpdate(List<GestureContinuous> currentGestures, IDictionary<GestureContinuous, ContinuousGestureResult> continuosResults)
+    {
+        gesturesContinuous currentGesture = new gesturesContinuous();
+        SetCurrentGesture(new gesturesContinuous("", 0));
+        float maxGestureTrigger = 0;
+        for (int i = 0; i < currentGestures.Count; i++)
+        {
+            foreach(string name in gestureNames)
+            {
+                if (name == currentGestures[i].Name)
+                {
+                    ContinuousGestureResult result = null;
+                    continuosResults.TryGetValue(currentGestures[i], out result);
+                    switch (Array.IndexOf(gestureNames, name))
+                    {                     
+                        case 0:
 
+                            if (result.Progress <= gesture1UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                            {
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            }
+                            break;
+                        case 1:
+                            if (result.Progress <= gesture2UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                            {
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            }
+                            break;
+                        case 2:
+                            if (result.Progress <= gesture3UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                            {
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+
+                            }
+                            break;
+                        case 3:
+                            if (result.Progress <= gesture4UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                            {
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            }
+                            break;
+                        case 4:
+                            if (result.Progress <= gesture5UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                            {
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            }
+                            break;
+                        case 5:
+                            if (result.Progress <= gesture6UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            break;
+                        case 6:
+                            if (result.Progress < gesture7UntriggerLevel && !gestureActive[Array.IndexOf(gestureNames, name)])
+                                gestureActive[Array.IndexOf(gestureNames, name)] = true;
+                            break;
+                    }
+                    if (result.Progress >= maxGestureTrigger)
+                    {
+                        maxGestureTrigger = result.Progress;
+                        currentGesture = new gesturesContinuous(name, result.Progress);
+                    }
+                }
+            }
+            //Debug.Log("current gesture Name " + currentGesture.name + " trigger " + currentGesture.result);
+        }
+        Debug.Log("**************************************maximun " + currentGesture.name + " trigger " + currentGesture.result);
+        if (maxGestureTrigger == 0)
+            SetCurrentGesture(new gesturesContinuous("", 0));
+        else
+            SetCurrentGesture(currentGesture);
+    }
+    */
     #endregion
 
     #region UI triggers
@@ -608,7 +698,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
 
     void SetTriggerValues(float trigger, Slider slider, Text text)
     {
-        Debug.Log("trigger: " + trigger.ToString());
+        //Debug.Log("trigger: " + trigger.ToString());
         slider.value = trigger;
         int aux = (int)trigger;
         text.text = aux.ToString();
@@ -626,5 +716,9 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         }
     }
 
+    public static void SetCurrentGesture(gesturesContinuous gesture)
+    {
+        currentGestureContinuous = gesture;
+    }
     #endregion
 }

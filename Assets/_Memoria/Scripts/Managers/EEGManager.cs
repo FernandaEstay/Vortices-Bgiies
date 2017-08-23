@@ -102,7 +102,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #region Update functions
     // Update is called once per frame
     void Update () {
-        Debug.Log("update triggered");
+        //Debug.Log("update triggered");
         if (!initialized)
             return;
 

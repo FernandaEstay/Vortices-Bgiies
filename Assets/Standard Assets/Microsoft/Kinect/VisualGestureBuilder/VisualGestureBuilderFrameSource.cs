@@ -108,7 +108,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
         private static extern int Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_get_Gestures(RootSystem.IntPtr pNative, [RootSystem.Runtime.InteropServices.Out] RootSystem.IntPtr[] outCollection, int outCollectionSize);
         [RootSystem.Runtime.InteropServices.DllImport("KinectVisualGestureBuilderUnityAddin", CallingConvention=RootSystem.Runtime.InteropServices.CallingConvention.Cdecl, SetLastError=true)]
         private static extern int Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_get_Gestures_Length(RootSystem.IntPtr pNative);
-        public  RootSystem.Collections.Generic.IList<Microsoft.Kinect.VisualGestureBuilder.Gesture> Gestures
+        public  RootSystem.Collections.Generic.IList<Microsoft.Kinect.VisualGestureBuilder.GestureContinuous> Gestures
         {
             get
             {
@@ -119,7 +119,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
                 int outCollectionSize = Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_get_Gestures_Length(_pNative);
                 var outCollection = new RootSystem.IntPtr[outCollectionSize];
-                var managedCollection = new Microsoft.Kinect.VisualGestureBuilder.Gesture[outCollectionSize];
+                var managedCollection = new Microsoft.Kinect.VisualGestureBuilder.GestureContinuous[outCollectionSize];
 
                 outCollectionSize = Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_get_Gestures(_pNative, outCollection, outCollectionSize);
                 Helper.ExceptionHelper.CheckLastError();
@@ -130,7 +130,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
                         continue;
                     }
 
-                    var obj = Helper.NativeObjectCache.CreateOrGetObject<Microsoft.Kinect.VisualGestureBuilder.Gesture>(outCollection[i], n => new Microsoft.Kinect.VisualGestureBuilder.Gesture(n));
+                    var obj = Helper.NativeObjectCache.CreateOrGetObject<Microsoft.Kinect.VisualGestureBuilder.GestureContinuous>(outCollection[i], n => new Microsoft.Kinect.VisualGestureBuilder.GestureContinuous(n));
 
                     managedCollection[i] = obj;
                 }
@@ -318,7 +318,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
         // Public Methods
         [RootSystem.Runtime.InteropServices.DllImport("KinectVisualGestureBuilderUnityAddin", CallingConvention=RootSystem.Runtime.InteropServices.CallingConvention.Cdecl, SetLastError=true)]
         private static extern void Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_AddGesture(RootSystem.IntPtr pNative, RootSystem.IntPtr gesture);
-        public void AddGesture(Microsoft.Kinect.VisualGestureBuilder.Gesture gesture)
+        public void AddGesture(Microsoft.Kinect.VisualGestureBuilder.GestureContinuous gesture)
         {
             if (_pNative == RootSystem.IntPtr.Zero)
             {
@@ -331,7 +331,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
         [RootSystem.Runtime.InteropServices.DllImport("KinectVisualGestureBuilderUnityAddin", CallingConvention=RootSystem.Runtime.InteropServices.CallingConvention.Cdecl, SetLastError=true)]
         private static extern void Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_AddGestures(RootSystem.IntPtr pNative, RootSystem.IntPtr gestures, int gesturesSize);
-        public void AddGestures(Microsoft.Kinect.VisualGestureBuilder.Gesture[] gestures)
+        public void AddGestures(Microsoft.Kinect.VisualGestureBuilder.GestureContinuous[] gestures)
         {
             if (_pNative == RootSystem.IntPtr.Zero)
             {
@@ -353,7 +353,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
         [RootSystem.Runtime.InteropServices.DllImport("KinectVisualGestureBuilderUnityAddin", CallingConvention=RootSystem.Runtime.InteropServices.CallingConvention.Cdecl, SetLastError=true)]
         private static extern void Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_RemoveGesture(RootSystem.IntPtr pNative, RootSystem.IntPtr gesture);
-        public void RemoveGesture(Microsoft.Kinect.VisualGestureBuilder.Gesture gesture)
+        public void RemoveGesture(Microsoft.Kinect.VisualGestureBuilder.GestureContinuous gesture)
         {
             if (_pNative == RootSystem.IntPtr.Zero)
             {
@@ -366,7 +366,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
         [RootSystem.Runtime.InteropServices.DllImport("KinectVisualGestureBuilderUnityAddin", CallingConvention=RootSystem.Runtime.InteropServices.CallingConvention.Cdecl, SetLastError=true)]
         private static extern void Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_SetIsEnabled(RootSystem.IntPtr pNative, RootSystem.IntPtr gesture, bool isEnabled);
-        public void SetIsEnabled(Microsoft.Kinect.VisualGestureBuilder.Gesture gesture, bool isEnabled)
+        public void SetIsEnabled(Microsoft.Kinect.VisualGestureBuilder.GestureContinuous gesture, bool isEnabled)
         {
             if (_pNative == RootSystem.IntPtr.Zero)
             {

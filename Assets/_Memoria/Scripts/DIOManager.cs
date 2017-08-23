@@ -318,7 +318,10 @@ namespace Memoria
                 panelBgiies.EnableMoveCameraInside();
                 panelBgiies.EnableMoveCameraOutside();
             };
-            
+
+            ActionManager.Instance.InitializeManager(this);
+            EEGManager.Instance.InitializeManager();
+            EyetrackerManager.Instance.InitializeManager(this);
         }
 
         private void SetVariables()

@@ -6,20 +6,29 @@ namespace Microsoft.Kinect.VisualGestureBuilder
     //
     // Microsoft.Kinect.VisualGestureBuilder.Gesture
     //
-    public sealed partial class Gesture : Helper.INativeWrapper
+    public sealed partial class GestureContinuous : Helper.INativeWrapper
 
     {
         internal RootSystem.IntPtr _pNative;
+        private string name;
+        private ContinuousGestureResult result;
+
         RootSystem.IntPtr Helper.INativeWrapper.nativePtr { get { return _pNative; } }
 
         // Constructors and Finalizers
-        internal Gesture(RootSystem.IntPtr pNative)
+        internal GestureContinuous(RootSystem.IntPtr pNative)
         {
             _pNative = pNative;
             Microsoft_Kinect_VisualGestureBuilder_Gesture_AddRefObject(ref _pNative);
         }
 
-        ~Gesture()
+        public GestureContinuous(string name, ContinuousGestureResult result)
+        {
+            this.name = name;
+            this.result = result;
+        }
+
+        ~GestureContinuous()
         {
             Dispose(false);
         }
@@ -37,7 +46,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
 
             __EventCleanup();
 
-            Helper.NativeObjectCache.RemoveObject<Gesture>(_pNative);
+            Helper.NativeObjectCache.RemoveObject<GestureContinuous>(_pNative);
                 Microsoft_Kinect_VisualGestureBuilder_Gesture_ReleaseObject(ref _pNative);
 
             _pNative = RootSystem.IntPtr.Zero;

@@ -51,7 +51,7 @@ namespace Microsoft.Kinect.VisualGestureBuilder
             EntryPoint = "Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_GetIsEnabled",
             CallingConvention = RootSystem.Runtime.InteropServices.CallingConvention.Cdecl)]
         private static extern bool Microsoft_Kinect_VisualGestureBuilder_VisualGestureBuilderFrameSource_GetIsEnabled(RootSystem.IntPtr pNative, RootSystem.IntPtr gesturePtr);
-        public bool GetIsEnabled(Microsoft.Kinect.VisualGestureBuilder.Gesture gesture)
+        public bool GetIsEnabled(Microsoft.Kinect.VisualGestureBuilder.GestureContinuous gesture)
         {
             if (_pNative == RootSystem.IntPtr.Zero)
             {
