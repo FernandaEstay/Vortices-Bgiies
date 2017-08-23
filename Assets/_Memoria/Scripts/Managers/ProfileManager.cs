@@ -77,7 +77,7 @@ public class ProfileManager : MonoBehaviour {
             aux = new string[1];
             aux[0] = "Default Evaluation";
             GLPlayerPrefs.SetStringArray(newProfile, "EvaluationNamesList", aux);
-            UpdateCurrentProfile(newLength - 1);
+            UpdateCurrentProfile(newLength - 1);            
             return true;
         }
         else
@@ -108,6 +108,7 @@ public class ProfileManager : MonoBehaviour {
             evaluations[newLength - 1] = newEvaluation;
             GLPlayerPrefs.SetStringArray(profileScope, "EvaluationNamesList", evaluations);
             UpdateCurrentEvaluation(newLength - 1);
+            SetEvaluationDefaultValues();
             return true;
         }
         else
@@ -125,5 +126,12 @@ public class ProfileManager : MonoBehaviour {
         }
         return true;
     }
+
+    void SetEvaluationDefaultValues()
+    {
+        GLPlayerPrefs.SetString(currentEvaluationScope, "CurrentVisualization", "Sphere");
+        GLPlayerPrefs.SetString(currentEvaluationScope, "CurrentInformationObject", "PlaneImage");
+    }
+
 
 }

@@ -12,6 +12,7 @@ public class MOTIONSManager : MonoBehaviour {
     {
         Instance = this;
         DontDestroyOnLoad(this);
+        GLPlayerPrefs.SetBool("ProfileManagerScope3", "SimulationStarted", false);
     }
     // Use this for initialization
     void Start () {
@@ -27,4 +28,28 @@ public class MOTIONSManager : MonoBehaviour {
     {
         GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
     }
+
+    /*
+     *                                      IMPORTANT:
+     * To maintain data integrity, please always note here the names of the Visualizations, 
+     * Objects and Interfaces you're adding, so they DON'T repeat themselves when using keys 
+     * to store data in the player preferences (GLPlayerPrefs).
+     * 
+     ***Visualizations:
+     *  -Plane
+     *  -Sphere
+     * 
+     ***Objects:
+     *  -PlaneImage
+     * 
+     ***Interfaces:
+     *  -Emotiv
+     *  -EyeTribe
+     *  -NeuroSky
+     *  -Kinect
+     *  -OcculusRift
+     *  -OpenGlove
+     *  -LeapMotion
+     * 
+     */
 }

@@ -17,7 +17,6 @@ public class EmotivConfigMenu : MonoBehaviour {
     float pushTriggerLevel = 0.5f, pullTriggerLevel = 0.5f, liftTriggerLevel = 0.5f, dropTriggerLevel = 0.5f, leftTriggerLevel = 0.5f, leftWinkTriggerLevel = 0.5f, rightWinkTriggerLevel = 0.5f, anyWinkTriggerLevel = 0.5f, smileTriggerLevel = 0.5f;
     int pushAssignedActionIndex = 5, pullAssignedActionIndex = 5, liftAssignedActionIndex = 5, dropAssignedActionIndex = 5, leftAssignedActionIndex = 5, leftWinkAssignedActionIndex = 5, rightWinkAssignedActionIndex = 5, anyWinkAssignedActionIndex = 5, smileAssignedActionIndex = 5;
     public Text mentalCommandTriggerNumber, facialExpressionTriggerNumber;
-    public Text pushAssignedActionText, pullAssignedActionText, liftAssignedActionText, dropAssignedActionText, leftAssignedActionText, leftWinkAssignedActionText, rightWinkAssignedActionText, anyWinkAssignedActionText, smileAssignedActionText;
     string Scope;
     string[] mentalCommandName = new string[]
     {
@@ -85,17 +84,6 @@ public class EmotivConfigMenu : MonoBehaviour {
 
     void OnEnable()
     {
-        SetActionNameByIndex(pushAssignedActionText, pushAssignedActionIndex);
-        SetActionNameByIndex(pullAssignedActionText, pullAssignedActionIndex);
-        SetActionNameByIndex(liftAssignedActionText, liftAssignedActionIndex);
-        SetActionNameByIndex(dropAssignedActionText, dropAssignedActionIndex);
-        SetActionNameByIndex(leftAssignedActionText, leftAssignedActionIndex);
-
-        SetActionNameByIndex(anyWinkAssignedActionText, anyWinkAssignedActionIndex);
-        SetActionNameByIndex(leftWinkAssignedActionText, leftWinkAssignedActionIndex);
-        SetActionNameByIndex(rightWinkAssignedActionText, rightWinkAssignedActionIndex);
-        SetActionNameByIndex(smileAssignedActionText, smileAssignedActionIndex);
-
         CleanEmotivActions();
         float aux = ActionManager.Instance.endTime*10;
         SetTriggerValues((int)aux, tickSensibilityValue, tickSensibilityText);
@@ -147,7 +135,8 @@ public class EmotivConfigMenu : MonoBehaviour {
             mentalCommandActionsDropdow.value = visIndex;
         } else if (objIndex != 0)
         {
-            mentalCommandActionsDropdow.value = objIndex;
+            int aux = objIndex + ActionManager.Instance.currentVisualizationActions.Length - 1;
+            mentalCommandActionsDropdow.value = aux;
         }
         else
         {
@@ -173,7 +162,7 @@ public class EmotivConfigMenu : MonoBehaviour {
             facialExpresionActionsDropdown.value = visIndex;
         }else if (objIndex != 0)
         {
-            int aux = objIndex + ActionManager.Instance.currentVisualizationActions.Length + 1;
+            int aux = objIndex + ActionManager.Instance.currentVisualizationActions.Length - 1;
             facialExpresionActionsDropdown.value = aux;
         }
         else

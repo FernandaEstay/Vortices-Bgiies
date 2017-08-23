@@ -6,9 +6,11 @@ using UnityEngine;
 public class ConfigManager : MonoBehaviour {
 
     string outputPath;
+    [HideInInspector]
+    public List<string[]> mappedActions;
 	// Use this for initialization
 	void Start () {
-		
+        mappedActions = new List<string[]>();
 	}
 	
 	// Update is called once per frame

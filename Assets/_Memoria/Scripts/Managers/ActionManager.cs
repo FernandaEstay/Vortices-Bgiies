@@ -16,7 +16,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     public bool initialized = false;
     public DIOManager dioManager;
     #region Variable declaration
-    Action[] vorticesActionList;
+    public Action[] vorticesActionList = new Action[8];
     [HideInInspector]
     public string[] vorticesActionListNames;
     Action[] bgiiesActionList;
@@ -38,6 +38,7 @@ public class ActionManager : MonoBehaviour, IAwake {
     public string[] currentObjectActionsNames;
     [HideInInspector]
     public bool bgiiesMode;
+
 
     public GameObject neuroSkyConfigMenu, emotivConfigMenu, kinectConfigMenu;
     #endregion
@@ -66,9 +67,10 @@ public class ActionManager : MonoBehaviour, IAwake {
     #endregion
     // Use this for initialization
     public void Awake () {
-        Instance = this;
-        
+        Instance = this;        
     }
+
+    
 
     public void Start()
     {
@@ -199,37 +201,43 @@ public class ActionManager : MonoBehaviour, IAwake {
         
     }
 
-    public void ReloadMappingActionsDropdown(Dropdown availableActionsDropdown)
+    public void ReloadMappingActions()
     {
-        availableActionsDropdown.ClearOptions();
         //deletes the previous action list and names by forming them again from the visualization and object arrays
         currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length - 1];
         //For this to work propperly, the first action (index 0) of every array of Visualization/Objects actions MUST BE NULL
-        Action[] aux = new Action[currentVisualizationActions.Length - 1];
-        for(int i = 1; i < currentVisualizationActions.Length; i++)
-        {
-            aux[i - 1] = currentVisualizationActions[i];
-        }
-        aux.CopyTo(currentActionList, 0);
-        int actionListLen = aux.Length;
-        aux = new Action[currentObjectActions.Length - 1];
+        currentVisualizationActions.CopyTo(currentActionList, 0);
+        int actionListLen = currentVisualizationActions.Length;
+        Action[] aux = new Action[currentObjectActions.Length - 1];
         for (int i = 1; i < currentObjectActions.Length; i++)
         {
             aux[i - 1] = currentVisualizationActions[i];
         }
         aux.CopyTo(currentActionList, actionListLen);
-
         // The first NAME must NOT be null, it's ok for the actions array to be 1 larger than the name array
         currentActionListNames = new string[currentObjectActionsNames.Length + currentVisualizationActionsNames.Length + 1];
         currentActionListNames[0] = "No Action";
         currentVisualizationActionsNames.CopyTo(currentActionListNames, 1);
         currentObjectActionsNames.CopyTo(currentActionListNames, currentVisualizationActionsNames.Length + 1);
+    }
 
+    public void ReloadMappingActionsDropdown(Dropdown availableActionsDropdown)
+    {
+        availableActionsDropdown.ClearOptions();
         foreach (string s in currentActionListNames)
         {
             availableActionsDropdown.options.Add(new Dropdown.OptionData() { text = s });
         }
+    }
 
+    public void UpdateCurrentSelectedInformationObject( Action[] objectActionList, string[] objectActionListNames)
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        currentObjectActionsNames = new string[objectActionListNames.Length];
+        objectActionListNames.CopyTo(currentObjectActionsNames, 0);
+        currentObjectActions = new Action[objectActionList.Length];
+        objectActionList.CopyTo(currentObjectActions, 0);
+        ReloadMappingActions();        
     }
 
     // Update is called once per frame
