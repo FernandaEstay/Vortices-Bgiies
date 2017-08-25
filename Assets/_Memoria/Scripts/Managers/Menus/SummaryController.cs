@@ -13,6 +13,8 @@ public class SummaryController : MonoBehaviour {
     public Text userIDText, informationObjectText, visualizationText, immersionText;
     bool initialized = false;
 
+    public VideoPlayer videoInicio;
+
     private void OnEnable()
     {
         if (!initialized)
@@ -25,6 +27,8 @@ public class SummaryController : MonoBehaviour {
     {
         ReloadProfileDropdown();
         initialized = true;
+        videoInicio.gameObject.SetActive(true);
+        StartCoroutine(StopVideoInicio());
     }
 
     public void UpdateCurrentProfile()
@@ -140,6 +144,12 @@ public class SummaryController : MonoBehaviour {
             popUpWindowView.LaunchPopUpMessage("Change failed", "There was an error trying to converse the input to a number, please try again");
         }
 
+    }
+
+    IEnumerator StopVideoInicio()
+    {
+        yield return new WaitForSeconds(3f);
+        videoInicio.gameObject.SetActive(false);
     }
 
 }
