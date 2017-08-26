@@ -41,6 +41,7 @@ public class InformationObjectController : MonoBehaviour {
     {
         objectPlanesArray[lastObjectUsed].SetActive(false);
         objectPlanesArray[currentObjectDropdown.value].SetActive(true);
+        lastObjectUsed = currentObjectDropdown.value;
     }
     
 }

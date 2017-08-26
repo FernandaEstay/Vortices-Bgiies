@@ -138,31 +138,6 @@ public class ActionManager : MonoBehaviour, IAwake
     public void InitializeManager(DIOManager fatherDioManager)
     {
         dioManager = fatherDioManager;
-
-
-        //This part requires an explanation. As the script was made, the data of the configuration menu was stored upon disabling the game object that held the menu script.
-        //  Along with it, the ActionManager actions were also asigned in the OnDisable function inside the scripts, so in order to load the actions, the config menu had to be
-        //  opened at least once. To be able to just run the simulation and have already the actions paired, the objects needed to be set active and be desabled or change the 
-        //  structure. Of course, a better structure is much more recomended but the time is very little and this is much quicker.
-        if (dioManager.kinectInput)
-        {
-            kinectConfigMenu.SetActive(true);
-            kinectConfigMenu.SetActive(false);
-        }
-
-        if (EEGManager.Instance.useNeuroSky)
-        {
-            neuroSkyConfigMenu.SetActive(true);
-            neuroSkyConfigMenu.SetActive(false);
-        }
-
-        if (EEGManager.Instance.useEmotivInsight)
-        {
-            emotivConfigMenu.SetActive(true);
-            emotivConfigMenu.SetActive(false);
-        }
-
-
         initialized = true;
     }
 
@@ -216,7 +191,11 @@ public class ActionManager : MonoBehaviour, IAwake
         {
             aux[i - 1] = currentVisualizationActions[i];
         }
-        aux.CopyTo(currentActionList, actionListLen);
+        aux.CopyTo(currentActionList, actionListLen);        
+    }
+
+    public void ReloadMappingActionsNames()
+    {
         // The first NAME must NOT be null, it's ok for the actions array to be 1 larger than the name array
         currentActionListNames = new string[currentObjectActionsNames.Length + currentVisualizationActionsNames.Length + 1];
         currentActionListNames[0] = "No Action";

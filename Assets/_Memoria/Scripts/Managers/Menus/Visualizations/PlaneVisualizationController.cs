@@ -6,6 +6,19 @@ using UnityEngine;
 public class PlaneVisualizationController : MonoBehaviour {
     public VisualizationCanvasController visualizationController;
     string visualizationName = "Plane";
+    string[] planeVisualizationActionsNames = new string[]
+    {
+        "Select/Deselect topic 1",
+        "Select/Deselect topic 2",
+        "Select/Deselect topic 3",
+        "Select/Deselect topic 4",
+        "Show topic 1",
+        "Show topic 2",
+        "Show topic 3",
+        "Show topic 4",
+        "Change to next plane",
+        "Change to previous plane"
+    };
 
     private void OnEnable()
     {
@@ -26,6 +39,8 @@ public class PlaneVisualizationController : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;        
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
+        ActionManager.Instance.currentVisualizationActionsNames = new string[planeVisualizationActionsNames.Length];
+        planeVisualizationActionsNames.CopyTo(ActionManager.Instance.currentVisualizationActionsNames, 0);
     }
 
 }

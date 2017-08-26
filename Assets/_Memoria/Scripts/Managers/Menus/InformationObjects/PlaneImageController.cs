@@ -20,6 +20,12 @@ public class PlaneImageController : MonoBehaviour {
      * Images sufix "Sufix"
      * Group files path "GroupFilePath"
      */
+    string[] planeImageActionsNames = new string[]
+    {
+        "Select/Deselect image",
+            "Zoom in image",
+            "Zoom out image"
+    };
 
     private void OnEnable()
     {
@@ -48,6 +54,8 @@ public class PlaneImageController : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         GLPlayerPrefs.SetString(Scope, "CurrentInformationObject", objectName);
         objectController.UpdateCurrentSelectedObjectText();
+        ActionManager.Instance.currentObjectActionsNames = new string[planeImageActionsNames.Length];
+        planeImageActionsNames.CopyTo(ActionManager.Instance.currentObjectActionsNames, 0);
     }
 
     public void ApplyChanges()

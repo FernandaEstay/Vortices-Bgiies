@@ -47,6 +47,7 @@ public class VisualizationCanvasController : MonoBehaviour
     {
         visualizationPlanesArray[lastVisualizationUsed].SetActive(false);
         visualizationPlanesArray[visualizationDropdown.value].SetActive(true);
+        lastVisualizationUsed = visualizationDropdown.value;
     }
 
     public void ViewAvailableActions()

@@ -18,6 +18,8 @@ public class EmotivConfigMenu : MonoBehaviour {
     int pushAssignedActionIndex = 5, pullAssignedActionIndex = 5, liftAssignedActionIndex = 5, dropAssignedActionIndex = 5, leftAssignedActionIndex = 5, leftWinkAssignedActionIndex = 5, rightWinkAssignedActionIndex = 5, anyWinkAssignedActionIndex = 5, smileAssignedActionIndex = 5;
     public Text mentalCommandTriggerNumber, facialExpressionTriggerNumber;
     string Scope;
+    string currentVisualization;
+    string currentObject;
     string[] mentalCommandName = new string[]
     {
         "Push",
@@ -72,46 +74,23 @@ public class EmotivConfigMenu : MonoBehaviour {
     EEGManager.Instance.FacialExpressionUpperFaceAction;
     */
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void OnEnable()
     {
-        CleanEmotivActions();
-        float aux = ActionManager.Instance.endTime*10;
+        currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        Scope = ProfileManager.Instance.currentEvaluationScope;
+
+        float aux = GLPlayerPrefs.GetFloat(Scope, "EmotivTickSensibility") *10;
         SetTriggerValues((int)aux, tickSensibilityValue, tickSensibilityText);
-        SetTickConfigMenuValues();
-        //mentalCommandDropdown.value = 0;
-        SetMentalCommandConfigMenuValues();
-        SetFacialExpressionConfigMenuValues();
+
         ActionManager.Instance.ReloadProfileDropdown(facialExpresionActionsDropdown);
         ActionManager.Instance.ReloadProfileDropdown(mentalCommandActionsDropdow);
-    }
 
-    private void OnDisable()
-    {
+        SetMentalCommandConfigMenuValues();
+        SetFacialExpressionConfigMenuValues();
         
     }
-    
-
-    #region Manage actions added
-
-    void CleanEmotivActions()
-    {
-        for(int i=0; i < ActionManager.Instance.updateActionsEmotivInsight.Length; i++)
-        {
-            ActionManager.Instance.updateActionsEmotivInsight[i] = null;
-        }
-    }
-
-    #endregion
 
     #region UI triggers
 
@@ -126,8 +105,7 @@ public class EmotivConfigMenu : MonoBehaviour {
     public void SetMentalCommandConfigMenuValues()
     {
         int command = mentalCommandDropdown.value;
-        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
-        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        //This logic should have an intermediary function, it's a bit confusing to explain
         int visIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + currentVisualization + "VisualizationIndex");
         int objIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + currentObject + "ObjectIndex");
         if (visIndex != 0)
@@ -153,8 +131,6 @@ public class EmotivConfigMenu : MonoBehaviour {
     public void SetFacialExpressionConfigMenuValues()
     {
         int facial = facialExpresionDropdown.value;
-        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
-        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
         int visIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + facialExpresionName[facial] + currentVisualization + "VisualizationIndex");
         int objIndex = GLPlayerPrefs.GetInt(Scope, "Emotiv" + facialExpresionName[facial] + currentObject + "ObjectIndex");
         if (visIndex != 0)
