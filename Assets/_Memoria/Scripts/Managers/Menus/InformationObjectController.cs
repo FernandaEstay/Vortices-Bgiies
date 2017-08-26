@@ -8,18 +8,27 @@ using UnityEngine.UI;
 public class InformationObjectController : MonoBehaviour {
     public Dropdown currentObjectDropdown;
     public Text currentSelectedObjectText;
-    public ScrolldownContent scrollDown;
-    public Text scrollDownCurrentDescription;
+    public ScrolldownContent scrollDown, popUpScrollDown;
     //whenever you add a new object, just add one slot in the array of the inspector
     public GameObject[] objectPlanesArray;
     int lastObjectUsed = 0;
 
-    string scrollDownDescriptionTextImagePlane = "A plane image uses a primitive unity object called QUAD, which looks like the plane but its edges are only one unit long and the surface is oriented in the XY plane of the local coordinate space.";
-    string currentSelectObjectTextPlaneImage = "Image Plane";
-
     private void OnEnable()
     {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
         UpdateCurrentSelectedObjectText();
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        //Use the case equal to the information object key and the last object used variable as the index in the objectPlanesArray where said information object panel is referenced.
+        switch (currentObject)
+        {
+            case "PlaneImage":
+                lastObjectUsed = 0;
+                break;
+            default:
+                lastObjectUsed = 0;
+                break;
+        }
+        UpdateCurrentObject();
     }
 
     public void UpdateCurrentSelectedObjectText()
@@ -33,13 +42,5 @@ public class InformationObjectController : MonoBehaviour {
         objectPlanesArray[lastObjectUsed].SetActive(false);
         objectPlanesArray[currentObjectDropdown.value].SetActive(true);
     }
-
-    public void changeDropDownCurrentObject()
-    {
-        if(currentObjectDropdown.value == 0)
-        {
-            currentSelectedObjectText.text = currentSelectObjectTextPlaneImage;
-            scrollDownCurrentDescription.text = scrollDownDescriptionTextImagePlane;
-        }
-    }    
+    
 }

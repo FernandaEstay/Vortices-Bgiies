@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Gamelogic;
+using SimpleFileBrowser;
 
 public class SummaryController : MonoBehaviour {
 
@@ -10,7 +11,8 @@ public class SummaryController : MonoBehaviour {
     public InputField newProfileInputField, newEvaluationInputField;
     public PopUpController popUpWindowView;
     public ScrolldownContent fullListScrollView;
-    public Text userIDText, informationObjectText, visualizationText, immersionText;
+    public Text userIDText, informationObjectText, visualizationText, immersionText, outputPathText;
+    string outputPath;
     bool initialized = false;
 
     public VideoPlayer videoInicio;
@@ -27,8 +29,9 @@ public class SummaryController : MonoBehaviour {
     {
         ReloadProfileDropdown();
         initialized = true;
-        videoInicio.gameObject.SetActive(true);
-        StartCoroutine(StopVideoInicio());
+        //commented only for faster testing, UNCOMMENT FOR TESTS
+        //videoInicio.gameObject.SetActive(true);
+        //StartCoroutine(StopVideoInicio());
     }
 
     public void UpdateCurrentProfile()
@@ -105,6 +108,7 @@ public class SummaryController : MonoBehaviour {
         informationObjectText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
         visualizationText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
         immersionText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentImmersion");
+        ReloadOutputPath();
     }
 
     void ReloadUserIDText()
@@ -150,6 +154,36 @@ public class SummaryController : MonoBehaviour {
     {
         yield return new WaitForSeconds(3f);
         videoInicio.gameObject.SetActive(false);
+    }
+
+    public void GetOutputFolderPath()
+    {
+        FileBrowser.AddQuickLink(null, "Users", "C:\\Users");
+        FileBrowser.ShowLoadDialog(null, null, true, null, "Load", "Select");
+        StartCoroutine(GetOutputFolder());
+    }
+
+    IEnumerator GetOutputFolder()
+    {
+        yield return FileBrowser.WaitForLoadDialog(true, null, "Load File", "Load");
+        if (FileBrowser.Result != null)
+        {
+            outputPath = FileBrowser.Result;
+            outputPathText.text = FileBrowser.Result;
+        }
+    }
+
+    public void ApplyChangesOutputPath()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        GLPlayerPrefs.SetString(Scope, "OutputFolderPath", outputPath);
+    }
+
+    public void ReloadOutputPath()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        outputPath = GLPlayerPrefs.GetString(Scope, "OutputFolderPath");
+        outputPathText.text = outputPath;
     }
 
 }

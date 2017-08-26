@@ -1,56 +1,57 @@
-﻿using System.Collections;
+﻿using Gamelogic;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VisualizationCanvasController : MonoBehaviour
 {
+    public Dropdown visualizationDropdown;
+    public Text currentSelectedVisualizationText;
+    public ScrolldownContent scrollDown, popUpScrollDown;
+    //whenever you add a new visualization, just add one slot in the array of the inspector
+    public GameObject[] visualizationPlanesArray;
+    int lastVisualizationUsed = 0;
+    [HideInInspector]
+    public string availableActionsTitle, availableActionsList;
 
-    [Header("Visualization Canvas")]
-    public Text currentVisualizationText;
-    public Dropdown visualizationDropDown;
-    public GameObject sphereVideo;
-    public GameObject planeVideo;
-    public Text actionsAvailables;
-    public Text visualizationDescription;
-
-    string currentVisualizationTextSphere = "Sphere";
-    string currentVisualizationTextPlane = "Plane";
-
-    string visualizationDescriptionPlane = "This visualization is designed to be displayed in a monitor and shows objects distribuited in a plane configuration. ";
-    string visualizationDescriptionSphere = "This visualization is designed for immersive virtual reality environments and shows objects distribuited in a spherical configuration around the subject.";
-
-    string actionsAvailablesSphere = "Select/Deselect image \n Change to next sphere \n Change to previous sphere";
-    string actionsAvailablesPlane = "Select/Deselect image \n Change to next plane \n Change to previous plane \n Zoom in image \n Zoom out image";
-    // Use this for initialization
-    void Start()
+    private void OnEnable()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void VisualizationDropDownChange()
-    {
-        if (visualizationDropDown.value == 0)
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        UpdateCurrentSelectedVisualizationText();
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        //Use the case equal to the visualization key and the last visualization used variable as the index in the visualizationPlanesArray where said visualization panel is referenced.
+        switch (currentVisualization)
         {
-            currentVisualizationText.text = currentVisualizationTextSphere;
-            visualizationDescription.text = visualizationDescriptionSphere;
-            actionsAvailables.text = actionsAvailablesSphere;
-            sphereVideo.SetActive(true);
-            planeVideo.SetActive(false);
+            case "Plane":
+                lastVisualizationUsed = 0;
+                break;
+            case "Sphere":
+                lastVisualizationUsed = 1;
+                break;
+            default:
+                lastVisualizationUsed = 0;
+                break;
         }
-        if(visualizationDropDown.value == 1)
-        {
-            currentVisualizationText.text = currentVisualizationTextPlane;
-            visualizationDescription.text = visualizationDescriptionPlane;
-            actionsAvailables.text = actionsAvailablesPlane;
-            sphereVideo.SetActive(false);
-            planeVideo.SetActive(true);
-        }
+        UpdateCurrentVisualization();
     }
+
+    public void UpdateCurrentSelectedVisualizationText()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        currentSelectedVisualizationText.text = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        
+    }
+
+    public void UpdateCurrentVisualization()
+    {
+        visualizationPlanesArray[lastVisualizationUsed].SetActive(false);
+        visualizationPlanesArray[visualizationDropdown.value].SetActive(true);
+    }
+
+    public void ViewAvailableActions()
+    {
+        popUpScrollDown.LaunchScrollDown(availableActionsTitle, availableActionsList);
+    }
+
 }
