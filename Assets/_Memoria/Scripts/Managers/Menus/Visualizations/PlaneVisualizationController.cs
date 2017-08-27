@@ -39,8 +39,7 @@ public class PlaneVisualizationController : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;        
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
-        ActionManager.Instance.currentVisualizationActionsNames = new string[planeVisualizationActionsNames.Length];
-        planeVisualizationActionsNames.CopyTo(ActionManager.Instance.currentVisualizationActionsNames, 0);
+        ActionManager.Instance.UpdateVisualizationActionNames(planeVisualizationActionsNames);
     }
 
 }

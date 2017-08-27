@@ -54,8 +54,7 @@ public class PlaneImageController : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         GLPlayerPrefs.SetString(Scope, "CurrentInformationObject", objectName);
         objectController.UpdateCurrentSelectedObjectText();
-        ActionManager.Instance.currentObjectActionsNames = new string[planeImageActionsNames.Length];
-        planeImageActionsNames.CopyTo(ActionManager.Instance.currentObjectActionsNames, 0);
+        ActionManager.Instance.UpdateObjectActionNames(planeImageActionsNames);
     }
 
     public void ApplyChanges()

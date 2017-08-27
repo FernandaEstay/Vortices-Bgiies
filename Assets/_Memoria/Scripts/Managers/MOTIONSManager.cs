@@ -8,11 +8,39 @@ public class MOTIONSManager : MonoBehaviour {
     [HideInInspector]
     public List<GameObject> activatedGameObjects;
 
+    [HideInInspector]
+    public string[] interfacesWithInputNames;
+
+    [HideInInspector]
+    public string[] interfacesNames;
+
+
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(this);
         GLPlayerPrefs.SetBool("ProfileManagerScope3", "SimulationStarted", false);
+        interfacesWithInputNames = new string[]
+        {
+            "Emotiv",
+            "Kinect",
+            "NeuroSky"
+        };
+
+        interfacesNames = new string[]
+        {
+            "Emotiv",
+            "EyeTribe",
+            "NeuroSky",
+            "Kinect",
+            "OcculusRift",
+            "OpenGlove",
+            "LeapMotion",
+            "Gamepad"
+        };
+        Debug.Log(interfacesWithInputNames[0]);
+        Debug.Log(interfacesWithInputNames[1]);
+        Debug.Log(interfacesWithInputNames[2]);
     }
     // Use this for initialization
     void Start () {

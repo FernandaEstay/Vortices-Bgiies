@@ -11,7 +11,8 @@ public class ScrolldownContent : MonoBehaviour {
     {
         scrolldownContentName.text = windowName;
         scrolldownContentText.text = windowText;
-        scrolldownTopBar.SetActive(true);
+        if(scrolldownTopBar != null)
+            scrolldownTopBar.SetActive(true);
         gameObject.SetActive(true);
     }
 

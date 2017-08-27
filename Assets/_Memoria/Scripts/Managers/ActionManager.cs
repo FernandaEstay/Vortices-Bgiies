@@ -222,6 +222,137 @@ public class ActionManager : MonoBehaviour, IAwake
         ReloadMappingActions();        
     }
 
+    public void UpdateObjectActionNames(string[] actionNamesArray)
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        currentObjectActionsNames = new string[actionNamesArray.Length];
+        actionNamesArray.CopyTo(currentObjectActionsNames, 0);
+        GLPlayerPrefs.SetStringArray(Scope, "CurrentInformationObjectActionsNames", actionNamesArray);
+        ReloadMappingActionsNames();
+    }
+
+    public void UpdateVisualizationActionNames(string[] actionNamesArray)
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        currentVisualizationActionsNames = new string[actionNamesArray.Length];
+        actionNamesArray.CopyTo(currentVisualizationActionsNames, 0);
+        GLPlayerPrefs.SetStringArray(Scope, "CurrentVisualizationActionsNames", actionNamesArray);
+        ReloadMappingActionsNames();
+    }
+
+    public void LoadMappingActionsNames()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        string[] aux = GLPlayerPrefs.GetStringArray(Scope, "CurrentInformationObjectActionsNames");
+        currentObjectActionsNames = new string[aux.Length];
+        aux.CopyTo(currentObjectActionsNames, 0);
+        string[] aux2 = GLPlayerPrefs.GetStringArray(Scope, "CurrentVisualizationActionsNames");
+        currentVisualizationActionsNames = new string[aux2.Length];
+        aux2.CopyTo(currentVisualizationActionsNames, 0);
+        ReloadMappingActionsNames();
+    }
+
+    //So, how the logic works. The first action of the array of actions of both the currentVisualization and currentInformationObject arrays is a null.
+    //Then if both are zero, there is no action asigned.
+    //The current available actions array is a combination of both the visualization and object actions array, always having the visualization first and the
+    //      object array copied right after.
+    //The first array is always the Visualization one, so his index always matches, from 0 (no action) to whatever limit (say 5, to say an example).
+    //Following, the object index is always dependant on the length of the visualization index. For example if the size of the visualization index
+    //      is 6 (0 to 5), the first action of the object index will be 6 in the current actions index. For that reason, the object index is transformed
+    //      into an action available index by considering the length of the visualization index.
+    //In the case someone changes the visualization, the configuration of the object actions will remain, because they're relative to the visualization index
+    //      and not dependant of it.
+    public int GetMappedActionIndex(string interfaceName, string inputName)
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int visIndex = GLPlayerPrefs.GetInt(Scope, interfaceName + inputName + currentVisualization + "VisualizationIndex");
+        int objIndex = GLPlayerPrefs.GetInt(Scope, interfaceName + inputName + currentObject + "ObjectIndex");
+        if (visIndex != 0)
+        {
+            return visIndex;
+        }
+        else if (objIndex != 0)
+        {
+            int aux = objIndex + currentVisualizationActionsNames.Length;
+            return aux;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    //stores the data following the GetMappedActionIndex logic. The key is separated into interface name, input name and current visualization
+    //      and information object to be able to change them without losing the already stored configurations.
+    public int SetMappedActionIndex(string interfaceName, string inputName, int indexValue)
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        int aux;
+        if (indexValue == 0)
+        {
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentVisualization + "VisualizationIndex", 0);
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentObject + "ObjectIndex", 0);
+            return 0;
+        }
+        else if (indexValue <= currentVisualizationActionsNames.Length)
+        {
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentVisualization + "VisualizationIndex", indexValue);
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentObject + "ObjectIndex", 0);
+            return indexValue;
+        }
+        else
+        {
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentVisualization + "VisualizationIndex", 0);
+            aux = indexValue - currentVisualizationActionsNames.Length;
+            GLPlayerPrefs.SetInt(Scope, interfaceName + inputName + currentObject + "ObjectIndex", aux);
+            return aux;
+        }
+    }
+
+    /// <summary>
+    /// Returns array with input mapped with their corresponding actions, meant to be displayed in the evaluation summary
+    /// </summary>
+    /// <param name="interfaceName"></param>
+    /// <param name="inputActionsNames"></param>
+    /// <returns></returns>
+    public string[] GetMappedActionsListNames(string interfaceName, string[] inputActionsNames)
+    {
+        string[] result = new string[inputActionsNames.Length];
+        string aux;
+        for (int i = 0; i < inputActionsNames.Length; i++)
+        {
+            aux = currentActionListNames[GetMappedActionIndex(interfaceName, inputActionsNames[i])];
+            result[i] = "[·]" + interfaceName + " " + inputActionsNames[i] + " as "+aux;
+        }
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        GLPlayerPrefs.SetStringArray(Scope, interfaceName + "SummaryActions", result);
+        return result;
+    }
+
+    /// <summary>
+    /// Overload to add strings in between the interface and input name and input name and action.
+    /// </summary>
+    /// <param name="interfaceName"></param>
+    /// <param name="inputActionsNames"></param>
+    /// <returns></returns>
+    public string[] GetMappedActionsListNames(string interfaceName, string[] inputActionsNames, string beforeInputName, string afterInputName)
+    {
+        string[] result = new string[inputActionsNames.Length];
+        string aux;
+        for (int i = 0; i < inputActionsNames.Length; i++)
+        {
+            aux = currentActionListNames[GetMappedActionIndex(interfaceName, inputActionsNames[i])];
+            result[i] = "[·]" + interfaceName + " " + beforeInputName + " " + inputActionsNames[i] + " " + afterInputName + " as " + aux;
+        }
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        GLPlayerPrefs.SetStringArray(Scope, interfaceName + "SummaryActions", result);
+        return result;
+    }
+
     // Update is called once per frame
     /*
      * Here is where the actions should be added with keys or any other input (like Emotiv Mental Commands, Neurosky values or Keyboard).

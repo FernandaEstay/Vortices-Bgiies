@@ -108,6 +108,7 @@ public class SummaryController : MonoBehaviour {
         informationObjectText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
         visualizationText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
         immersionText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentImmersion");
+        ActionManager.Instance.LoadMappingActionsNames();
         ReloadOutputPath();
     }
 
@@ -186,4 +187,35 @@ public class SummaryController : MonoBehaviour {
         outputPathText.text = outputPath;
     }
 
+    public void ShowAllPairedActions()
+    {
+        string allActionsList = "";
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        foreach(string s in MOTIONSManager.Instance.interfacesWithInputNames)
+        {
+            if (GLPlayerPrefs.GetBool(Scope, "use" + s))
+            {
+                foreach(string a in GLPlayerPrefs.GetStringArray(Scope,s+ "SummaryActions"))
+                {
+                    allActionsList = allActionsList + a + "\n";
+                }
+            }
+        }
+        fullListScrollView.LaunchScrollDown("Mapped actions list", allActionsList);
+    }
+
+    public void ShowAllInterfacesOnUse()
+    {
+        string allInterfacesList = "";
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        foreach (string s in MOTIONSManager.Instance.interfacesNames)
+        {
+            if (GLPlayerPrefs.GetBool(Scope, "use" + s))
+            {
+                allInterfacesList = allInterfacesList + s + "\n";
+
+            }
+        }
+        fullListScrollView.LaunchScrollDown("Interfaces selected for evaluation", allInterfacesList);
+    }
 }

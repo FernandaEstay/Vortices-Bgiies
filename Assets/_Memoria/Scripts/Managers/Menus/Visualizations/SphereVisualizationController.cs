@@ -29,7 +29,6 @@ public class SphereVisualizationController : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
-        ActionManager.Instance.currentVisualizationActionsNames = new string[sphereVisualizationActionsNames.Length];
-        sphereVisualizationActionsNames.CopyTo(ActionManager.Instance.currentVisualizationActionsNames, 0);
+        ActionManager.Instance.UpdateVisualizationActionNames(sphereVisualizationActionsNames);
     }
 }
