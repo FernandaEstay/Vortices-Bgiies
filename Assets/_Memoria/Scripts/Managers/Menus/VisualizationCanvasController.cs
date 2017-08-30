@@ -24,15 +24,16 @@ public class VisualizationCanvasController : MonoBehaviour
         switch (currentVisualization)
         {
             case "Plane":
-                lastVisualizationUsed = 0;
+                visualizationDropdown.value = 0;
                 break;
             case "Sphere":
-                lastVisualizationUsed = 1;
+                visualizationDropdown.value = 1;
                 break;
             default:
-                lastVisualizationUsed = 0;
+                visualizationDropdown.value = 0;
                 break;
         }
+        visualizationDropdown.RefreshShownValue();
         UpdateCurrentVisualization();
     }
 

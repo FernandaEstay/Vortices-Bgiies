@@ -22,12 +22,13 @@ public class InformationObjectController : MonoBehaviour {
         switch (currentObject)
         {
             case "PlaneImage":
-                lastObjectUsed = 0;
+                currentObjectDropdown.value = 0;
                 break;
             default:
-                lastObjectUsed = 0;
+                currentObjectDropdown.value = 0;
                 break;
         }
+        currentObjectDropdown.RefreshShownValue();
         UpdateCurrentObject();
     }
 

@@ -194,6 +194,9 @@ public class ActionManager : MonoBehaviour, IAwake
         aux.CopyTo(currentActionList, actionListLen);        
     }
 
+    /// <summary>
+    /// Reconstructs the current action list names from the data on the variables, not the playerprefs
+    /// </summary>
     public void ReloadMappingActionsNames()
     {
         // The first NAME must NOT be null, it's ok for the actions array to be 1 larger than the name array
@@ -240,6 +243,9 @@ public class ActionManager : MonoBehaviour, IAwake
         ReloadMappingActionsNames();
     }
 
+    /// <summary>
+    /// Loads from the playerprefs the current object and visualization action names and asigns them to their variables
+    /// </summary>
     public void LoadMappingActionsNames()
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;

@@ -152,12 +152,7 @@ public class EmotivConfigMenu : MonoBehaviour {
             ActionManager.Instance.ActionConditionEmotiv(mentalCommandCode[command], ticks, mistakes, triggerLevel),
             ActionManager.Instance.currentActionList[action]);
        */
-        string aux = "";
-        foreach(string s in ActionManager.Instance.GetMappedActionsListNames(interfaceName, inputNamesForSummary))
-        {
-            aux = aux + s + "\n";
-        }
-        actionMapController.scrollDown.LaunchScrollDown("Actions Paired", aux);
+        UpdateMappedActions(inputNamesForSummary);
     }
 
     public void UpdateFacialExpressionActionDropdownValues()
@@ -172,12 +167,7 @@ public class EmotivConfigMenu : MonoBehaviour {
             ActionManager.Instance.ActionConditionEmotiv(facialExpresionCode[expresion], facilExpresionIsUpperFace[expresion] ,triggerLevel),
             ActionManager.Instance.currentActionList[action]);
         */
-        string aux = "";
-        foreach (string s in ActionManager.Instance.GetMappedActionsListNames(interfaceName, inputNamesForSummary))
-        {
-            aux = aux + s + "\n";
-        }
-        actionMapController.scrollDown.LaunchScrollDown("Actions Paired", aux);
+        UpdateMappedActions(inputNamesForSummary);
     }
 
     public void UpdateMentalCommandSensibilityValues()
@@ -212,11 +202,21 @@ public class EmotivConfigMenu : MonoBehaviour {
         int aux = (int)facialExpressionTriggerLevel.value;
         GLPlayerPrefs.SetFloat(Scope, "Emotiv" + facialExpresionName[expresion] + "TriggerLevel", trigger);
         facialExpressionTriggerNumber.text = aux.ToString();
-    }   
+    }
 
-#endregion
+    #endregion
 
     #region update values in UI methods
+
+    void UpdateMappedActions(string[] inputNames)
+    {
+        string aux = "";
+        foreach (string s in ActionManager.Instance.GetMappedActionsListNames(interfaceName, inputNames))
+        {
+            aux = aux + s + "\n";
+        }
+        actionMapController.scrollDown.LaunchScrollDown("Actions Paired", aux);
+    }
 
     void UpdateTriggerValues(ref int trigger, Slider slider, Text text)
     {
