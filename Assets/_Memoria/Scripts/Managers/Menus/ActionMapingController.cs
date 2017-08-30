@@ -21,6 +21,8 @@ public class ActionMapingController : MonoBehaviour {
 
     private void OnEnable()
     {
+        scrollDown.LaunchScrollDown("clean", "");
+        ActionManager.Instance.LoadMappingActionsNames();
         UpdateCurrentObject();
     }
 

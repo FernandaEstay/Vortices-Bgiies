@@ -1161,7 +1161,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -4938,7 +4938,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
+      - m_Target: {fileID: 2061917784}
         m_MethodName: SetBasicGesturesConfigMenuValues
         m_Mode: 1
         m_Arguments:
@@ -10263,7 +10263,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -13168,7 +13168,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -16871,7 +16871,7 @@ GameObject:
   - component: {fileID: 484762438}
   - component: {fileID: 484762437}
   m_Layer: 5
-  m_Name: VORTICESActionsDropdown
+  m_Name: BasicGestureActionsDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16959,7 +16959,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
+      - m_Target: {fileID: 2061917784}
         m_MethodName: UpdateBasicGesturesActionDropdownValues
         m_Mode: 1
         m_Arguments:
@@ -21278,7 +21278,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -23960,7 +23960,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -24178,7 +24178,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 3
@@ -27612,7 +27612,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -30469,7 +30469,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -32339,6 +32339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 953873445}
   - component: {fileID: 953873444}
+  - component: {fileID: 953873446}
   m_Layer: 5
   m_Name: NeuroSkyConfiguration
   m_TagString: Untagged
@@ -32371,6 +32372,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &953873446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 953873443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3b9c38737e0e349a7fbcb04aed1904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionMapController: {fileID: 1323123682}
+  triggerLevelValue: {fileID: 1023357335}
+  triggerLevelText: {fileID: 2068265228}
+  mentalLevelActionsDropdow: {fileID: 1011972090}
+  mentalLevelsDropdown: {fileID: 1865567325}
 --- !u!1 &959325141
 GameObject:
   m_ObjectHideFlags: 0
@@ -32811,8 +32828,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
-        m_MethodName: UpdateDbGestureTriggerValues
+      - m_Target: {fileID: 2061917784}
+        m_MethodName: UpdateTriggerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32839,7 +32856,7 @@ RectTransform:
   - {fileID: 1073650832}
   - {fileID: 1541398736}
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -34019,8 +34036,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: UpdateMentalCommandActionDropdownValues
+      - m_Target: {fileID: 953873446}
+        m_MethodName: UpdateMentalLevelActionDropdownValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34647,8 +34664,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: UpdateMentalCommandTriggerValues
+      - m_Target: {fileID: 953873446}
+        m_MethodName: UpdateMentalLevelTriggerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38524,7 +38541,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -38710,7 +38727,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -44901,7 +44918,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -45468,76 +45485,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!1 &1329311607
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1922774944306284, guid: 402063c4748d3d14683d00e22f6702bc,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1329311608}
-  - component: {fileID: 1329311609}
-  m_Layer: 5
-  m_Name: KinectCommandConfigMenu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1329311608
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 224871851149532718, guid: 402063c4748d3d14683d00e22f6702bc,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1329311607}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2048634217}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1329311609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114593714999434262, guid: 402063c4748d3d14683d00e22f6702bc,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1329311607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81dce1ff141bbab41a2dd2e6cee80b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dioManager: {fileID: 0}
-  basicGesturesActionsDropdown: {fileID: 484762437}
-  basicGesturesDropdown: {fileID: 162221197}
-  dbGesturesActionsDropdown: {fileID: 2124487116}
-  dbGesturesDropdown: {fileID: 1769062637}
-  dbGestureTriggerLevel: {fileID: 978623735}
-  dbGestureUntriggerLevel: {fileID: 1430711160}
-  dbGestureTriggerNumber: {fileID: 1715740620}
-  dbGestureUntriggerNumber: {fileID: 46315191}
-  openHandRightAssignedActionText: {fileID: 0}
-  openHandLeftAssignedActionText: {fileID: 0}
-  closeHandRightAssignedActionText: {fileID: 0}
-  closeHandLeftAssignedActionText: {fileID: 0}
-  lassoHandRightAssignedActionText: {fileID: 0}
-  lassoHandLeftAssignedActionText: {fileID: 0}
-  gesture1AssignedActionText: {fileID: 0}
-  gesture2AssignedActionText: {fileID: 0}
-  gesture3AssignedActionText: {fileID: 0}
-  gesture4AssignedActionText: {fileID: 0}
-  gesture5AssignedActionText: {fileID: 0}
-  gesture6AssignedActionText: {fileID: 0}
-  gesture7AssignedActionText: {fileID: 0}
 --- !u!1 &1332548402
 GameObject:
   m_ObjectHideFlags: 0
@@ -47485,7 +47432,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -48379,8 +48326,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
-        m_MethodName: UpdateDbGestureUntriggerValues
+      - m_Target: {fileID: 2061917784}
+        m_MethodName: UpdateUntriggerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -48407,7 +48354,7 @@ RectTransform:
   - {fileID: 742929568}
   - {fileID: 7165952}
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -57597,7 +57544,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b51a3e520f9164da198dc59c8acfccd6, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
@@ -58462,7 +58409,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -60801,7 +60748,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
+      - m_Target: {fileID: 2061917784}
         m_MethodName: SetDbGesturesConfigMenuValues
         m_Mode: 1
         m_Arguments:
@@ -60829,7 +60776,7 @@ RectTransform:
   - {fileID: 201203933}
   - {fileID: 402913725}
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -64104,8 +64051,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetMentalCommandConfigMenuValues
+      - m_Target: {fileID: 953873446}
+        m_MethodName: SetMentalLevelsConfigMenuValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -69191,7 +69138,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1329311608}
   - {fileID: 1128293020}
   - {fileID: 1769062638}
   - {fileID: 1312726093}
@@ -69734,6 +69680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2061917783}
   - component: {fileID: 2061917782}
+  - component: {fileID: 2061917784}
   m_Layer: 5
   m_Name: KinectConfiguration
   m_TagString: Untagged
@@ -69767,6 +69714,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2061917784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2061917781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d4d84f8f20b1b04e8466e9ea79634fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionMapController: {fileID: 1323123682}
+  triggerLevelValue: {fileID: 978623735}
+  untriggerLevelValue: {fileID: 1430711160}
+  triggerLevelText: {fileID: 1715740620}
+  untriggerLevelText: {fileID: 46315191}
+  dbGestureActionsDropdown: {fileID: 2124487116}
+  basicGestureActionsDropdown: {fileID: 484762437}
+  dbGestureDropdown: {fileID: 1769062637}
+  basicGestureDropdown: {fileID: 162221197}
 --- !u!1 &2062182230
 GameObject:
   m_ObjectHideFlags: 0
@@ -72580,7 +72547,7 @@ GameObject:
   - component: {fileID: 2124487118}
   - component: {fileID: 2124487116}
   m_Layer: 5
-  m_Name: VORTICESActionsDropdown
+  m_Name: DBGesturesActionsDropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72646,7 +72613,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1329311609}
+      - m_Target: {fileID: 2061917784}
         m_MethodName: UpdateDbGesturesActionDropdownValues
         m_Mode: 1
         m_Arguments:
@@ -72674,7 +72641,7 @@ RectTransform:
   - {fileID: 1266806428}
   - {fileID: 1838286052}
   m_Father: {fileID: 2048634217}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}

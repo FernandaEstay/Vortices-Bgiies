@@ -102,6 +102,7 @@ public class SummaryController : MonoBehaviour {
         ReloadSummaryData();
     }
 
+
     void ReloadSummaryData()
     {
         ReloadUserIDText();
