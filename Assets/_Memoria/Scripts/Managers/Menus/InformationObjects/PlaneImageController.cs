@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class PlaneImageController : MonoBehaviour {
     public InformationObjectController objectController;
     string objectName = "PlaneImage";
-    public InputField prefixInput, sufixInput;
+    public InputField prefixInput, sufixInput, imagesAmount;
     public Text folderPathText, groupPathText;
     public Dropdown testDropdown;
     string folderPath, groupPath;
@@ -48,6 +48,7 @@ public class PlaneImageController : MonoBehaviour {
         groupPathText.text = groupPath;
         prefixInput.text = GLPlayerPrefs.GetString(Scope, objectName + "Prefix");
         sufixInput.text = GLPlayerPrefs.GetString(Scope, objectName + "Sufix");
+        imagesAmount.text = GLPlayerPrefs.GetString(Scope, objectName + "Amount");
         testDropdown.value = GLPlayerPrefs.GetInt(Scope, objectName + "Test");
     }
 
@@ -69,6 +70,7 @@ public class PlaneImageController : MonoBehaviour {
         GLPlayerPrefs.SetString(Scope, objectName + "Sufix", sufixInput.text);
         GLPlayerPrefs.SetString(Scope, objectName + "FolderPath", folderPath);
         GLPlayerPrefs.SetString(Scope, objectName + "GroupFilePath", groupPath);
+        GLPlayerPrefs.SetString(Scope, objectName + "Amount", imagesAmount.text);
     }
 
     public void GetImagesFolderPath()
