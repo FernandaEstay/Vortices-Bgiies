@@ -185,8 +185,8 @@ public class SummaryController : MonoBehaviour
         yield return FileBrowser.WaitForLoadDialog(true, null, "Load File", "Load");
         if (FileBrowser.Result != null)
         {
-            outputPath = FileBrowser.Result;
-            outputPathText.text = FileBrowser.Result;
+            outputPath = FileBrowser.Result+"\\";
+            outputPathText.text = FileBrowser.Result+"\\";
         }
     }
 
