@@ -9,6 +9,7 @@ public class InformationObjectController : MonoBehaviour {
     public Dropdown currentObjectDropdown;
     public Text currentSelectedObjectText;
     public ScrolldownContent scrollDown, popUpScrollDown;
+    public PopUpController popUp;
     //whenever you add a new object, just add one slot in the array of the inspector
     public GameObject[] objectPlanesArray;
     int lastObjectUsed = 0;

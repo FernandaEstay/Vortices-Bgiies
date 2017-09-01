@@ -61,7 +61,7 @@ public class KinectMappingController : MonoBehaviour {
         AddArrayToDropdown(basicGestureDropdown, basicGesturesName);
         ActionManager.Instance.ReloadMappingActionsDropdown(dbGestureActionsDropdown);
         ActionManager.Instance.ReloadMappingActionsDropdown(basicGestureActionsDropdown);
-
+        UpdateMappedActions(inputNamesForSummary);
         SetDbGesturesConfigMenuValues();
         SetBasicGesturesConfigMenuValues();
     }

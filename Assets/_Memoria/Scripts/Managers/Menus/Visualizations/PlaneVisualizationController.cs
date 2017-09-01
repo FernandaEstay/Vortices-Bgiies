@@ -36,10 +36,34 @@ public class PlaneVisualizationController : MonoBehaviour {
 
     public void SelectThisVisualization()
     {
-        string Scope = ProfileManager.Instance.currentEvaluationScope;        
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        if (!CheckLimitations())
+            return;
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
         ActionManager.Instance.UpdateVisualizationActionNames(planeVisualizationActionsNames);
+    }
+
+    bool CheckLimitations()
+    {
+
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        string currentObject = GLPlayerPrefs.GetString(Scope, "CurrentInformationObject");
+        if (currentObject.Equals("PlaneImage"))
+        {
+            int aux = GLPlayerPrefs.GetInt(Scope, "PlaneImageTest");
+            if (aux > 1)
+            {
+                visualizationController.popUp.LaunchPopUpScrolldown("Changes not applied", "Plane visualization was not meant to be used with Test 3 or 4, please select Test 1, 2 or change the Visualization. Changes will not be applied.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void TriggerCheckLimitations()
+    {
+        CheckLimitations();
     }
 
 }

@@ -99,6 +99,8 @@ public class EmotivConfigMenu : MonoBehaviour {
         ActionManager.Instance.ReloadMappingActionsDropdown(facialExpresionActionsDropdown);
         ActionManager.Instance.ReloadMappingActionsDropdown(mentalCommandActionsDropdow);
 
+        UpdateMappedActions(inputNamesForSummary);
+
         SetMentalCommandConfigMenuValues();
         SetFacialExpressionConfigMenuValues();
         

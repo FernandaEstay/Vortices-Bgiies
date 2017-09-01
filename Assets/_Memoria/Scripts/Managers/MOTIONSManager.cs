@@ -79,11 +79,12 @@ public class MOTIONSManager : MonoBehaviour {
      *  -OpenGlove
      *  -LeapMotion
      *  -Gamepad
+     *  -Mouse
      * 
      */
 
     /// <summary>
-    /// Planes, Sphere
+    /// Plane, Sphere
     /// </summary>
     /// <param name=""></param>
     /// <param name=""></param>

@@ -9,6 +9,7 @@ public class VisualizationCanvasController : MonoBehaviour
     public Dropdown visualizationDropdown;
     public Text currentSelectedVisualizationText;
     public ScrolldownContent scrollDown, popUpScrollDown;
+    public PopUpController popUp;
     //whenever you add a new visualization, just add one slot in the array of the inspector
     public GameObject[] visualizationPlanesArray;
     int lastVisualizationUsed = 0;

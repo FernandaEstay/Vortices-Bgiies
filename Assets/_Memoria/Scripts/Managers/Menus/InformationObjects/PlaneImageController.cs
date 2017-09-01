@@ -12,6 +12,7 @@ public class PlaneImageController : MonoBehaviour {
     string objectName = "PlaneImage";
     public InputField prefixInput, sufixInput;
     public Text folderPathText, groupPathText;
+    public Dropdown testDropdown;
     string folderPath, groupPath;
     //Variables to be stored on the PlayerPrefs:
     /*
@@ -47,6 +48,7 @@ public class PlaneImageController : MonoBehaviour {
         groupPathText.text = groupPath;
         prefixInput.text = GLPlayerPrefs.GetString(Scope, objectName + "Prefix");
         sufixInput.text = GLPlayerPrefs.GetString(Scope, objectName + "Sufix");
+        testDropdown.value = GLPlayerPrefs.GetInt(Scope, objectName + "Test");
     }
 
     public void SelectThisObject()
@@ -60,6 +62,9 @@ public class PlaneImageController : MonoBehaviour {
     public void ApplyChanges()
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
+        if (!CheckLimitations())
+            return;
+        GLPlayerPrefs.SetInt(Scope, objectName + "Test", testDropdown.value);
         GLPlayerPrefs.SetString(Scope, objectName + "Prefix", prefixInput.text);
         GLPlayerPrefs.SetString(Scope, objectName + "Sufix", sufixInput.text);
         GLPlayerPrefs.SetString(Scope, objectName + "FolderPath", folderPath);
@@ -110,4 +115,24 @@ public class PlaneImageController : MonoBehaviour {
             "\n[·]Zoom out image: Returns the previously Zoomed in image's size to normal");
     }
 
+    bool CheckLimitations()
+    {
+
+        string Scope = ProfileManager.Instance.currentEvaluationScope;        
+        string visualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+        if (visualization.Equals("Plane"))
+        {
+            if (testDropdown.value > 1)
+            {
+                objectController.popUp.LaunchPopUpScrolldown("Changes not applied", "Plane visualization was not meant to be used with Test 3 or 4, please select Test 1, 2 or change the Visualization. Changes will not be applied.");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void TriggerCheckLimitations()
+    {
+        CheckLimitations();
+    }
 }

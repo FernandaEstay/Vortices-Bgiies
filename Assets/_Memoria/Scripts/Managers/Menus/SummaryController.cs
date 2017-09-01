@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using Gamelogic;
 using SimpleFileBrowser;
 
-public class SummaryController : MonoBehaviour {
+public class SummaryController : MonoBehaviour
+{
 
     public Dropdown profilesDropdown, evaluationsDropdown;
-    public InputField newProfileInputField, newEvaluationInputField;
+    public InputField newProfileInputField, newEvaluationInputField, evaluationTimeInputField;
+    public ClosePopUpButton closeButtonProfileCreate, closeButtonEvaluationCreate;
     public PopUpController popUpWindowView;
     public ScrolldownContent fullListScrollView;
     public Text userIDText, informationObjectText, visualizationText, immersionText, outputPathText;
@@ -30,8 +32,8 @@ public class SummaryController : MonoBehaviour {
         ReloadProfileDropdown();
         initialized = true;
         //commented only for faster testing, UNCOMMENT FOR TESTS
-        //videoInicio.gameObject.SetActive(true);
-        //StartCoroutine(StopVideoInicio());
+        videoInicio.gameObject.SetActive(true);
+        StartCoroutine(StopVideoInicio());
     }
 
     public void UpdateCurrentProfile()
@@ -56,6 +58,9 @@ public class SummaryController : MonoBehaviour {
         if (ProfileManager.Instance.AddNewProfile(newProfile))
         {
             popUpWindowView.LaunchPopUpMessage("Success", "The new profile was successfully added!");
+            //this can't be done like this, needs change. Transform these to pop-up logic.
+            closeButtonProfileCreate.topBar.SetActive(false);
+            closeButtonProfileCreate.contentWindow.SetActive(false);
             ReloadProfileDropdown();
         }
         else
@@ -70,6 +75,8 @@ public class SummaryController : MonoBehaviour {
         if (ProfileManager.Instance.AddNewEvaluation(newEvaluation))
         {
             popUpWindowView.LaunchPopUpMessage("Success", "The new evaluation was successfully added!");
+            closeButtonEvaluationCreate.topBar.SetActive(false);
+            closeButtonEvaluationCreate.contentWindow.SetActive(false);
             ReloadEvaluationDropdown();
         }
         else
@@ -110,6 +117,14 @@ public class SummaryController : MonoBehaviour {
         visualizationText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
         immersionText.text = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentImmersion");
         ActionManager.Instance.LoadMappingActionsNames();
+        //Failsafe in case evaluation is new and timer isn't changed
+        int aux = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "EvaluationTime");
+        if (aux < 1)
+        {
+            aux = 1;
+            GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "EvaluationTime", aux);
+        }            
+        evaluationTimeInputField.text = aux.ToString();
         ReloadOutputPath();
     }
 
@@ -118,7 +133,7 @@ public class SummaryController : MonoBehaviour {
         int aux1, aux2;
         aux1 = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID");
         aux2 = GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed");
-        
+
         if (aux1 == aux2)
         {
             aux1++;
@@ -137,7 +152,7 @@ public class SummaryController : MonoBehaviour {
     {
         popUpWindowView.ClosePopUp();
         int aux;
-        if(int.TryParse(userID,out aux))
+        if (int.TryParse(userID, out aux))
         {
             GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID", aux);
             aux--;
@@ -192,11 +207,11 @@ public class SummaryController : MonoBehaviour {
     {
         string allActionsList = "";
         string Scope = ProfileManager.Instance.currentEvaluationScope;
-        foreach(string s in MOTIONSManager.Instance.interfacesWithInputNames)
+        foreach (string s in MOTIONSManager.Instance.interfacesWithInputNames)
         {
             if (GLPlayerPrefs.GetBool(Scope, "use" + s))
             {
-                foreach(string a in GLPlayerPrefs.GetStringArray(Scope,s+ "SummaryActions"))
+                foreach (string a in GLPlayerPrefs.GetStringArray(Scope, s + "SummaryActions"))
                 {
                     allActionsList = allActionsList + a + "\n";
                 }
@@ -218,5 +233,25 @@ public class SummaryController : MonoBehaviour {
             }
         }
         fullListScrollView.LaunchScrollDown("Interfaces selected for evaluation", allInterfacesList);
+    }
+
+    public bool UpdateEvaluationTime()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        int value;
+        if(!int.TryParse(evaluationTimeInputField.text, out value))
+        {
+            popUpWindowView.LaunchPopUpMessage("Incorrect value", "please enter a valid number between 1 and 15");
+            return false;
+        }
+
+        if(value<1 || value > 15)
+        {
+            popUpWindowView.LaunchPopUpMessage("Incorrect value", "please enter a valid number between 1 and 15");
+            return false;
+        }
+
+        GLPlayerPrefs.SetInt(Scope, "EvaluationTime", value);
+        return true;
     }
 }

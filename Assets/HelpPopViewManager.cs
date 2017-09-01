@@ -25,31 +25,31 @@ public class HelpPopViewManager : MonoBehaviour {
 
     public void LoadSummaryCanvasHelpPopUp()
     {
-        SummaryCanvasHelpPopUp.LaunchPopUpMessage(textTopHelpView, SummaryCanvasHelpTextDefault);
+        SummaryCanvasHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, SummaryCanvasHelpTextDefault);
     }
 
     public void LoadOutpathViewHelpPopUp()
     {
-        OutpathViewHelpPopUp.LaunchPopUpMessage(textTopHelpView, OutpathViewHelpTextDefault);
+        OutpathViewHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, OutpathViewHelpTextDefault);
     }
 
     public void LoadDioCanvasHelpPopUp()
     {
-        DioCanvasHelpPopUp.LaunchPopUpMessage(textTopHelpView, DioCanvasHelpTextDefault);
+        DioCanvasHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, DioCanvasHelpTextDefault);
     }
 
     public void LoadVisualizationCanvasHelpPopUp()
     {
-        VisualizationCanvasHelpPopUp.LaunchPopUpMessage(textTopHelpView, VisualizationCanvasHelpTextDefault);
+        VisualizationCanvasHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, VisualizationCanvasHelpTextDefault);
     }
 
     public void LoadInterfacesCanvasHelpPopUp()
     {
-        InterfacesCanvasHelpPopUp.LaunchPopUpMessage(textTopHelpView, InterfacesCanvasHelpTextDefault);
+        InterfacesCanvasHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, InterfacesCanvasHelpTextDefault);
     }
 
     public void LoadActionParingCanvasHelpPopUp()
     {
-        ActionParingCanvasHelpPopUp.LaunchPopUpMessage(textTopHelpView, ActionParingCanvasHelpTextDefault);
+        ActionParingCanvasHelpPopUp.LaunchPopUpScrolldown(textTopHelpView, ActionParingCanvasHelpTextDefault);
     }
 }

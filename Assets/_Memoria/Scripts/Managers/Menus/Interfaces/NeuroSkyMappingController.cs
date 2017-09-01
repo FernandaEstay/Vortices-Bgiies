@@ -28,7 +28,7 @@ public class NeuroSkyMappingController : MonoBehaviour {
         Scope = ProfileManager.Instance.currentEvaluationScope;
         AddArrayToDropdown(mentalLevelsDropdown, mentalLevelName);
         ActionManager.Instance.ReloadMappingActionsDropdown(mentalLevelActionsDropdow);
-        
+        UpdateMappedActions(mentalLevelName);
         SetMentalLevelsConfigMenuValues();
     }
 
