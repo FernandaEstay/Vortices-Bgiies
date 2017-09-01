@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Gamelogic;
+using UnityEngine.SceneManagement;
 
 public class MOTIONSManager : MonoBehaviour {
     public static MOTIONSManager Instance { set; get; }
@@ -36,7 +37,8 @@ public class MOTIONSManager : MonoBehaviour {
             "OcculusRift",
             "OpenGlove",
             "LeapMotion",
-            "Gamepad"
+            "Gamepad",
+            "Mouse"
         };
         Debug.Log(interfacesWithInputNames[0]);
         Debug.Log(interfacesWithInputNames[1]);
@@ -55,6 +57,7 @@ public class MOTIONSManager : MonoBehaviour {
     public void StartEvaluation()
     {
         GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
+        SceneManager.LoadScene("FullScene");
     }
 
     /*

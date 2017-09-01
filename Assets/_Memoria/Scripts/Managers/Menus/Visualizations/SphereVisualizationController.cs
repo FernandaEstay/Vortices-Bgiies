@@ -30,5 +30,7 @@ public class SphereVisualizationController : MonoBehaviour {
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
         ActionManager.Instance.UpdateVisualizationActionNames(sphereVisualizationActionsNames);
+        //DELETE THIS
+        GLPlayerPrefs.SetBool(Scope, "BGIIESMode", false);
     }
 }

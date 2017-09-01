@@ -42,6 +42,8 @@ public class PlaneVisualizationController : MonoBehaviour {
         GLPlayerPrefs.SetString(Scope, "CurrentVisualization", visualizationName);
         visualizationController.UpdateCurrentSelectedVisualizationText();
         ActionManager.Instance.UpdateVisualizationActionNames(planeVisualizationActionsNames);
+        //DELETE THIS
+        GLPlayerPrefs.SetBool(Scope, "BGIIESMode", true);
     }
 
     bool CheckLimitations()

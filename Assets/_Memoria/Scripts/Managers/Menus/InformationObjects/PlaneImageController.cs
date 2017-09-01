@@ -85,8 +85,8 @@ public class PlaneImageController : MonoBehaviour {
         yield return FileBrowser.WaitForLoadDialog(true, null, "Load File", "Load");
         if (FileBrowser.Result != null)
         {
-            folderPath = FileBrowser.Result;
-            folderPathText.text = FileBrowser.Result;
+            folderPath = FileBrowser.Result+"\\";
+            folderPathText.text = FileBrowser.Result+"\\";
         }            
     }
 

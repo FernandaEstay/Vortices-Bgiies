@@ -336,17 +336,19 @@ namespace Memoria
             bgiiesMode = GLPlayerPrefs.GetBool(Scope, "BGIIESMode");
             visualizationPlane = GLPlayerPrefs.GetBool(Scope, "visualizationPlane");
 
-            csvCreatorPath = GLPlayerPrefs.GetString(Scope, "DataOutput");
+            csvCreatorPath = GLPlayerPrefs.GetString(Scope, "OutputFolderPath");
             
 
             /*unityOpenGlove.leftComDevice = GLPlayerPrefs.GetString(Scope, "LeftCom");
             unityOpenGlove.rightComDevice = GLPlayerPrefs.GetString(Scope, "RightCom"); */
 
             loadImageController.Initialize(this);
-            loadImageController.images = Convert.ToInt32(GLPlayerPrefs.GetString(Scope, "Images"));
-            loadImageController.LoadImageBehaviour.pathImageAssets = GLPlayerPrefs.GetString(Scope, "FolderImageAssetText");
-            loadImageController.LoadImageBehaviour.pathSmall = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
-            loadImageController.LoadImageBehaviour.filename = GLPlayerPrefs.GetString(Scope, "FileName");
+            loadImageController.images = Convert.ToInt32(GLPlayerPrefs.GetString(Scope, "PlaneImageAmount"));
+            loadImageController.LoadImageBehaviour.pathImageAssets = GLPlayerPrefs.GetString(Scope, "PlaneImageFolderPath");
+
+            //loadImageController.LoadImageBehaviour.pathSmall = GLPlayerPrefs.GetString(Scope, "FolderSmallText");
+            loadImageController.LoadImageBehaviour.pathSmall = "";
+            loadImageController.LoadImageBehaviour.filename = GLPlayerPrefs.GetString(Scope, "PlaneImagePrefix");
 
 
             GameObject ev = GameObject.FindGameObjectWithTag("EventSystem");
