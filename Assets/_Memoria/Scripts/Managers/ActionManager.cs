@@ -14,9 +14,11 @@ public class ActionManager : MonoBehaviour, IAwake
 {
     [HideInInspector]
     public static ActionManager Instance { set; get; }
+    [HideInInspector]
     public bool initialized = false;
     public DIOManager dioManager;
     #region Variable declaration
+    [HideInInspector]
     public Action[] vorticesActionList = new Action[8];
     [HideInInspector]
     public string[] vorticesActionListNames;

@@ -143,17 +143,7 @@ public class EmotivConfigMenu : MonoBehaviour {
         int command = mentalCommandDropdown.value;
         int action = mentalCommandActionsDropdow.value;
         ActionManager.Instance.SetMappedActionIndex(interfaceName, mentalCommandName[command], action);
-        //
-        //
-        // First five slots are for the mental commands
-        /* FOR THE LOADER LOGIC
-        int ticks = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandTicks");
-        int mistakes = GLPlayerPrefs.GetInt(Scope, "Emotiv" + mentalCommandName[command] + "CommandMistakes");
-        float triggerLevel = GLPlayerPrefs.GetFloat(Scope, "Emotiv" + mentalCommandName[command] + "CommandTriggerLevel");
-        ActionManager.Instance.updateActionsEmotivInsight[command] = () => ActionManager.Instance.ActionPairing(
-            ActionManager.Instance.ActionConditionEmotiv(mentalCommandCode[command], ticks, mistakes, triggerLevel),
-            ActionManager.Instance.currentActionList[action]);
-       */
+        
         UpdateMappedActions(inputNamesForSummary);
     }
 
@@ -162,13 +152,7 @@ public class EmotivConfigMenu : MonoBehaviour {
         int expresion = facialExpresionDropdown.value;
         int action = facialExpresionActionsDropdown.value;
         ActionManager.Instance.SetMappedActionIndex(interfaceName, facialExpresionName[expresion], action);
-        /* FOR THE LOADER LOGIC
-        float triggerLevel = GLPlayerPrefs.GetFloat(Scope, "Emotiv" + facialExpresionName[expresion] + "TriggerLevel");
-        aux = expresion + 5;
-        ActionManager.Instance.updateActionsEmotivInsight[aux] = () => ActionManager.Instance.ActionPairing(
-            ActionManager.Instance.ActionConditionEmotiv(facialExpresionCode[expresion], facilExpresionIsUpperFace[expresion] ,triggerLevel),
-            ActionManager.Instance.currentActionList[action]);
-        */
+        
         UpdateMappedActions(inputNamesForSummary);
     }
 

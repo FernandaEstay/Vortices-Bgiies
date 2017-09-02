@@ -3854,7 +3854,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 876962617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc8d6a639d2bd684499b86d93862ad12, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bb863ddeb2a21045a6e37213409cca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveCameraInside3DButton: {fileID: 1135888360}
@@ -3869,9 +3869,9 @@ MonoBehaviour:
   accept3DButton: {fileID: 1231070750}
   acceptText: {fileID: 78096575}
   acceptEventTrigger: {fileID: 1231070751}
-  negativeAcceptNormalColor: {r: 0.8088235, g: 0, b: 0, a: 0}
+  negativeAcceptNormalColor: {r: 0.8235294, g: 0, b: 0, a: 0}
   negativeAcceptPressedColor: {r: 1, g: 0, b: 0, a: 0}
-  negativeAcceptHighlightedColor: {r: 1, g: 0.16911763, b: 0.16911763, a: 0}
+  negativeAcceptHighlightedColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!4 &892769926 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4037456528364938, guid: 3ec27f92d5d4e904b85c951032370fbd,

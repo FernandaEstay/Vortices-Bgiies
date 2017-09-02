@@ -261,7 +261,7 @@ namespace Memoria
                 panelBgiies.gameObject.SetActive(false);
                 buttonPanel.Initialize(this);
             }
-            //loadImageController.Initialize(this);
+            loadImageController.Initialize(this);
             loadingScene.Initialize(this);
 
             //unityOpenGlove.Initialize(this);
@@ -334,7 +334,15 @@ namespace Memoria
             kinectInput = GLPlayerPrefs.GetBool(Scope, "KinectInput");
             mouseInput = GLPlayerPrefs.GetBool(Scope, "MouseInput");
             bgiiesMode = GLPlayerPrefs.GetBool(Scope, "BGIIESMode");
-            visualizationPlane = GLPlayerPrefs.GetBool(Scope, "visualizationPlane");
+            if (bgiiesMode)
+            {
+                visualizationPlane = true;
+            }
+            else
+            {
+                visualizationPlane = false;
+            }
+            
 
             csvCreatorPath = GLPlayerPrefs.GetString(Scope, "OutputFolderPath");
             
