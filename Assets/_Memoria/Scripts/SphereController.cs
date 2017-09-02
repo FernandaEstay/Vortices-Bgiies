@@ -49,7 +49,7 @@ namespace Memoria
         {
             var center = sphereCenter;
             var radius = sphereRadius;
-
+            Debug.Log("create visualization");
             for (var j = 0; j < elementsPerRow.Length; j++)
             {
                 if (autoAngleDistance)
