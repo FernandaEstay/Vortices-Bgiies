@@ -65,7 +65,7 @@ namespace Memoria
                 {
                     if (createNewObjects)
                     {
-                        var grabableObject = Instantiate(dioManager.informationPlanePrefab, gameObject);     /* se instancia un DIOController en grabableObject */
+                        var grabableObject = Instantiate(InformationObjectManager.Instance.planeImages.informationPlanePrefab, gameObject);     /* se instancia un DIOController en grabableObject */
                         grabableObject.transform.RotateAroundY(180);
 
                         grabableObject.pitchGrabObject.transform.localScale = scaleFactor;              /* pitchGrabObject es una clase que posee las funcionalidades para manejar los objetos con Leap y OpenGlove */
@@ -147,11 +147,14 @@ namespace Memoria
 
         public override void SetGrabableObjectConfiguration(DIOController grabableObject, int id)
         {
-
-            if (dioManager.usePitchGrab)
+            //DELETE THIS change to new archtecture
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope,"usePitchGrab"))
             {
-                grabableObject.pitchGrabObject.pinchDetectorLeft = dioManager.pinchDetectorLeft;
-                grabableObject.pitchGrabObject.pinchDetectorRight = dioManager.pinchDetectorRight;
+                //grabableObject.pitchGrabObject.pinchDetectorLeft = dioManager.pinchDetectorLeft;
+                //grabableObject.pitchGrabObject.pinchDetectorRight = dioManager.pinchDetectorRight;
+                grabableObject.pitchGrabObject.pinchDetectorLeft = InteractionManager.Instance.pitchGrabManager.pinchDetectorLeft;
+                grabableObject.pitchGrabObject.pinchDetectorRight = InteractionManager.Instance.pitchGrabManager.pinchDetectorRight;
+
             }
 
             grabableObject.Initialize(this, id);

@@ -51,6 +51,30 @@ namespace Memoria
             CreateVisualization(createNewObjects, center);
         }
 
+        //DELETE THIS untie the diomanager
+        public virtual void InitializeDioControllers( int Id, Vector3 center, int textureIndex, bool createNewObjects = false)
+        {
+            id = Id;
+            notInZero = true;
+
+            if (createNewObjects)
+                dioControllerList = new List<DIOController>();
+
+            elementsPerRow = new int[visualizationRow];
+
+            var extraItems = elementsToDisplay % visualizationRow;    //elementos extras que sobran en las esferas   
+            var rowElements = elementsToDisplay / visualizationRow;   //cantidad de esferas
+
+            for (int i = 0; i < elementsPerRow.Length; i++)
+            {
+                elementsPerRow[i] = rowElements;           //cantidad de elementos que se crearan por fila
+
+                if (i == 1)
+                    elementsPerRow[i] += extraItems;
+            }
+            CreateVisualization(createNewObjects, center);
+        }
+
         public abstract void CreateVisualization(bool createNewObjects, Vector3 VisualizationCenter);
         public abstract void ChangeVisualizationConfiguration(Vector3 visualizationCenter, float espacing, float newAlpha);
 

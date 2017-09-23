@@ -40,24 +40,14 @@ public class MOTIONSManager : MonoBehaviour {
             "Gamepad",
             "Mouse"
         };
-        Debug.Log(interfacesWithInputNames[0]);
-        Debug.Log(interfacesWithInputNames[1]);
-        Debug.Log(interfacesWithInputNames[2]);
     }
-    // Use this for initialization
-    void Start () {
 
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void StartEvaluation()
     {
         GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
-        SceneManager.LoadScene("FullScene");
+        SceneManager.LoadScene("EmotivTraining");
+        //SceneManager.LoadScene("FullScene");
     }
 
     /*

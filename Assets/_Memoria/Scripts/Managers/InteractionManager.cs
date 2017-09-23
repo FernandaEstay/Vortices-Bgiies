@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public static InteractionManager Instance { set; get; }
+
+    public PitchGrabManager pitchGrabManager;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

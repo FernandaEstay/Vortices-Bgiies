@@ -50,7 +50,7 @@ namespace Memoria
 		{
 			_id = id;
 
-			if (fatherDioController.DioManager.usePitchGrab && (pinchDetectorLeft == null || pinchDetectorRight == null))
+			if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "UsePitchGrab") && (pinchDetectorLeft == null || pinchDetectorRight == null))
 			{
 				Debug.LogWarning(
 					"Both Pinch Detectors of the LeapRTS component must be assigned. This component has been disabled.");
@@ -62,13 +62,14 @@ namespace Memoria
 			enabled = true;
 			isSelected = false;
 
-            if (DioManager.bgiiesMode)
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
             {
                 isSelectedCat1 = isSelectedCat2 = isSelectedCat3 = isSelectedCat4 = false;
             }
             else
             {
-                hapticDetector.Initialize(fatherDioController.DioManager);
+                //DELETE THIS untie from DIOManager
+                //hapticDetector.Initialize(fatherDioController.DioManager);
             }
 			objectMeshRender = GetComponent<MeshRenderer>();
 
@@ -220,8 +221,11 @@ namespace Memoria
 			idName = newIdName;
 		}
 
+        //Pre-determined input as to use keyboard and mouse to be able to zoom in and out of the images
+        //DELETE THIS no longer necessary with actionmanager
 		public void OnMouseOver()
 		{
+            
 			if (DioManager.loadingScene.loading)
 				return;
 
@@ -236,6 +240,7 @@ namespace Memoria
 					DioManager.lookPointerInstance.DirectZoomOutCall(null);
 				}
 			}
+            
 		}
 
 		#endregion

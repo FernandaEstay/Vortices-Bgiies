@@ -5,6 +5,7 @@ using Gamelogic;
 using Memoria.Core;
 using UnityCallbacks;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Memoria
 {
@@ -19,24 +20,58 @@ namespace Memoria
 		public int images = 1;
 
 		private LoadImageBehaviour _loadImageBehaviour;
+        //DELETE THIS
 		private DIOManager _dioManager;
+        SphereVisualizationManager sphereManager;
+        PlaneVisualizationManager planeManager;
 
 		public LoadImageBehaviour LoadImageBehaviour { get { return _loadImageBehaviour; } }
 
 		public int ImagesLoaded { get { return _imagesLoaded; } }
 		private int _imagesLoaded;
 
+        //DELETE THIS old method tied to DIOManager
 		public void Initialize(DIOManager dioManager)
 		{
 			_dioManager = dioManager;
 
 			_loadImageBehaviour = GetComponent<LoadImageBehaviour>();
-			_loadImageBehaviour.Initialize(_dioManager, this);
+			_loadImageBehaviour.Initialize(this);
 		}
 
-		public IEnumerator LoadFolderImages()
+        public void Initialize(SphereVisualizationManager sphereManager)
+        {
+            this.sphereManager = sphereManager;
+
+            _loadImageBehaviour = GetComponent<LoadImageBehaviour>();
+            _loadImageBehaviour.Initialize(this);
+        }
+
+        public void Initialize(PlaneVisualizationManager planeManager)
+        {
+            this.planeManager = planeManager;
+
+            _loadImageBehaviour = GetComponent<LoadImageBehaviour>();
+            _loadImageBehaviour.Initialize(this);
+        }
+
+        public IEnumerator LoadFolderImages()
 		{
-            var listOfDio  = _dioManager.sphereControllers.Count > _dioManager.planeControllers.Count ? _dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : _dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            //DELETE THIS old method tied to DIOManager
+            //var listOfDio  = _dioManager.sphereControllers.Count > _dioManager.planeControllers.Count ? _dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : _dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            string currentVisualization = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
+            /**/
+            List<DIOController> listOfDio = new List<DIOController>();
+            if (currentVisualization.Equals("Sphere"))
+            {
+                listOfDio = sphereManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            }
+
+            if (currentVisualization.Equals("Plane"))
+            {
+                listOfDio = planeManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            }
+            /**/
             var tuple = _loadImageBehaviour.TextureFormatGetter();
 
 			string fileSuffix = tuple.First;
@@ -52,8 +87,8 @@ namespace Memoria
 			{
 				if (_imagesLoaded == images)
 					break;
-
-                if(!_dioManager.bgiiesMode)
+                //DELETE THIS
+                if(!GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
 				    indexSuffix = _loadImageBehaviour.FormattedIndex();
                 else
                 {
@@ -101,7 +136,7 @@ namespace Memoria
 		public string pathSmall = @"";
 		public string filename = @"photo";
 
-		protected DIOManager dioManager;
+		//protected DIOManager dioManager;
 		protected LoadImagesController loadImagesController;
 
 		public abstract string FormattedIndex();
@@ -109,10 +144,11 @@ namespace Memoria
 		public abstract Tuple<string, TextureFormat> TextureFormatGetter();
 		public abstract void EndAction();
 
-		public virtual void Initialize(DIOManager fatherDioManager, LoadImagesController loadImagesController)
-		{
-			dioManager = fatherDioManager;
-			this.loadImagesController = loadImagesController;
-		}
-	}
+        //DELETE THIS and find references to this instance of the DIOManager
+        public virtual void Initialize( LoadImagesController loadImagesController)
+        {
+            //dioManager = fatherDioManager;
+            this.loadImagesController = loadImagesController;
+        }
+    }
 }

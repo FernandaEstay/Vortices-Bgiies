@@ -76,7 +76,9 @@ namespace Memoria
                 {
                     if (createNewObjects)
                     {
-                        var grabableObject = Instantiate(dioManager.informationPrefab, gameObject);
+                        //DELETE THIS untie from DIOManager
+                        //var grabableObject = Instantiate(dioManager.informationPrefab, gameObject);
+                        var grabableObject = Instantiate(InformationObjectManager.Instance.planeImages.informationPrefab, gameObject);
                         grabableObject.pitchGrabObject.transform.localScale = scaleFactor;
 
                         SetGrabableObjectPosition(grabableObject, center, radius, i);
@@ -154,13 +156,18 @@ namespace Memoria
 
         public override void SetGrabableObjectConfiguration(DIOController grabableObject, int id)
         {
-            if (dioManager.usePitchGrab)
+            //DELETE THIS not actually delete this needs change to new architecture.
+            
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "UsePitchGrab"))
             {
-                grabableObject.pitchGrabObject.pinchDetectorLeft = dioManager.pinchDetectorLeft;
-                grabableObject.pitchGrabObject.pinchDetectorRight = dioManager.pinchDetectorRight;
+                //grabableObject.pitchGrabObject.pinchDetectorLeft = dioManager.pinchDetectorLeft;
+                //grabableObject.pitchGrabObject.pinchDetectorRight = dioManager.pinchDetectorRight;
+                grabableObject.pitchGrabObject.pinchDetectorLeft = InteractionManager.Instance.pitchGrabManager.pinchDetectorLeft;
+                grabableObject.pitchGrabObject.pinchDetectorRight = InteractionManager.Instance.pitchGrabManager.pinchDetectorRight;
             }
 
             grabableObject.Initialize(this, id);
+            
         }
 
         /*funcion que calcula la posición en donde se posicionará la imagen */

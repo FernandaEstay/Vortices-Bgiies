@@ -38,11 +38,12 @@ namespace Memoria
             test = (Test)GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "PlaneImageTest");
         }
 
-		public override void Initialize(DIOManager fatherDioManager, LoadImagesController loadImagesController)
+		public override void Initialize(LoadImagesController loadImagesController)
 		{
-			base.Initialize(fatherDioManager, loadImagesController);
-
-            if (!dioManager.bgiiesMode)
+            groupImageCsvPath = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "PlaneImageGroupFilePath");
+            base.Initialize(loadImagesController);
+            //DELETE THIS bgiies mode can't exist
+            if (!GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
             {
                 GenerateImageGroupDictionary();
 
@@ -234,7 +235,8 @@ namespace Memoria
 
 		public override void EndAction()
 		{
-			dioManager.csvCreator.AddLines(test.ToString(), string.Empty);
+            //DELETE THIS needs untying
+			//dioManager.csvCreator.AddLines(test.ToString(), string.Empty);
 		}
 	}
 }

@@ -36,7 +36,8 @@ namespace Memoria
 
 		public override void EndAction()
 		{
-			dioManager.csvCreator.AddLines("Demo", string.Empty);
+            //DELETE THIS needs untying 
+			//dioManager.csvCreator.AddLines("Demo", string.Empty);
 		}
 	}
 }

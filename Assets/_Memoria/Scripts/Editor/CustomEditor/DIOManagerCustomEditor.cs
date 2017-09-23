@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace Memoria.Editor
 {
-    [CustomEditor(typeof(DIOManager), true), CanEditMultipleObjects]
+    //DELETE THIS i purposely commented this to be able to truly see the inspector of the DIOmanager, as this custom editor was a solution because there was no configuration manager originally
+    //[CustomEditor(typeof(DIOManager), true), CanEditMultipleObjects]
     public class DIOManagerCustomEditor : GLEditor<DIOManager>
     {
         private GLSerializedProperty _loadingScene;

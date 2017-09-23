@@ -35,7 +35,19 @@ namespace Memoria
             initialized = true;
 		}
 
-		public void Update()
+        //DELETE THIS
+        public void Initialize()
+        {
+            string Scope = ProfileManager.Instance.currentEvaluationScope;
+            //this needs the LeapMotion manager
+            /*
+            if (GLPlayerPrefs.GetBool(Scope, "useLeapMotion"))
+                dioManager.leapMotionRig.leapSpace.SetActive(false);
+            */
+            initialized = true;
+        }
+
+        public void Update()
 		{
 			if (!loading)
 				return;
@@ -43,7 +55,8 @@ namespace Memoria
             if (!initialized)
                 return;
 
-			_porcentage = _dioManager.loadImageController.ImagesLoaded / (float)_dioManager.loadImageController.images;
+            //_porcentage = _dioManager.loadImageController.ImagesLoaded / (float)_dioManager.loadImageController.images;
+            _porcentage = InformationObjectManager.Instance.planeImages.loadImageController.ImagesLoaded / (float)InformationObjectManager.Instance.planeImages.loadImageController.images;
 			porcentageText.text = _porcentage.ToString("000%");
 
 			if (!(_porcentage >= 1.0f))
@@ -61,8 +74,11 @@ namespace Memoria
 				deactivateAtEndObject.SetActive(false);
 			}
 
+            //DELETE THIS needs the leap motion manager
+            /*
 			if (_dioManager.useLeapMotion)
 				_dioManager.leapMotionRig.leapSpace.SetActive(true);
+            */
 		}
 	}
 }
