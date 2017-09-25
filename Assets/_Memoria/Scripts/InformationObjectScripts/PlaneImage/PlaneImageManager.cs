@@ -17,6 +17,9 @@ public class PlaneImageManager : MonoBehaviour {
     //Controller that loads the images into the objects
     public LoadImagesController loadImageController;
 
+    //Game object with the required scripts to show the loading canvas and to load the images
+    public GameObject planeImagesUtilities;
+
     //
     public DIOController informationPrefab;
     //DELETE THIS i don't really believe this should even exist, there are only plane images, what's the point?
@@ -25,7 +28,10 @@ public class PlaneImageManager : MonoBehaviour {
     //initialization for Sphere visualization
     public void Initialize(SphereVisualizationManager sphereVisualizationManager)
     {
+        planeImagesUtilities.SetActive(true);
+
         string Scope = ProfileManager.Instance.currentEvaluationScope;
+
         loadImageController.Initialize(sphereVisualizationManager);
         loadImageController.images = Convert.ToInt32(GLPlayerPrefs.GetString(Scope, "PlaneImageAmount"));
         loadImageController.LoadImageBehaviour.pathImageAssets = GLPlayerPrefs.GetString(Scope, "PlaneImageFolderPath");
