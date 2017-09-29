@@ -4,37 +4,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamelogic;
+using System;
+using System.Linq;
 
-public class SphereVisualizationManager : MonoBehaviour {
+public class SphereVisualizationManager : GLMonoBehaviour {
 
     //Sphere Configuration    
     public SphereController spherePrefab;
     public List<SphereController> sphereControllers;
-
-    //DELETE THIS both configurations are now tied together, this can't be.
-    //Plane Configuration
-    //public PlaneController planePrefab;
+    public SphereVisualizationLoader loader;
     
-    //public List<PlaneController> planeControllers;
 
     // variables
     public int actualVisualization;
     public List<Tuple<float, float>> radiusAlphaVisualizationList;
     public bool movingSphere;
+    public float radiusFactor = 1.0f;
+    public float radiusSpeed = 1.0f;
+    public float alphaFactor = 1.0f;
+    public float alphaSpeed = 1.0f;
+    public float alphaWaitTime = 0.8f;
+
+    Action[] visualizationActions;
 
     // Use this for initialization
     void Start () {
         movingSphere = false;
         string currentObject = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
-
+        //DELETE THIS there should be an "if leap motion" or something
+        loader.LoadInstances();
         //plane image behaviour
         if (currentObject.Equals("PlaneImage"))
-        {
-            InformationObjectManager.Instance.planeImages.Initialize(this);
+        {            
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
             actualVisualization = 0;
-            radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };
+            radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };            
             AutoTuneSpheresForImages(InformationObjectManager.Instance.planeImages.loadImageController.images);
             foreach (var sphereController in sphereControllers)
             {
@@ -44,8 +49,19 @@ public class SphereVisualizationManager : MonoBehaviour {
                 visualizationTextureIndex += sphereController.elementsToDisplay;
                 visualizationIndex += 1;
             }
-
+            InformationObjectManager.Instance.planeImages.Initialize(this);
             InformationObjectManager.Instance.planeImages.LoadObjects();
+            visualizationActions = new Action[]
+            {
+                null,
+                () => MoveSphereInside(1, null, null),
+                () => MoveSphereOutside(1, null, null),
+            };
+
+            ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
+            visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions,0);
+            MOTIONSManager.Instance.visualizationInitialized = true;
+            MOTIONSManager.Instance.CheckActionManagerInitialization();
         }
         
         
@@ -119,4 +135,245 @@ public class SphereVisualizationManager : MonoBehaviour {
 
         return sphereController;
     }
+
+    public void MoveSphereInside(float insideAxis, Action initialAction, Action finalAction)
+    {
+        Debug.Log("movesphereinside");
+        var actualPitchGrabObject = InformationObjectManager.Instance.planeImages.lookPointerInstance.actualPitchGrabObject;
+        var zoomingIn = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingIn;
+        var zoomingOut = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingOut;
+        //DELETE THIS limitation of use here, only moves if all DIOs are on the sphere. needs adding to the actionmanager
+        if (insideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
+            !zoomingIn && !zoomingOut)
+        {
+            StartCoroutine(MoveSphereInside(initialAction, finalAction));
+        }
+        else
+        {
+            if (finalAction != null)
+                finalAction();
+        }
+    }
+
+    private IEnumerator MoveSphereInside(Action initialAction, Action finalAction)
+    {
+        if (movingSphere)
+            yield break;
+
+        movingSphere = true;
+
+        var notInZeroSphereControllers =
+        sphereControllers.Where(
+            sphereController =>
+                sphereController.notInZero
+            ).ToList();
+
+
+
+        if (notInZeroSphereControllers.Count == 1)
+        {
+            movingSphere = false;
+
+            yield break;
+        }
+
+        var radiusAlphaTargetReached = new List<Tuple<bool, bool>>();
+        for (int i = 0; i < notInZeroSphereControllers.Count; i++)
+        {
+            radiusAlphaTargetReached.Add(Tuple.New(false, false));
+        }
+
+        var actualRadiusFactor = radiusFactor * -1;
+        //DELETE THIS needs tie to the csvcreator
+        //csvCreator.AddLines("Changing Sphere", (actualVisualization + 2).ToString());
+
+        if (initialAction != null)
+            initialAction();
+
+        while (true)
+        {
+            for (int i = 0; i < notInZeroSphereControllers.Count; i++)
+            {
+                var sphereController = notInZeroSphereControllers[i];
+                var radiusTargetReached = false;
+                var alphaTargerReached = false;
+
+                //Radius
+                var targetRadius = radiusAlphaVisualizationList[i].First;
+                sphereController.sphereRadius += actualRadiusFactor * radiusSpeed;
+
+                if (TargetReached(actualRadiusFactor, sphereController.sphereRadius, targetRadius))
+                {
+                    radiusTargetReached = true;
+                    sphereController.sphereRadius = targetRadius;
+                }
+
+                //Alpha
+                var actualAlphaFactor = i == 0 ? alphaFactor * -1 : alphaFactor;
+                var targetAlpha = radiusAlphaVisualizationList[i].Second;
+                sphereController.alpha += actualAlphaFactor * alphaSpeed;
+
+                if (TargetReached(actualAlphaFactor, sphereController.alpha, targetAlpha))
+                {
+                    alphaTargerReached = true;
+                    sphereController.alpha = targetAlpha;
+                }
+
+                sphereController.ChangeVisualizationConfiguration(transform.position, sphereController.sphereRadius,
+                    sphereController.alpha);
+                radiusAlphaTargetReached[i] = Tuple.New(radiusTargetReached, alphaTargerReached);
+            }
+
+            if (radiusAlphaTargetReached.All(t => t.First && t.Second))
+                break;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        sphereControllers[actualVisualization].notInZero = false;
+        sphereControllers[actualVisualization].gameObject.SetActive(false);
+        actualVisualization++;
+
+        if (finalAction != null)
+            finalAction();
+
+        movingSphere = false;
+    }
+
+    public void MoveSphereOutside(float outsideAxis, Action initialAction, Action finalAction)
+    {
+        var actualPitchGrabObject = InformationObjectManager.Instance.planeImages.lookPointerInstance.actualPitchGrabObject;
+        var zoomingIn = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingIn;
+        var zoomingOut = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingOut;
+
+        if (outsideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
+            !zoomingIn && !zoomingOut)
+        {
+            StartCoroutine(MoveSphereOutside(initialAction, finalAction));
+        }
+        else
+        {
+            if (finalAction != null)
+                finalAction();
+        }
+    }
+
+    private IEnumerator MoveSphereOutside(Action initialAction, Action finalAction)
+    {
+        if (movingSphere)
+            yield break;
+
+        movingSphere = true;
+
+        var notInZeroSphereControllers =
+            sphereControllers.Where(
+                sphereController =>
+                    sphereController.notInZero
+                ).ToList();
+
+        var inZeroSphereControllers =
+            sphereControllers.Where(
+                sphereController =>
+                    !sphereController.notInZero
+                ).ToList();
+
+        if (inZeroSphereControllers.Count == 0)
+        {
+            movingSphere = false;
+
+            yield break;
+        }
+
+        var sphereControllerList = new List<SphereController> { inZeroSphereControllers.Last() };
+        sphereControllerList.AddRange(notInZeroSphereControllers);
+
+        var radiusAlphaTargetReached = new List<Tuple<bool, bool>>();
+        for (int i = 0; i < sphereControllerList.Count; i++)
+        {
+            radiusAlphaTargetReached.Add(Tuple.New(false, false));
+        }
+
+        sphereControllers[actualVisualization - 1].gameObject.SetActive(true);
+        //DELETE THIS tie to csv creator
+        //csvCreator.AddLines("Changing Sphere", actualVisualization.ToString());
+
+        if (initialAction != null)
+            initialAction();
+
+        var alphaWaitTimeCounter = 0.0f;
+        while (true)
+        {
+            for (int i = 0; i < sphereControllerList.Count; i++)
+            {
+                var sphereController = sphereControllerList[i];
+                var radiusTargetReached = false;
+                var alphaTargerReached = false;
+
+                //Radius
+                var targetRadius = radiusAlphaVisualizationList[i + 1].First;
+                sphereController.sphereRadius += radiusFactor * radiusSpeed;
+
+                if (TargetReached(radiusFactor, sphereController.sphereRadius, targetRadius))
+                {
+                    radiusTargetReached = true;
+                    sphereController.sphereRadius = targetRadius;
+                }
+
+                if (alphaWaitTimeCounter >= alphaWaitTime)
+                {
+                    //Alpha
+                    var actualAlphaFactor = i == 0
+                        ? alphaFactor
+                        : alphaFactor * -1;
+                    var targetAlpha = radiusAlphaVisualizationList[i + 1].Second;
+                    sphereController.alpha += actualAlphaFactor * alphaSpeed;
+
+                    if (TargetReached(actualAlphaFactor, sphereController.alpha, targetAlpha))
+                    {
+                        alphaTargerReached = true;
+                        sphereController.alpha = targetAlpha;
+                    }
+                }
+                alphaWaitTimeCounter += Time.fixedDeltaTime;
+
+                sphereController.ChangeVisualizationConfiguration(transform.position, sphereController.sphereRadius, sphereController.alpha);
+                radiusAlphaTargetReached[i] = Tuple.New(radiusTargetReached, alphaTargerReached);
+            }
+
+            if (radiusAlphaTargetReached.All(t => t.First && t.Second))
+                break;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        actualVisualization--;
+        sphereControllers[actualVisualization].notInZero = true;
+
+        if (finalAction != null)
+            finalAction();
+
+        movingSphere = false;
+    }
+
+    private bool TargetReached(float factor, float value, float target)
+    {
+        if (factor >= 0)
+        {
+            if (value >= target)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (value <= target)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }

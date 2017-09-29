@@ -16,14 +16,19 @@ public class ActionManager : MonoBehaviour, IAwake
     public static ActionManager Instance { set; get; }
     [HideInInspector]
     public bool initialized = false;
+    //delete this
     public DIOManager dioManager;
     #region Variable declaration
+    //delete this
     [HideInInspector]
     public Action[] vorticesActionList = new Action[8];
+    //and this
     [HideInInspector]
     public string[] vorticesActionListNames;
+    //dis too
     Action[] bgiiesActionList;
     [HideInInspector]
+    //and dis
     public string[] bgiiesActionListNames;
     [HideInInspector]
     //Current action list is composed of the visualization and object actions lists, same as the array with names.
@@ -39,16 +44,33 @@ public class ActionManager : MonoBehaviour, IAwake
     public Action[] currentObjectActions;
     [HideInInspector]
     public string[] currentObjectActionsNames;
+    //delete this
     [HideInInspector]
     public bool bgiiesMode;
 
-
+    //also delete this, accessed through the interface manager
     public GameObject neuroSkyConfigMenu, emotivConfigMenu, kinectConfigMenu;
+
+    //generic list of actions
+    public List<Action[]> updateActionArrayList = new List<Action[]>();
     #endregion
+
+    //Keyboard variables
+    public KeyCode[] keyValue = new KeyCode[]
+    {
+        KeyCode.Q,
+        KeyCode.W,
+        KeyCode.E,
+        KeyCode.A,
+        KeyCode.S,
+        KeyCode.D
+
+    };
 
     #region Emotiv Variables
     //This list has all the actions that are going to be taken on the update function, so any input pairing with an action you wish
     //  to add should be added to this list using updateActions.Add( ()=> SomeClass.SomeMethod(param1) );
+    //EVALUATE DELETE
     [HideInInspector]
     public List<Action> updateActionsVorticesEmotivConfig = new List<Action>();
     [HideInInspector]
@@ -143,6 +165,11 @@ public class ActionManager : MonoBehaviour, IAwake
         initialized = true;
     }
 
+    public void InitializeManager()
+    {
+        initialized = true;
+    }
+
     public void ChangeActiveActionsList()
     {
         bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode");
@@ -181,7 +208,7 @@ public class ActionManager : MonoBehaviour, IAwake
 
     }
 
-    public void ReloadMappingActions()
+    public bool ReloadMappingActions()
     {
         //deletes the previous action list and names by forming them again from the visualization and object arrays
         currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length - 1];
@@ -191,9 +218,34 @@ public class ActionManager : MonoBehaviour, IAwake
         Action[] aux = new Action[currentObjectActions.Length - 1];
         for (int i = 1; i < currentObjectActions.Length; i++)
         {
-            aux[i - 1] = currentVisualizationActions[i];
+            aux[i - 1] = currentObjectActions[i];
         }
-        aux.CopyTo(currentActionList, actionListLen);        
+        aux.CopyTo(currentActionList, actionListLen);
+        return true;
+    }
+
+    public void ReloadVisualizationActions(Action[] actions)
+    {
+        Action[] aux = new Action[actions.Length + 1];
+        aux[0] = null;
+        for (int i = 1; i <= actions.Length; i++)
+        {
+            aux[i] = actions[i-1];
+        }
+        currentVisualizationActions = new Action[actions.Length + 1];
+        aux.CopyTo(currentVisualizationActions, 0);
+    }
+
+    public void ReloadObjectActions(Action[] actions)
+    {
+        Action[] aux = new Action[actions.Length + 1];
+        aux[0] = null;
+        for (int i = 1; i <= actions.Length; i++)
+        {
+            aux[i] = actions[i - 1];
+        }
+        currentObjectActions = new Action[actions.Length + 1];
+        aux.CopyTo(currentObjectActions, 0);
     }
 
     /// <summary>
@@ -398,6 +450,15 @@ public class ActionManager : MonoBehaviour, IAwake
             function();
         }
 
+        foreach(Action[] array in updateActionArrayList)
+        {
+            foreach(var function in array)
+            {
+                function();
+            }
+        }
+        //currentActionList[1]();
+        /*
         if (EEGManager.Instance.useNeuroSky)
         {
             foreach (Action function in updateActionsNeuroSky)
@@ -406,6 +467,7 @@ public class ActionManager : MonoBehaviour, IAwake
                     function();
             }
         }
+
         if (dioManager.kinectInput)
         {
             foreach (Action function in updateActionsKinectGestures)
@@ -414,7 +476,7 @@ public class ActionManager : MonoBehaviour, IAwake
                     function();
             }
         }
-
+        */
     }
 
     //This function is called every time the emo state is updated. The tickTimer is there so that the functions are not all called every single update, but rather only
@@ -562,7 +624,10 @@ public class ActionManager : MonoBehaviour, IAwake
     //Adds a condition that is a key button, to be used with ActionPairing function
     public bool ActionConditionButtons(KeyCode button){
         if (Input.GetKeyDown(button))
+        {
+            Debug.Log("key pressed");
             return true;
+        }            
         return false;
     }
 

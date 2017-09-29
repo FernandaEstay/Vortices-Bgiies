@@ -26,11 +26,12 @@ public class PlaneVisualizationManager : MonoBehaviour {
         //plane image behaviour
         if (currentObject.Equals("PlaneImage"))
         {
-            InformationObjectManager.Instance.planeImages.Initialize(this);
+            
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
             actualVisualization = 0;
             radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };
+            
             AutoTunePlanes(InformationObjectManager.Instance.planeImages.loadImageController.images);
 
             foreach (var planeController in planeControllers)
@@ -41,7 +42,7 @@ public class PlaneVisualizationManager : MonoBehaviour {
                 visualizationTextureIndex += planeController.elementsToDisplay;
                 visualizationIndex += 1;
             }
-
+            InformationObjectManager.Instance.planeImages.Initialize(this);
             InformationObjectManager.Instance.planeImages.LoadObjects();
         }
 

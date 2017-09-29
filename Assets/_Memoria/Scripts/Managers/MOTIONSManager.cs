@@ -15,6 +15,8 @@ public class MOTIONSManager : MonoBehaviour {
     [HideInInspector]
     public string[] interfacesNames;
 
+    [HideInInspector]
+    public bool informationObjectInitialized, visualizationInitialized;
 
     private void Awake()
     {
@@ -25,7 +27,8 @@ public class MOTIONSManager : MonoBehaviour {
         {
             "Emotiv",
             "Kinect",
-            "NeuroSky"
+            "NeuroSky",
+            "Keyboard"
         };
 
         interfacesNames = new string[]
@@ -46,8 +49,22 @@ public class MOTIONSManager : MonoBehaviour {
     public void StartEvaluation()
     {
         GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
+        informationObjectInitialized = false;
+        visualizationInitialized = false;
         SceneManager.LoadScene("EmotivTraining");
         //SceneManager.LoadScene("FullScene");
+    }
+
+    public void CheckActionManagerInitialization()
+    {
+        if(visualizationInitialized && informationObjectInitialized)
+        {
+            if (ActionManager.Instance.ReloadMappingActions())
+            {
+                LoadersManager.Instance.LoadInterfaces();
+            }
+            ActionManager.Instance.InitializeManager();
+        }
     }
 
     /*

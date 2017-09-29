@@ -66,6 +66,7 @@ namespace Memoria
                     if (createNewObjects)
                     {
                         var grabableObject = Instantiate(InformationObjectManager.Instance.planeImages.informationPlanePrefab, gameObject);     /* se instancia un DIOController en grabableObject */
+                        //var grabableObject = Instantiate(dioManager.informationPlanePrefab, gameObject);
                         grabableObject.transform.RotateAroundY(180);
 
                         grabableObject.pitchGrabObject.transform.localScale = scaleFactor;              /* pitchGrabObject es una clase que posee las funcionalidades para manejar los objetos con Leap y OpenGlove */

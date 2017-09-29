@@ -22,8 +22,10 @@ namespace Memoria
             posibleActualPitchGrabObject = null;
         }
 
+        //DELETE THIS consider the use of limitations, but leave the management of input to action manager
         public void FixedUpdate()
         {
+            /*
             if ((ZoomOutKeyboardInput() || ZoomOutJoystickInput())
                 && actualPitchGrabObject != null && !dioManager.movingSphere)
             {
@@ -41,14 +43,15 @@ namespace Memoria
                     AcceptObject();
                 }
             }
+            */
         }
 
         public override void LookPointerStay(PitchGrabObject pitchGrabObject)
         {
             posibleActualPitchGrabObject = pitchGrabObject;
-
+            //DELETE THIS emulate limitation in action manager
             if ((ZoomInKeyboardInput() || ZoomInJoystickInput()) &&
-                actualPitchGrabObject == null && !dioManager.movingSphere)
+                actualPitchGrabObject == null )
             {
                 if (!zoomingIn && !zoomingOut)
                 {
@@ -72,7 +75,8 @@ namespace Memoria
 
         public override void DirectZoomInCall(Action finalAction)
         {
-            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
+            //DELETE THIS emulate limitation in action manager
+            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null)
             {
                 StartCoroutine(ZoomingIn(posibleActualPitchGrabObject, finalAction));
             }
@@ -80,7 +84,8 @@ namespace Memoria
 
         public override void DirectZoomInCall(PitchGrabObject pitchGrabObject, Action finalAction)
         {
-            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
+            //DELETE THIS emulate limitation in action manager
+            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null)
             {
                 StartCoroutine(ZoomingIn(pitchGrabObject, finalAction));
             }
@@ -90,8 +95,8 @@ namespace Memoria
         {
             zoomingIn = true;
             SetZoomInInitialStatus(pitchGrabObject);
-
-            dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
+            //DELETE THIS re tie to actual csv creator
+            //dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
 
             var counter = 0;
             while (true)
@@ -99,8 +104,9 @@ namespace Memoria
                 pitchGrabObject.transform.position =
                     Vector3.MoveTowards(pitchGrabObject.transform.position,
                         Vector3.zero, 0.01f);
-
-                if (counter >= dioManager.closeRange)
+                //DELETE THIS tie to corresponding instance of occulus rift in interface manager
+                //if (counter >= dioManager.closeRange)
+                if (counter >= 6.0f)
                 {
                     break;
                 }
@@ -143,7 +149,8 @@ namespace Memoria
 
         public override void DirectZoomOutCall(Action finalAction)
         {
-            if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !dioManager.movingSphere)
+            //DELETE THIS originally this has a limitation that doesn't allow it to trigger if the sphere is rotating, emulate in action manager
+            if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null )
             {
                 StartCoroutine(ZoomingOut(finalAction));
             }
@@ -151,7 +158,8 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-            dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
+            //DELETE THIS re tie to actual csv creator
+            //dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
             zoomingOut = true;
 
             var positionTargetReached = false;
@@ -254,17 +262,20 @@ namespace Memoria
             actualPitchGrabObject.isSelected = !actualPitchGrabObject.isSelected;
             pitchMaterial.material.color = actualPitchGrabObject.isSelected ? Color.green : Color.white;
 
+            //DELETE THIS not delete, remap to the new location of button panels references (interaction manager?)
+
             if (actualPitchGrabObject.isSelected)
             {
-                dioManager.buttonPanel.NegativeAcceptButton();
+                //dioManager.buttonPanel.NegativeAcceptButton();
             }
             else
             {
-                dioManager.buttonPanel.PositiveAcceptButton();
+                //dioManager.buttonPanel.PositiveAcceptButton();
             }
 
             var action = actualPitchGrabObject.isSelected ? "Select" : "Deselect";
-            dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            //DELETE THIS re tie to actual csv creator
+            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;

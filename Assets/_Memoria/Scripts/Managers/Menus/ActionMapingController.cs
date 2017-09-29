@@ -11,18 +11,25 @@ public class ActionMapingController : MonoBehaviour {
     //whenever you add a new interface, just add one slot in the array of the inspector
     public GameObject[] interfacesConfigurationArray;
     int lastInterfaceUsed = 0;
-    
+    string[] interfacesName = new string[]
+    {
+        "EMOTIV: Insight",
+        "Microsoft Kinect",
+        "NeuroSky Mindwave",
+        "Keyboard"
+    };
     /*
      * 0 = Emotiv
      * 1 = Kinect
      * 2 = NeuroSky
-     * 
+     * 4 = Keyboard
      */
 
     private void OnEnable()
     {
         scrollDown.LaunchScrollDown("clean", "");
         ActionManager.Instance.LoadMappingActionsNames();
+        AddArrayToDropdown(currentInterfaceDropdown, interfacesName);
         UpdateCurrentObject();
     }
 
@@ -36,5 +43,16 @@ public class ActionMapingController : MonoBehaviour {
         interfacesConfigurationArray[lastInterfaceUsed].SetActive(false);
         interfacesConfigurationArray[currentInterfaceDropdown.value].SetActive(true);
         lastInterfaceUsed = currentInterfaceDropdown.value;
+    }
+
+    //The values in the interface dropdown are asigned by code, not in the UI.
+    void AddArrayToDropdown(Dropdown availableInputDropdown, string[] actionsNames)
+    {
+        availableInputDropdown.ClearOptions();
+        foreach (string s in actionsNames)
+        {
+            availableInputDropdown.options.Add(new Dropdown.OptionData() { text = s });
+        }
+        availableInputDropdown.RefreshShownValue();
     }
 }

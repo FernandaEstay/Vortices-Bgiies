@@ -51,8 +51,7 @@ public class EmotivMappingLoader : MonoBehaviour {
 
     private void OnEnable()
     {
-            
-
+        LoadActions();
     }
 
     public void LoadActions()

@@ -40,10 +40,10 @@ namespace Memoria
         {
             string Scope = ProfileManager.Instance.currentEvaluationScope;
             //this needs the LeapMotion manager
-            /*
+            
             if (GLPlayerPrefs.GetBool(Scope, "useLeapMotion"))
-                dioManager.leapMotionRig.leapSpace.SetActive(false);
-            */
+                InterfaceManager.Instance.leapMotionManager.leapMotionRig.leapSpace.SetActive(false);
+            
             initialized = true;
         }
 
