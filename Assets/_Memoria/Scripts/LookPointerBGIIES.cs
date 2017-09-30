@@ -47,6 +47,7 @@ namespace Memoria
         }
         public void Update()
         {
+            //this update triggers the zoom out if the right click is pressed or if the kinect gesture zoom out has been triggered.
             if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut()) && actualPitchGrabObject != null && !dioManager.movingPlane)
             {
                 if (!zoomingOut && !zoomingIn)

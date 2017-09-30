@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using UnityCallbacks;
 
-public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
+public class SphereVisualizationManager : GLMonoBehaviour
 {
 
     //Sphere Configuration    
@@ -21,6 +21,8 @@ public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
     public int actualVisualization;
     public List<Tuple<float, float>> radiusAlphaVisualizationList;
     public bool movingSphere;
+    public float horizontalSpeed = 2.0f;
+    public float verticalSpeed = 1.0f;
     public float radiusFactor = 0.005f;
     public float radiusSpeed = 2.0f;
     public float alphaFactor = 0.02f;
@@ -38,10 +40,6 @@ public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
         }
     }
 
-    public void FixedUpdate()
-    {
-        
-    }
 
     // Use this for initialization
     void Start () {
@@ -158,6 +156,36 @@ public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
         sphereController.debugGizmo = false;
 
         return sphereController;
+    }
+
+#region Sphere Methods
+    public void MoveSphereHorizontal(float horizontalAxis)
+    {
+        var sphereTransform = sphereControllers[actualVisualization].transform;
+
+        sphereTransform.Rotate(Vector3.down * horizontalSpeed * horizontalAxis, Space.Self);
+    }
+
+    private int _sphereVerticalCounter = 50;
+    public void MoveSphereVertical(float verticalAxis)
+    {
+        if (verticalAxis == 1.0f && _sphereVerticalCounter >= 100)
+        {
+            _sphereVerticalCounter = 100;
+            return;
+        }
+
+        if (verticalAxis == -1.0f && _sphereVerticalCounter <= 0)
+        {
+            _sphereVerticalCounter = 0;
+            return;
+        }
+
+        var sphereTransform = sphereControllers[actualVisualization].transform;
+
+        sphereTransform.Rotate(Vector3.right * verticalSpeed * verticalAxis, Space.World);
+
+        _sphereVerticalCounter += (int)verticalAxis;
     }
 
     public void MoveSphereInside(float insideAxis, Action initialAction, Action finalAction)
@@ -376,6 +404,7 @@ public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
 
         movingSphere = false;
     }
+#endregion
 
     private bool TargetReached(float factor, float value, float target)
     {

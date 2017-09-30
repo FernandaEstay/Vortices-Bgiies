@@ -32,7 +32,6 @@ public class PlaneImageLoader : MonoBehaviour {
             () => planeImage.DirectZoomOutCall(null)
         };
 
-        ActionManager.Instance.UpdateCurrentSelectedInformationObject(planeImagesActionList, planeImagesActionListNames);
     }
 
     

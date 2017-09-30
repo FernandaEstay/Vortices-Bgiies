@@ -156,7 +156,6 @@ public class ActionManager : MonoBehaviour, IAwake
         updateActionsNeuroSky = new Action[3];
         updateActionsEmotivInsight = new Action[9];
         updateActionsKinectGestures = new Action[13];
-        ChangeActiveActionsList();
     }
 
     public void InitializeManager(DIOManager fatherDioManager)
@@ -168,22 +167,6 @@ public class ActionManager : MonoBehaviour, IAwake
     public void InitializeManager()
     {
         initialized = true;
-    }
-
-    public void ChangeActiveActionsList()
-    {
-        bool aux = GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode");
-        if (aux)
-        {
-            currentActionList = new Action[bgiiesActionList.Length];
-            bgiiesActionList.CopyTo(currentActionList, 0);
-        }
-        else
-        {
-            currentActionList = new Action[vorticesActionList.Length];
-            vorticesActionList.CopyTo(currentActionList, 0);
-        }
-        bgiiesMode = aux;
     }
 
     public void ReloadProfileDropdown(Dropdown actionListDropdown)
@@ -260,6 +243,10 @@ public class ActionManager : MonoBehaviour, IAwake
         currentObjectActionsNames.CopyTo(currentActionListNames, currentVisualizationActionsNames.Length + 1);
     }
 
+    /// <summary>
+    /// Deletes all options in the dropdown and adds available actions as options
+    /// </summary>
+    /// <param name="availableActionsDropdown"></param>
     public void ReloadMappingActionsDropdown(Dropdown availableActionsDropdown)
     {
         availableActionsDropdown.ClearOptions();
@@ -269,16 +256,10 @@ public class ActionManager : MonoBehaviour, IAwake
         }
     }
 
-    public void UpdateCurrentSelectedInformationObject( Action[] objectActionList, string[] objectActionListNames)
-    {
-        string Scope = ProfileManager.Instance.currentEvaluationScope;
-        currentObjectActionsNames = new string[objectActionListNames.Length];
-        objectActionListNames.CopyTo(currentObjectActionsNames, 0);
-        currentObjectActions = new Action[objectActionList.Length];
-        objectActionList.CopyTo(currentObjectActions, 0);
-        ReloadMappingActions();        
-    }
-
+    /// <summary>
+    /// Updates the currentActionListNames with object actions names given
+    /// </summary>
+    /// <param name="actionNamesArray"></param>
     public void UpdateObjectActionNames(string[] actionNamesArray)
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
@@ -288,6 +269,10 @@ public class ActionManager : MonoBehaviour, IAwake
         ReloadMappingActionsNames();
     }
 
+    /// <summary>
+    /// Updates the currentActionListNames with visualization actions names given
+    /// </summary>
+    /// <param name="actionNamesArray"></param>
     public void UpdateVisualizationActionNames(string[] actionNamesArray)
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
@@ -322,6 +307,13 @@ public class ActionManager : MonoBehaviour, IAwake
     //      into an action available index by considering the length of the visualization index.
     //In the case someone changes the visualization, the configuration of the object actions will remain, because they're relative to the visualization index
     //      and not dependant of it.
+
+    /// <summary>
+    /// Returns the current action list index of the given input, 0 by default.
+    /// </summary>
+    /// <param name="interfaceName"></param>
+    /// <param name="inputName"></param>
+    /// <returns></returns>
     public int GetMappedActionIndex(string interfaceName, string inputName)
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
@@ -346,6 +338,13 @@ public class ActionManager : MonoBehaviour, IAwake
 
     //stores the data following the GetMappedActionIndex logic. The key is separated into interface name, input name and current visualization
     //      and information object to be able to change them without losing the already stored configurations.
+    /// <summary>
+    /// Sets the current action list index of the given input
+    /// </summary>
+    /// <param name="interfaceName"></param>
+    /// <param name="inputName"></param>
+    /// <param name="indexValue"></param>
+    /// <returns></returns>
     public int SetMappedActionIndex(string interfaceName, string inputName, int indexValue)
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
@@ -667,12 +666,22 @@ public class ActionManager : MonoBehaviour, IAwake
     }
 
     //A simple condition->function template to be used with an action condition and any function, meant to be added to any updateActions lists.
+    /// <summary>
+    /// If condition is met, triggers function
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
     public void ActionPairing(bool condition, Action function){
         if (condition)
             function();
     }
 
     //An overload to allow the bool to be a reference to a variable
+    /// <summary>
+    /// if condition is met, triggers function
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
     public void ActionPairing(ref bool condition, Action function)
     {
         if (condition)
@@ -680,6 +689,12 @@ public class ActionManager : MonoBehaviour, IAwake
     }
 
     //An overload of ActionPairing meant to add a function as a consequence of the condition being false, in case it's needed.
+    /// <summary>
+    /// if condition is met, triggers function, if not, triggers consequence
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
+    /// <param name="consequence"></param>
     public void ActionPairing(bool condition, Action function, Action consequence)
     {
         if (condition)
@@ -693,5 +708,56 @@ public class ActionManager : MonoBehaviour, IAwake
             
     }
 
+    /// <summary>
+    /// If condition and validation are met, triggers function
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
+    /// <param name="validation"></param>
+    public void ActionPairing(bool condition, Action function, bool validation)
+    {
+        if (condition)
+        {
+            if (validation)
+            {
+                function();
+            }
+        }
+    }
 
+    /// <summary>
+    /// If any value of the array is false, returns false. To be used with ActionPairing as validation. 
+    /// </summary>
+    /// <param name="conditions"></param>
+    /// <returns></returns>
+    public bool ActionValidation(bool[] conditions)
+    {
+        bool isValid = true;
+        foreach(bool condition in conditions)
+        {
+            if (!condition)
+            {
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
+    /// <summary>
+    /// If any value of the list is false, returns false. To be used with ActionPairing as validation. 
+    /// </summary>
+    /// <param name="conditions"></param>
+    /// <returns></returns>
+    public bool ActionValidation(List<bool> conditions)
+    {
+        bool isValid = true;
+        foreach (bool condition in conditions)
+        {
+            if (!condition)
+            {
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
 }

@@ -267,7 +267,6 @@ public class ConfigurationManager : MonoBehaviour
             useLeapMotionToggle.gameObject.SetActive(true);
             useJoystickToggle.gameObject.SetActive(true);
             GLPlayerPrefs.SetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode", false);
-            ActionManager.Instance.ChangeActiveActionsList();
         }
         else
         {
@@ -281,7 +280,6 @@ public class ConfigurationManager : MonoBehaviour
             kinectInput.gameObject.SetActive(true);
             mouseInput.gameObject.SetActive(true);
             GLPlayerPrefs.SetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode", true);
-            ActionManager.Instance.ChangeActiveActionsList();
         }
     }
     public void Exit()

@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gamelogic;
 using System.Linq;
+using System;
 
-public class PlaneVisualizationManager : MonoBehaviour {
+public class PlaneVisualizationManager : GLMonoBehaviour {
 
     //Plane Configuration
 
@@ -17,6 +18,17 @@ public class PlaneVisualizationManager : MonoBehaviour {
     public int actualVisualization;
     public List<Tuple<float, float>> radiusAlphaVisualizationList;
     public bool movingPlane;
+
+    Action[] visualizationActions;
+
+    public bool AreAllDioOnSphere
+    {
+        get
+        {
+            var fullDioList = planeControllers.SelectMany(s => s.dioControllerList);
+            return fullDioList.All(dio => dio.inVisualizationPosition);
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -31,8 +43,9 @@ public class PlaneVisualizationManager : MonoBehaviour {
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
             actualVisualization = 0;
+            InformationObjectManager.Instance.planeImages.Initialize();
             radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };
-            
+            //auto-tune of plane given the amount of images
             AutoTunePlanes(InformationObjectManager.Instance.planeImages.loadImageController.images);
 
             foreach (var planeController in planeControllers)
@@ -43,6 +56,7 @@ public class PlaneVisualizationManager : MonoBehaviour {
                 visualizationTextureIndex += planeController.elementsToDisplay;
                 visualizationIndex += 1;
             }
+
             InformationObjectManager.Instance.planeImages.Initialize();
             InformationObjectManager.Instance.planeImages.LoadObjects(planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
         }
@@ -117,5 +131,22 @@ public class PlaneVisualizationManager : MonoBehaviour {
         planeController.debugGizmo = false;
 
         return planeController;
+    }
+
+    public void MovePlaneOutside(float outsideAxis, Action initialAction, Action finalAction)
+    {
+        var actualPitchGrabObject = bgiiesMode ? lookPointerInstanceBgiies.actualPitchGrabObject : lookPointerInstance.actualPitchGrabObject;
+        var zoomingIn = bgiiesMode ? lookPointerInstanceBgiies.zoomingIn : lookPointerInstance.zoomingIn;
+        var zoomingOut = bgiiesMode ? lookPointerInstanceBgiies.zoomingOut : lookPointerInstance.zoomingOut;
+        if (outsideAxis == 1.0f && !movingPlane && actualPitchGrabObject == null &&
+            !zoomingIn && !zoomingOut)
+        {
+            StartCoroutine(MovePlaneOutside(initialAction, finalAction));
+        }
+        else
+        {
+            if (finalAction != null)
+                finalAction();
+        }
     }
 }

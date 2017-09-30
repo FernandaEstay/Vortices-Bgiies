@@ -29,6 +29,13 @@ public class PlaneImageManager : GLMonoBehaviour {
     [HideInInspector]
     public LookPointerVortices lookPointerInstance;
     public LookPointerVortices lookPointerPrefab;
+    //While some actions in the lookPointerBGIIES are different, they're basically an improvement to the basic
+    //      VORTICES actions, as they have zoom in, zoom out and select as well as the actions related to the
+    //      categories.
+    //A combination of the lookPointerVortices into the lookPointerBGIIES to make a single working code should be considered.
+    [HideInInspector]
+    public LookPointerBGIIES lookPointerInstanceBGIIES;
+    public LookPointerBGIIES lookPointerBgiiesPrefab;
     public List<Tuple<float, float>> radiusAlphaVisualizationList;
     public Vector3 lookPointerScale = new Vector3(0.005f,0.005f,0.005f);
 
@@ -66,6 +73,16 @@ public class PlaneImageManager : GLMonoBehaviour {
         ActionManager.Instance.ReloadObjectActions(objectActions);
         MOTIONSManager.Instance.informationObjectInitialized = true;
         MOTIONSManager.Instance.CheckActionManagerInitialization();
+    }
+
+    public void LoadLookPointerBGIIESActions(List<Tuple<float, float>> radiusAlphaVisualizationListParam)
+    {
+        radiusAlphaVisualizationList = radiusAlphaVisualizationListParam;
+        var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
+        lookPointerInstanceBGIIES = Instantiate(lookPointerBgiiesPrefab, InterfaceManager.Instance.leapMotionManager.leapMotionRig.centerEyeAnchor, lookPointerPosition, Quaternion.identity);
+        lookPointerInstanceBGIIES.transform.localScale = lookPointerScale;
+
+
     }
 
     public void LoadObjects(List<DIOController> listOfDio)
