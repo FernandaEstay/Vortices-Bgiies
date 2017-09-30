@@ -6,8 +6,10 @@ using UnityEngine;
 using Gamelogic;
 using System;
 using System.Linq;
+using UnityCallbacks;
 
-public class SphereVisualizationManager : GLMonoBehaviour {
+public class SphereVisualizationManager : GLMonoBehaviour, IFixedUpdate
+{
 
     //Sphere Configuration    
     public SphereController spherePrefab;
@@ -19,13 +21,27 @@ public class SphereVisualizationManager : GLMonoBehaviour {
     public int actualVisualization;
     public List<Tuple<float, float>> radiusAlphaVisualizationList;
     public bool movingSphere;
-    public float radiusFactor = 1.0f;
-    public float radiusSpeed = 1.0f;
-    public float alphaFactor = 1.0f;
-    public float alphaSpeed = 1.0f;
+    public float radiusFactor = 0.005f;
+    public float radiusSpeed = 2.0f;
+    public float alphaFactor = 0.02f;
+    public float alphaSpeed = 2.0f;
     public float alphaWaitTime = 0.8f;
 
     Action[] visualizationActions;
+
+    public bool AreAllDioOnSphere
+    {
+        get
+        {
+            var fullDioList = sphereControllers.SelectMany(s => s.dioControllerList);
+            return fullDioList.All(dio => dio.inVisualizationPosition);
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        
+    }
 
     // Use this for initialization
     void Start () {
@@ -35,11 +51,15 @@ public class SphereVisualizationManager : GLMonoBehaviour {
         loader.LoadInstances();
         //plane image behaviour
         if (currentObject.Equals("PlaneImage"))
-        {            
+        {
+            //initialization of all variables and plane images
             var visualizationTextureIndex = 0;
             var visualizationIndex = 0;
             actualVisualization = 0;
-            radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };            
+            InformationObjectManager.Instance.planeImages.Initialize();
+            radiusAlphaVisualizationList = new List<Tuple<float, float>> { Tuple.New(0.0f, 0.0f) };
+            
+            //Auto-tune of spheres given the amount of images to load
             AutoTuneSpheresForImages(InformationObjectManager.Instance.planeImages.loadImageController.images);
             foreach (var sphereController in sphereControllers)
             {
@@ -49,21 +69,25 @@ public class SphereVisualizationManager : GLMonoBehaviour {
                 visualizationTextureIndex += sphereController.elementsToDisplay;
                 visualizationIndex += 1;
             }
-            InformationObjectManager.Instance.planeImages.Initialize(this);
-            InformationObjectManager.Instance.planeImages.LoadObjects();
+
+            //look pointer is initialized given the spheres generated
+            InformationObjectManager.Instance.planeImages.LoadLookPointerActions(radiusAlphaVisualizationList);
+            //images are loaded
+            InformationObjectManager.Instance.planeImages.LoadObjects(sphereControllers.SelectMany(sc => sc.dioControllerList).ToList());
+
+            //Sphere actions are asigned to the action manager
             visualizationActions = new Action[]
             {
                 null,
                 () => MoveSphereInside(1, null, null),
                 () => MoveSphereOutside(1, null, null),
             };
-
             ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
             visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions,0);
+
             MOTIONSManager.Instance.visualizationInitialized = true;
             MOTIONSManager.Instance.CheckActionManagerInitialization();
-        }
-        
+        }        
         
     }
 	
@@ -142,9 +166,8 @@ public class SphereVisualizationManager : GLMonoBehaviour {
         var actualPitchGrabObject = InformationObjectManager.Instance.planeImages.lookPointerInstance.actualPitchGrabObject;
         var zoomingIn = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingIn;
         var zoomingOut = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingOut;
-        //DELETE THIS limitation of use here, only moves if all DIOs are on the sphere. needs adding to the actionmanager
         if (insideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
-            !zoomingIn && !zoomingOut)
+            !zoomingIn && !zoomingOut && AreAllDioOnSphere)
         {
             StartCoroutine(MoveSphereInside(initialAction, finalAction));
         }
@@ -247,7 +270,7 @@ public class SphereVisualizationManager : GLMonoBehaviour {
         var zoomingOut = InformationObjectManager.Instance.planeImages.lookPointerInstance.zoomingOut;
 
         if (outsideAxis == 1.0f && !movingSphere && actualPitchGrabObject == null &&
-            !zoomingIn && !zoomingOut)
+            !zoomingIn && !zoomingOut && AreAllDioOnSphere)
         {
             StartCoroutine(MoveSphereOutside(initialAction, finalAction));
         }
@@ -335,7 +358,6 @@ public class SphereVisualizationManager : GLMonoBehaviour {
                     }
                 }
                 alphaWaitTimeCounter += Time.fixedDeltaTime;
-
                 sphereController.ChangeVisualizationConfiguration(transform.position, sphereController.sphereRadius, sphereController.alpha);
                 radiusAlphaTargetReached[i] = Tuple.New(radiusTargetReached, alphaTargerReached);
             }

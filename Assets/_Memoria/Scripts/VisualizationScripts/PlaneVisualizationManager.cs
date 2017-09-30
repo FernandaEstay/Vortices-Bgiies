@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gamelogic;
+using System.Linq;
 
 public class PlaneVisualizationManager : MonoBehaviour {
 
@@ -42,8 +43,8 @@ public class PlaneVisualizationManager : MonoBehaviour {
                 visualizationTextureIndex += planeController.elementsToDisplay;
                 visualizationIndex += 1;
             }
-            InformationObjectManager.Instance.planeImages.Initialize(this);
-            InformationObjectManager.Instance.planeImages.LoadObjects();
+            InformationObjectManager.Instance.planeImages.Initialize();
+            InformationObjectManager.Instance.planeImages.LoadObjects(planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
         }
 
 

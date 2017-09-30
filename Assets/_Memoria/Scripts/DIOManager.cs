@@ -29,7 +29,7 @@ namespace Memoria
         public bool useLeapMotion = true;
         public bool usePitchGrab = true;
         public bool useHapticGlove;
-        public bool useKeyboard;
+        public bool useKeyboard = true;
         public bool useMouse;
         public bool visualizationPlane = true;
         public bool useJoystick;
@@ -55,12 +55,12 @@ namespace Memoria
         //public UnityOpenGlove unityOpenGlove;
 
         //Input Configuration
-        public float horizontalSpeed;
-        public float verticalSpeed;
-        public float radiusFactor = 1.0f;
-        public float radiusSpeed = 1.0f;
-        public float alphaFactor = 1.0f;
-        public float alphaSpeed = 1.0f;
+        public float horizontalSpeed = 2.0f;
+        public float verticalSpeed = 1.0f;
+        public float radiusFactor = 0.005f;
+        public float radiusSpeed = 2.0f;
+        public float alphaFactor = 0.02f;
+        public float alphaSpeed = 2.0f;
         public float alphaWaitTime = 0.8f;
         public KeyCode action1Key;
         public KeyCode action2Key;
@@ -289,8 +289,15 @@ namespace Memoria
                 buttonPanel.zoomIn3DButton.gameObject.SetActive(false);
             }
 
-
-            StartCoroutine(loadImageController.LoadFolderImages());
+            if (bgiiesMode)
+            {
+                StartCoroutine(loadImageController.LoadFolderImages(planeControllers.SelectMany(sc => sc.dioControllerList).ToList()));
+            }
+            else
+            {
+                StartCoroutine(loadImageController.LoadFolderImages(sphereControllers.SelectMany(sc => sc.dioControllerList).ToList()));
+            }
+            
 
             initialSphereAction = () =>
             {
@@ -403,6 +410,17 @@ namespace Memoria
 
             if (useJoystick)
                 JoystickInput();
+
+            //DELETE THIS
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                MoveSphereInside(1, initialSphereAction, finalSphereAction);
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                MoveSphereOutside(1, initialSphereAction, finalSphereAction);
+            }
         }
 
         public void Update()

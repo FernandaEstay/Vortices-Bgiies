@@ -17,16 +17,7 @@ public class KeyboardMappingLoader : MonoBehaviour {
         "D"
     };
 
-    public KeyCode[] keyValue = new KeyCode[]
-    {
-        KeyCode.Q,
-        KeyCode.W,
-        KeyCode.E,
-        KeyCode.A,
-        KeyCode.S,
-        KeyCode.D
-
-    };
+    int[] actionIndex;
 
     private void OnEnable()
     {
@@ -35,47 +26,43 @@ public class KeyboardMappingLoader : MonoBehaviour {
 
     public void LoadActions()
     {
-        int actionIndex;
         //this is bad idea, it gets a reference instead of a clone
         //Action[] actionArray = new Action[keyName.Length];
         ActionManager.Instance.updateActionsNeuroSky = new Action[keyName.Length];
-        /*
-        for (int j = 0; j < keyName.Length; j++)
+        actionIndex = new int[keyName.Length];
+        //Unfortunately, this can't be done with a "for" cicle as delegates only work with references, and all indexes would use a reference to the "i" value, which would
+        //      be then the same for every array, and out of index every time.
+        //On the bright side this only has to be done once, as the actions and indexes they reference are given and modified by the ActionManager.
+        //Also once you write the code for the first one, you can easily copy and replicate it quickly changing the numbers with a text editor like Sublime text
+        for (int i = 0; i < keyName.Length; i++)
         {
-            actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[j]);
-            ActionManager.Instance.updateActionsNeuroSky[j] = () => ActionManager.Instance.ActionPairing(
-                ActionManager.Instance.ActionConditionButtons(ActionManager.Instance.keyValue[j]),
-                ActionManager.Instance.currentActionList[actionIndex]);
-        }*/
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[0]);
+            actionIndex[i] = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[i]);
+        }
+
         ActionManager.Instance.updateActionsNeuroSky[0] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.Q),
-            ActionManager.Instance.currentActionList[1]);
+            ActionManager.Instance.currentActionList[actionIndex[0]]);
 
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[1]);
         ActionManager.Instance.updateActionsNeuroSky[1] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.W),
-            ActionManager.Instance.currentActionList[actionIndex]);
+            ActionManager.Instance.currentActionList[actionIndex[1]]);
 
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[2]);
         ActionManager.Instance.updateActionsNeuroSky[2] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.E),
-            ActionManager.Instance.currentActionList[actionIndex]);
+            ActionManager.Instance.currentActionList[actionIndex[2]]);
 
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[3]);
         ActionManager.Instance.updateActionsNeuroSky[3] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.A),
-            ActionManager.Instance.currentActionList[actionIndex]);
+            ActionManager.Instance.currentActionList[actionIndex[3]]);
 
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[4]);
         ActionManager.Instance.updateActionsNeuroSky[4] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.S),
-            ActionManager.Instance.currentActionList[actionIndex]);
+            ActionManager.Instance.currentActionList[actionIndex[4]]);
 
-        actionIndex = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[5]);
         ActionManager.Instance.updateActionsNeuroSky[5] = () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(KeyCode.D),
-            ActionManager.Instance.currentActionList[actionIndex]);
+            ActionManager.Instance.currentActionList[actionIndex[5]]);
+
 
         ActionManager.Instance.updateActionArrayList.Add(ActionManager.Instance.updateActionsNeuroSky);
         //DELETE THIS try deleting the game object and see what happens

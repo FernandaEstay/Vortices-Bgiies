@@ -22,8 +22,6 @@ namespace Memoria
 		private LoadImageBehaviour _loadImageBehaviour;
         //DELETE THIS
 		private DIOManager _dioManager;
-        SphereVisualizationManager sphereManager;
-        PlaneVisualizationManager planeManager;
 
 		public LoadImageBehaviour LoadImageBehaviour { get { return _loadImageBehaviour; } }
 
@@ -39,39 +37,14 @@ namespace Memoria
 			_loadImageBehaviour.Initialize(this);
 		}
 
-        public void Initialize(SphereVisualizationManager sphereManager)
+        public void Initialize()
         {
-            this.sphereManager = sphereManager;
-
             _loadImageBehaviour = GetComponent<LoadImageBehaviour>();
             _loadImageBehaviour.Initialize(this);
         }
 
-        public void Initialize(PlaneVisualizationManager planeManager)
-        {
-            this.planeManager = planeManager;
-
-            _loadImageBehaviour = GetComponent<LoadImageBehaviour>();
-            _loadImageBehaviour.Initialize(this);
-        }
-
-        public IEnumerator LoadFolderImages()
+        public IEnumerator LoadFolderImages(List<DIOController> listOfDio)
 		{
-            //DELETE THIS old method tied to DIOManager
-            //var listOfDio  = _dioManager.sphereControllers.Count > _dioManager.planeControllers.Count ? _dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : _dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-            string currentVisualization = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentVisualization");
-            /**/
-            List<DIOController> listOfDio = new List<DIOController>();
-            if (currentVisualization.Equals("Sphere"))
-            {
-                listOfDio = sphereManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList();
-            }
-
-            if (currentVisualization.Equals("Plane"))
-            {
-                listOfDio = planeManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-            }
-            /**/
             var tuple = _loadImageBehaviour.TextureFormatGetter();
 
 			string fileSuffix = tuple.First;
