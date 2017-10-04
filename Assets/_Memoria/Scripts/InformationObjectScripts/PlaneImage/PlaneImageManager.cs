@@ -29,10 +29,11 @@ public class PlaneImageManager : GLMonoBehaviour {
     [HideInInspector]
     public LookPointerVortices lookPointerInstance;
     public LookPointerVortices lookPointerPrefab;
-    //While some actions in the lookPointerBGIIES are different, they're basically an improvement to the basic
-    //      VORTICES actions, as they have zoom in, zoom out and select as well as the actions related to the
-    //      categories.
-    //A combination of the lookPointerVortices into the lookPointerBGIIES to make a single working code should be considered.
+    //A combination of the lookPointerBGIIES into the PlaneVisualizationManager to make a single working code and untie visualization-related actions from the
+    //      objects should be considered. 
+    //For now, the BGIIES actions will be asigned as the Visualization actions through the Plane Image Manager because even though they should be tied to the Plane visualization
+    //      they're declared in the LookPointerBGIIES script, who then accesses the plane visualization. 
+    //NOTE: ONLY the category-related functions, not the selection and zoom-related ones
     [HideInInspector]
     public LookPointerBGIIES lookPointerInstanceBGIIES;
     public LookPointerBGIIES lookPointerBgiiesPrefab;

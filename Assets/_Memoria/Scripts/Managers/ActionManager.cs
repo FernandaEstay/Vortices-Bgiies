@@ -52,7 +52,7 @@ public class ActionManager : MonoBehaviour, IAwake
     public GameObject neuroSkyConfigMenu, emotivConfigMenu, kinectConfigMenu;
 
     //generic list of actions
-    public List<Action[]> updateActionArrayList = new List<Action[]>();
+    public List<Action> updateActionArrayList = new List<Action>();
     #endregion
 
     //Keyboard variables
@@ -449,12 +449,9 @@ public class ActionManager : MonoBehaviour, IAwake
             function();
         }
 
-        foreach(Action[] array in updateActionArrayList)
+        foreach(var action in updateActionArrayList)
         {
-            foreach(var function in array)
-            {
-                function();
-            }
+            action();
         }
         //currentActionList[1]();
         /*

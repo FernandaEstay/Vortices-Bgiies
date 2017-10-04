@@ -8,7 +8,7 @@ using Gamelogic;
 
 public class EmotivTrainingEnvironmentManager : MonoBehaviour {
 
-    public GameObject sphereVisualizationSocket, planeVisualizationSocket;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -18,23 +18,9 @@ public class EmotivTrainingEnvironmentManager : MonoBehaviour {
 
         //Any special consideration for any given visualization (like changing an object's size, color, creating more or less of some instanced object or whatever) must also
         //      be done in here.
-        string Scope = ProfileManager.Instance.currentEvaluationScope;
-        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
-
-        if (currentVisualization.Equals("Sphere"))
-        {
-            sphereVisualizationSocket.SetActive(true);
-        }
-
-        if (currentVisualization.Equals("Plane"))
-        {
-            planeVisualizationSocket.SetActive(true);
-        }
+        VisualizationManager.Instance.LoadVisualization();
         
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

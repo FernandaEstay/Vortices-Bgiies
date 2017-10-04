@@ -1,16 +1,33 @@
-﻿using System.Collections;
+﻿using Gamelogic;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VisualizationManager : MonoBehaviour {
+public class VisualizationManager : GLMonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static VisualizationManager Instance { set; get; }
+
+    public PlaneVisualizationManager planeVisualization;
+    public SphereVisualizationManager sphereVisualization;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void LoadVisualization()
+    {
+        string Scope = ProfileManager.Instance.currentEvaluationScope;
+        string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
+
+        if (currentVisualization.Equals("Sphere"))
+        {
+            sphereVisualization.gameObject.SetActive(true);
+        }
+
+        if (currentVisualization.Equals("Plane"))
+        {
+            planeVisualization.gameObject.SetActive(true);
+        }
+    }
 }

@@ -47,6 +47,7 @@ namespace Memoria
         }
         public void Update()
         {
+            /* Code used only to zoom out of image, which should not exist given the ActionManager architecture
             //this update triggers the zoom out if the right click is pressed or if the kinect gesture zoom out has been triggered.
             if ((Input.GetMouseButtonDown(1) || dioManager.kinectGestures.kinectGestureZoomOut()) && actualPitchGrabObject != null && !dioManager.movingPlane)
             {
@@ -61,13 +62,14 @@ namespace Memoria
                 }
 
             }
-
+            */
         }
 
         public override void LookPointerStay(PitchGrabObject pitchGrabObject)
         {
             posibleActualPitchGrabObject = pitchGrabObject;
-
+            /* Code inside the lookPointer loop [in LookPointerBGIIES], triggered by the OnDetect function in pitchGrabObject, which is triggered by the lookPointerRaycasting if a new object is detected.
+             * 
             if ((Input.GetMouseButtonDown(0) || dioManager.kinectGestures.kinectGestureZoomIn()) && actualPitchGrabObject == null && !dioManager.movingPlane)
             {
                 if (!zoomingIn && !zoomingOut)
@@ -80,6 +82,7 @@ namespace Memoria
                     }
                 }
             }
+            */
         }
 
         public override void SetZoomInInitialStatus(PitchGrabObject pitchGrabObject)
@@ -92,8 +95,6 @@ namespace Memoria
         }
         public override void DirectZoomInCall(Action finalAction)
         {
-            if (dioManager.kinectInput)
-                dioManager.kinectGestures.KinectZoomIn();
             if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
                 StartCoroutine(ZoomingIn(posibleActualPitchGrabObject, finalAction));
         }
@@ -110,8 +111,8 @@ namespace Memoria
         {
                 zoomingIn = true;
                 SetZoomInInitialStatus(pitchGrabObject);
-
-                dioManager.csvCreator.AddLines("Zooming In", pitchGrabObject.idName);
+                //DELETE THIS tie to csv creator
+                //dioManager.csvCreator.AddLines("Zooming In", pitchGrabObject.idName);
 
                 var counter = 0;
                 while (true)
@@ -134,8 +135,6 @@ namespace Memoria
         }
         public override void DirectZoomOutCall(Action finalAction)
         {
-            if (dioManager.kinectInput)
-                dioManager.kinectGestures.kinectGestureZoomOut();
             if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !dioManager.movingSphere)
             {
                 StartCoroutine(ZoomingOut(finalAction));
@@ -144,7 +143,8 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-                dioManager.csvCreator.AddLines("Zooming Out", actualPitchGrabObject.idName);
+                //DELETE THIS tie to csv creator
+                //dioManager.csvCreator.AddLines("Zooming Out", actualPitchGrabObject.idName);
                 zoomingOut = true;
 
                 var positionTargetReached = false;
@@ -561,6 +561,7 @@ namespace Memoria
 
             MostrarCategoria(lista, indexPhoto);
         }
+
         public void OutsideCategoria(List<PitchGrabObject> lista)
         {
             dioManager.panelBgiies.EnableMoveCameraOutside();

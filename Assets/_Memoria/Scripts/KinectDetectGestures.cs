@@ -93,7 +93,10 @@ namespace Memoria
                 }
             }
         }
-    
+        
+        //DELETE THIS
+        //These functions and avariables are used exclusively to trigger the zoom image action in the plane visualization, and delete should be considered given
+        //      the nature of the ActionManager architecture
         public bool kinectGestureZoomIn()
         {
             return zoomIn;

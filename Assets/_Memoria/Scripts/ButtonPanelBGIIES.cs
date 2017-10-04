@@ -49,6 +49,12 @@ namespace Memoria
         public bool mostrarCategoria = false;
         public string nombreCategoria;
 
+        //plane visualization combination
+        [HideInInspector]
+        public Action initialPlaneAction;
+        [HideInInspector]
+        public Action finalPlaneAction;
+
         //public Categorias categorias;
 
         public override void Initialize(DIOManager dioManager)
@@ -69,10 +75,18 @@ namespace Memoria
 
             if (dioManager.mouseInput)
                 posInicialMouse = Input.mousePosition;
-        }
 
-        public void Update()
-        {
+            initialPlaneAction = () =>
+            {
+                DisableMoveCameraInside();
+                DisableMoveCameraOutside();
+            };
+
+            finalPlaneAction = () =>
+            {
+                EnableMoveCameraInside();
+                EnableMoveCameraOutside();
+            };
         }
 
         public void InitExperiment()
@@ -106,104 +120,102 @@ namespace Memoria
             }
             EndExperiment();
         }
+
         public override void Inside()
         {
             Debug.Log("llega a Inside");
             if (!mostrarCategoria)
-                dioManager.MovePlaneInside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                VisualizationManager.Instance.planeVisualization.MovePlaneInside(1, initialPlaneAction, finalPlaneAction);
             else
-                dioManager.lookPointerInstanceBgiies.InsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
+                InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.InsideCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.actualListaCat);
         }
 
         public override void Outside()
         {
             Debug.Log("llega a Outside");
             if (!mostrarCategoria)
-                dioManager.MovePlaneOutside(1, dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                VisualizationManager.Instance.planeVisualization.MovePlaneOutside(1, initialPlaneAction, finalPlaneAction);
             else
-                dioManager.lookPointerInstanceBgiies.OutsideCategoria(dioManager.lookPointerInstanceBgiies.actualListaCat);
+                InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.OutsideCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.actualListaCat);
         }
 
         public void ZoomIn()
         {
-            if (dioManager.kinectInput)
-                dioManager.kinectGestures.KinectZoomIn();
-            else
-                dioManager.lookPointerInstanceBgiies.DirectZoomInCall(null);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.DirectZoomInCall(null);
         }
+
         public void ZoomOut()
         {
-            if (dioManager.kinectInput)
-                dioManager.kinectGestures.KinectZoomOut();
-            else
-                dioManager.lookPointerInstanceBgiies.DirectZoomOutCall(null);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.DirectZoomOutCall(null);
         }
+
         public void SelectBt1()
         {
             if (!mostrarCategoria)
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    dioManager.lookPointerInstanceBgiies.SelectCat1();
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat1();
                 else
-                    IngresarACategoria(dioManager.lookPointerInstanceBgiies.listaCat1, bt1, new Button[] { bt2, bt3, bt4 }, 0);
+                    IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat1, bt1, new Button[] { bt2, bt3, bt4 }, 0);
             }
             else
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat1, (int)Categorias.Categoria1, bt1, aceptBt1);
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    DeseleccionarFromCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat1, (int)Categorias.Categoria1, bt1, aceptBt1);
                 else
-                    SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat1, new Button[] { bt2, bt3, bt4 });
+                    SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat1, new Button[] { bt2, bt3, bt4 });
             }
         }
+
         public void SelectBt2()
         {
             if (!mostrarCategoria)
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    dioManager.lookPointerInstanceBgiies.SelectCat2();
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat2();
                 else
-                    IngresarACategoria(dioManager.lookPointerInstanceBgiies.listaCat2, bt2, new Button[] { bt1, bt3, bt4 }, 0);
+                    IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, bt2, new Button[] { bt1, bt3, bt4 }, 0);
             }
             else
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat2, (int)Categorias.Categoria2, bt2, aceptBt2);
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    DeseleccionarFromCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, (int)Categorias.Categoria2, bt2, aceptBt2);
                 else
-                    SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat2, new Button[] { bt1, bt3, bt4 });
+                    SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, new Button[] { bt1, bt3, bt4 });
             }
         }
         public void SelectBt3()
         {
             if (!mostrarCategoria)
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    dioManager.lookPointerInstanceBgiies.SelectCat3();
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat3();
                 else
-                    IngresarACategoria(dioManager.lookPointerInstanceBgiies.listaCat3, bt3, new Button[] { bt1, bt2, bt4 }, 0);
+                    IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, bt3, new Button[] { bt1, bt2, bt4 }, 0);
             }
             else
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat3, (int)Categorias.Categoria3, bt3, aceptBt3);
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    DeseleccionarFromCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, (int)Categorias.Categoria3, bt3, aceptBt3);
                 else
-                    SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat3, new Button[] { bt1, bt2, bt4 });
+                    SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, new Button[] { bt1, bt2, bt4 });
             }
         }
         public void SelectBt4()
         {
             if (!mostrarCategoria)
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    dioManager.lookPointerInstanceBgiies.SelectCat4();
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat4();
                 else
-                    IngresarACategoria(dioManager.lookPointerInstanceBgiies.listaCat4, bt4, new Button[] { bt1, bt2, bt3 }, 0);
+                    IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, bt4, new Button[] { bt1, bt2, bt3 }, 0);
             }
             else
             {
-                if (dioManager.lookPointerInstanceBgiies.zoomActive)
-                    DeseleccionarFromCategoria(dioManager.lookPointerInstanceBgiies.listaCat4, (int)Categorias.Categoria4, bt4, aceptBt4);
+                if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
+                    DeseleccionarFromCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, (int)Categorias.Categoria4, bt4, aceptBt4);
                 else
-                    SalirDeCategoria(dioManager.lookPointerInstanceBgiies.listaCat4, new Button[] { bt1, bt2, bt3 });
+                    SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, new Button[] { bt1, bt2, bt3 });
             }
         }
 
@@ -212,14 +224,14 @@ namespace Memoria
             NegativeAllButtons();
             mostrarCategoria = true;
             nombreCategoria = botonCategoria.tag;
-            dioManager.lookPointerInstanceBgiies.MostrarCategoria(lista, indexPhotos);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.MostrarCategoria(lista, indexPhotos);
             PositiveCatButton(botonCategoria);
             ActiveDesactiveButtons(botonesDesactive, false);
         }
 
         public void SalirDeCategoria(List<PitchGrabObject> categoriaActual, Button[] botonesActive)
         {
-            dioManager.lookPointerInstanceBgiies.MostrarImagenes(categoriaActual);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.MostrarImagenes(categoriaActual);
             mostrarCategoria = false;
             ActiveDesactiveButtons(botonesActive, true);
             EnableMoveCameraInside();
@@ -228,7 +240,7 @@ namespace Memoria
 
         public void DeseleccionarFromCategoria(List<PitchGrabObject> listaActual, int nombreCategoria, Button botonCategoria, Color colorBotonEncendido)
         {
-            dioManager.lookPointerInstanceBgiies.DeseleccionarFromCategoria(listaActual, nombreCategoria, botonCategoria, colorBotonEncendido);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.DeseleccionarFromCategoria(listaActual, nombreCategoria, botonCategoria, colorBotonEncendido);
         }
         public void changeColor(GameObject obj, Color color)
         {
@@ -296,7 +308,7 @@ namespace Memoria
         {
             if (min == 10)
             {
-                SceneManager.LoadScene("ConfigCanvas");
+                SceneManager.LoadScene("ConfigPrototype");
             }
         }
 

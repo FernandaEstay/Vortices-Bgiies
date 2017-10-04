@@ -13,3 +13,9 @@ EditorBuildSettings:
     path: Assets/EyeTribeAssets/Scenes/calib_scene.unity
   - enabled: 1
     path: Assets/EmotivInsightAssets/EmotivTraining.unity
+  - enabled: 1
+    path: Assets/_Memoria/ImmersionScenes/MainMenuScene.unity
+  - enabled: 1
+    path: Assets/_Memoria/ImmersionScenes/TestScenarioA.unity
+  - enabled: 1
+    path: Assets/_Memoria/ImmersionScenes/TestScenarioB.unity
