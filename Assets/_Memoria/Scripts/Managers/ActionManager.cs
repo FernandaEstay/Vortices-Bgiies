@@ -55,18 +55,6 @@ public class ActionManager : MonoBehaviour, IAwake
     public List<Action> updateActionArrayList = new List<Action>();
     #endregion
 
-    //Keyboard variables
-    public KeyCode[] keyValue = new KeyCode[]
-    {
-        KeyCode.Q,
-        KeyCode.W,
-        KeyCode.E,
-        KeyCode.A,
-        KeyCode.S,
-        KeyCode.D
-
-    };
-
     #region Emotiv Variables
     //This list has all the actions that are going to be taken on the update function, so any input pairing with an action you wish
     //  to add should be added to this list using updateActions.Add( ()=> SomeClass.SomeMethod(param1) );

@@ -92,7 +92,8 @@ namespace Memoria
 			if (!_isLookPointerOn)
 			{
 				_isLookPointerOn = true;
-                if (DioManager.bgiiesMode)
+                //DELETE THIS untie bgiiesmode
+                if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
                 {
                     DioManager.lookPointerInstanceBgiies.LookPointerEnter(this);
                     if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
@@ -103,22 +104,24 @@ namespace Memoria
                 }
                 else
                 {
-                    DioManager.lookPointerInstance.LookPointerEnter(this);
-                    DioManager.buttonPanel.EnableAccept();
-
-                    if (DioManager.lookPointerInstance.actualPitchGrabObject == null)
-                        DioManager.buttonPanel.EnableZoomIn();
+                    InformationObjectManager.Instance.planeImages.lookPointerInstance.LookPointerEnter(this);
+                    //DELETE THIS the button panel is still unimplemented. Regardless it only enables/disables the buttons
+                    //DioManager.buttonPanel.EnableAccept();
+                    /*
+                    if (InformationObjectManager.Instance.planeImages.lookPointerInstance.actualPitchGrabObject == null)
+                        DioManager.buttonPanel.EnableZoomIn();*/
                 }
 			}
 			else
 			{
-                if (DioManager.bgiiesMode)
+                //DELETE THIS untie bgiies mode
+                if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
                 {
                     DioManager.lookPointerInstanceBgiies.LookPointerStay(this);
                 }
                 else
                 {
-                    DioManager.lookPointerInstance.LookPointerStay(this);
+                    InformationObjectManager.Instance.planeImages.lookPointerInstance.LookPointerStay(this);
                 }
                 
 			}
@@ -128,7 +131,8 @@ namespace Memoria
 		{
 			if (_isLookPointerOn)
 			{
-                if (DioManager.bgiiesMode){
+                if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
+                {
                     DioManager.lookPointerInstanceBgiies.LookPointerExit(this);
                     if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
                     {
@@ -138,14 +142,16 @@ namespace Memoria
                 }
                 else
                 {
-                    DioManager.lookPointerInstance.LookPointerExit(this);
-                    if (DioManager.lookPointerInstance.actualPitchGrabObject == null)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstance.LookPointerExit(this);
+                    if (InformationObjectManager.Instance.planeImages.lookPointerInstance.actualPitchGrabObject == null)
                     {
+                        
                         _isLookPointerOn = false;
-                        DioManager.buttonPanel.DisableAccept();
+                        //DELETE THIS tie to button panel when reimplemented
+                        //DioManager.buttonPanel.DisableAccept();
                     }
 
-                    DioManager.buttonPanel.DisableZoomIn();
+                    //DioManager.buttonPanel.DisableZoomIn();
                 }
                 
 
@@ -225,7 +231,7 @@ namespace Memoria
         //DELETE THIS no longer necessary with actionmanager
 		public void OnMouseOver()
 		{
-            
+            /*
 			if (DioManager.loadingScene.loading)
 				return;
 
@@ -240,7 +246,7 @@ namespace Memoria
 					DioManager.lookPointerInstance.DirectZoomOutCall(null);
 				}
 			}
-            
+            */
 		}
 
 		#endregion

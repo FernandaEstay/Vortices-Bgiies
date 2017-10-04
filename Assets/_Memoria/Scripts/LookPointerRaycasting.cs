@@ -17,6 +17,12 @@ namespace Memoria
 		private Vector3 _forwardVector;
 		private PitchGrabObject _actualPitchGrabObject;
         bool initialized = false;
+        //testing
+
+        public void Initialize()
+        {
+            initialized = true;
+        }
 
 		public void Initialize(DIOManager dioManager)
 		{
@@ -33,8 +39,7 @@ namespace Memoria
 		{
             if (!initialized)
                 return;
-
-            if (_dioManager.bgiiesMode)
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
             {
                 if (_dioManager.lookPointerInstanceBgiies.zoomActive)
                     return;
@@ -63,6 +68,9 @@ namespace Memoria
             else
             {
                 _forwardVector = transform.TransformDirection(Vector3.forward);
+                //DELETE THIS trying things
+                _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    /*
                 if (EyetrackerManager.Instance._useEyetribe || EyetrackerManager.Instance._useMouse)
                 {
                     _ray = EyetrackerManager.Instance.screenPoint;
@@ -70,7 +78,7 @@ namespace Memoria
                 else
                 {
                     _ray = new Ray(transform.position, _forwardVector);
-                }
+                }*/
             }
 
             maxDistance = 1f;
@@ -82,7 +90,7 @@ namespace Memoria
 
                 if (posiblePitcheGrabObject == null)
 					return;
-
+                /*
                 if (!_dioManager.panelBgiies.mostrarCategoria)
                 {
                     if (posiblePitcheGrabObject.dioController.visualizationController.id != _dioManager.actualVisualization)
@@ -95,7 +103,7 @@ namespace Memoria
                         return;
                     }
                 }
-
+                */
                 if (_actualPitchGrabObject == null)
 				{
 					_actualPitchGrabObject = posiblePitcheGrabObject;   //en una primera instancia actualPitch es null, la primera vez que toca una foto valida toma el valor de posiblePitch
@@ -113,14 +121,14 @@ namespace Memoria
                 _actualPitchGrabObject.OnDetected();        //activa el MARCAR de buttonPanel y activa LookPointerStay que aplica ZoomIn(iluminar foto)
 			}
 			else
-			{
+			{/*
 				if (_actualPitchGrabObject == null)
 				{
                     if(!_dioManager.bgiiesMode)
                         _dioManager.buttonPanel.DisableZoomIn();
 					return;
 				}
-
+                */
 				_actualPitchGrabObject.OnUnDetect();        //si actualPitch no era nulo se hace null
 			}
 		}
@@ -128,7 +136,8 @@ namespace Memoria
         public void RegisterRay(PitchGrabObject foto)
         {
             var action = "Move ray vector";
-            _dioManager.csvCreator.AddLines(action, foto.idName);
+            //DELETE THIS tie to csv creator
+            //_dioManager.csvCreator.AddLines(action, foto.idName);
         }
 
         public void ResetActualPitchGrabObject()

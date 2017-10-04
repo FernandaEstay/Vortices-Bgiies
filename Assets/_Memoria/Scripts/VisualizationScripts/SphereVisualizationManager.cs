@@ -85,6 +85,9 @@ public class SphereVisualizationManager : GLMonoBehaviour
 
             MOTIONSManager.Instance.visualizationInitialized = true;
             MOTIONSManager.Instance.CheckActionManagerInitialization();
+
+            //DELETE THIS only for testing, awful way to do it
+            InterfaceManager.Instance.leapMotionManager.leapMotionRig.centerEyeAnchor.GetComponent<LookPointerRaycasting>().Initialize();
         }        
         
     }

@@ -53,8 +53,8 @@ public class MOTIONSManager : MonoBehaviour {
         visualizationInitialized = false;
         //DELETE THIS clean the action mapping list in the action manager, should be triggered by "returning" in the escape-menu
         ActionManager.Instance.updateActionArrayList = new List<System.Action>();
-        SceneManager.LoadScene("TestScenarioA");
-        //SceneManager.LoadScene("EmotivTraining");
+        //SceneManager.LoadScene("TestScenarioA");
+        SceneManager.LoadScene("EmotivTraining");
         //SceneManager.LoadScene("FullScene");
     }
 

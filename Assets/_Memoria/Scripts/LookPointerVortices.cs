@@ -11,7 +11,7 @@ namespace Memoria
     {
         [SerializeField]
         private float _rotationSteps = 2.0f;
-
+        float closeRange = 18f;
         #region Unity Callback
 
         public void Awake()
@@ -49,15 +49,6 @@ namespace Memoria
         public override void LookPointerStay(PitchGrabObject pitchGrabObject)
         {
             posibleActualPitchGrabObject = pitchGrabObject;
-            //DELETE THIS emulate limitation in action manager
-            if ((ZoomInKeyboardInput() || ZoomInJoystickInput()) &&
-                actualPitchGrabObject == null )
-            {
-                if (!zoomingIn && !zoomingOut)
-                {
-                    StartCoroutine(ZoomingIn(pitchGrabObject, null));
-                }
-            }
         }
 
         #endregion
@@ -103,10 +94,9 @@ namespace Memoria
             {
                 pitchGrabObject.transform.position =
                     Vector3.MoveTowards(pitchGrabObject.transform.position,
-                        Vector3.zero, 0.01f);
+                        Camera.main.transform.position, 0.01f);
                 //DELETE THIS tie to corresponding instance of occulus rift in interface manager
-                //if (counter >= dioManager.closeRange)
-                if (counter >= 6.0f)
+                if (counter >= closeRange)                
                 {
                     break;
                 }
@@ -119,28 +109,6 @@ namespace Memoria
                 finalAction();
 
             zoomingIn = false;
-        }
-
-        private bool ZoomInKeyboardInput()
-        {
-            //if (dioManager.useKeyboard && !dioManager.useMouse)
-            //{
-            //	return Input.GetKeyDown(dioManager.action1Key);
-            //}
-
-            return false;
-        }
-
-        private bool ZoomInJoystickInput()
-        {
-            //if (dioManager.useJoystick)
-            //{
-            //	var zoomIn = Input.GetAxis("Action1");
-
-            //	return zoomIn == 1.0f;
-            //}
-
-            return false;
         }
 
         #endregion
@@ -216,28 +184,6 @@ namespace Memoria
 
             if (finalAction != null)
                 finalAction();
-        }
-
-        private bool ZoomOutKeyboardInput()
-        {
-            //if (dioManager.useKeyboard && !dioManager.useMouse)
-            //{
-            //	return Input.GetKeyDown(dioManager.action2Key);
-            //}
-
-            return false;
-        }
-
-        private bool ZoomOutJoystickInput()
-        {
-            //if (dioManager.useJoystick)
-            //{
-            //	var zoomIn = Input.GetAxis("Action2");
-
-            //	return zoomIn == 1.0f;
-            //}
-
-            return false;
         }
 
         #endregion
