@@ -20,10 +20,20 @@ public class VisualizationManager : GLMonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         string currentVisualization = GLPlayerPrefs.GetString(Scope, "CurrentVisualization");
 
+        InterfaceManager.Instance.OnNewScene();
+
+        /*
+         * Sphere visualization configuration
+         * 
+         * 
+         */
         if (currentVisualization.Equals("Sphere"))
         {
             sphereVisualization.gameObject.SetActive(true);
+            
         }
+
+
 
         if (currentVisualization.Equals("Plane"))
         {

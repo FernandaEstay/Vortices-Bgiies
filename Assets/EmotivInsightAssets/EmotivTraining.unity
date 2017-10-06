@@ -2621,7 +2621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd074754f5bb4004592c5c2d34b9cef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pitchGrabManager: {fileID: 0}
+  pitchGrabManager: {fileID: 674841334}
+  raycastingSpherePlane: {fileID: 502396992}
 --- !u!4 &382620513
 Transform:
   m_ObjectHideFlags: 0
@@ -3707,6 +3708,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 502396991}
+  - component: {fileID: 502396992}
   m_Layer: 0
   m_Name: RaycastingManager
   m_TagString: Untagged
@@ -3728,6 +3730,22 @@ Transform:
   m_Father: {fileID: 382620513}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &502396992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 502396990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d734c71f3b680e43933e6475de7dd49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 1000
+  ignoredLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  debugOutput: 0
 --- !u!1 &521577151
 GameObject:
   m_ObjectHideFlags: 0
@@ -4745,8 +4763,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 3.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2136127639}
   - {fileID: 1791222799}
+  - {fileID: 2136127639}
   - {fileID: 702180094}
   m_Father: {fileID: 1819232938}
   m_RootOrder: 1
@@ -4766,6 +4784,8 @@ MonoBehaviour:
   planePrefab: {fileID: 11492166, guid: 3f990e32daa6a324fabeb9fe9702132c, type: 2}
   planeControllers: []
   panelBgiies: {fileID: 2136127638}
+  childPrefab: {fileID: 1488183635635926, guid: f1f7664df4909424c93df53f6193fbb0,
+    type: 2}
   actualVisualization: 0
   movingPlane: 0
   horizontalSpeed: 2
@@ -13917,7 +13937,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 615773145}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1791222800
 MonoBehaviour:
@@ -15801,7 +15821,6 @@ GameObject:
   - component: {fileID: 1960024482}
   - component: {fileID: 1960024481}
   - component: {fileID: 1960024480}
-  - component: {fileID: 1960024479}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -15824,23 +15843,6 @@ Transform:
   m_Father: {fileID: 1066571516}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1960024479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114592660791108062, guid: b04fa542fe961734d95d09d5aefd901c,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1960024477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d734c71f3b680e43933e6475de7dd49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 10000
-  ignoredLayerMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  debugOutput: 0
 --- !u!114 &1960024480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17080,5 +17082,5 @@ Transform:
   m_Children:
   - {fileID: 1735946112}
   m_Father: {fileID: 615773145}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

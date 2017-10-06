@@ -27,6 +27,8 @@ namespace Memoria
 
         public int indexPhoto = 0;
 
+        float closeRange = 18f;
+
         bool eliminarFromCategoria = false;
         public void Awake()
         {
@@ -95,13 +97,13 @@ namespace Memoria
         }
         public override void DirectZoomInCall(Action finalAction)
         {
-            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
+            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !VisualizationManager.Instance.planeVisualization.movingPlane)
                 StartCoroutine(ZoomingIn(posibleActualPitchGrabObject, finalAction));
         }
 
         public override void DirectZoomInCall(PitchGrabObject pitchGrabObject, Action finalAction)
         {
-            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !dioManager.movingSphere)
+            if (!zoomingIn && !zoomingOut && actualPitchGrabObject == null && !VisualizationManager.Instance.planeVisualization.movingPlane)
             {
                 StartCoroutine(ZoomingIn(pitchGrabObject, finalAction));
             }
@@ -119,7 +121,7 @@ namespace Memoria
                 {
                     pitchGrabObject.transform.position = Vector3.MoveTowards(pitchGrabObject.transform.position, Vector3.zero, 0.01f);
 
-                    if (counter >= dioManager.closeRange)
+                    if (counter >= closeRange)
                     {
                         break;
                     }
@@ -135,7 +137,7 @@ namespace Memoria
         }
         public override void DirectZoomOutCall(Action finalAction)
         {
-            if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !dioManager.movingSphere)
+            if (!zoomingOut && !zoomingIn && actualPitchGrabObject != null && !VisualizationManager.Instance.planeVisualization.movingPlane)
             {
                 StartCoroutine(ZoomingOut(finalAction));
             }
@@ -209,23 +211,24 @@ namespace Memoria
             if (actualPitchGrabObject.isSelectedCat1)
             {
                 createClone(actualPitchGrabObject, listaCat1);
-                                
-                createMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt1);
+                
+                createMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt1, VisualizationManager.Instance.planeVisualization.panelBgiies.bt1);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.PositiveCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt1);
             }
             else
             {
                 destroyClone(actualPitchGrabObject, listaCat1);
 
-                deleteMarcador(dioManager.panelBgiies.aceptBt1, dioManager.panelBgiies.bt1);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt1);
+                deleteMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt1, VisualizationManager.Instance.planeVisualization.panelBgiies.bt1);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.NegativeCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt1);
             }
 
             //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
-            action = action + dioManager.panelBgiies.bt1.tag.ToString();
-            dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt1.tag.ToString();
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -250,22 +253,23 @@ namespace Memoria
             {
                 createClone(actualPitchGrabObject, listaCat2);
 
-                createMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt2);
+                createMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt2, VisualizationManager.Instance.planeVisualization.panelBgiies.bt2);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.PositiveCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt2);
             }
             else
             {
                 destroyClone(actualPitchGrabObject, listaCat2);
 
-                deleteMarcador(dioManager.panelBgiies.aceptBt2, dioManager.panelBgiies.bt2);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt2);
+                deleteMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt2, VisualizationManager.Instance.planeVisualization.panelBgiies.bt2);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.NegativeCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt2);
             }
 
             //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat2 ? "Select " : "Deselect ";
-            action = action + dioManager.panelBgiies.bt2.tag.ToString();
-            dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt2.tag.ToString();
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -289,22 +293,23 @@ namespace Memoria
             {
                 createClone(actualPitchGrabObject, listaCat3);
 
-                createMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt3);
+                createMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt3, VisualizationManager.Instance.planeVisualization.panelBgiies.bt3);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.PositiveCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt3);
             }
             else
             {
                 destroyClone(actualPitchGrabObject, listaCat3);
 
-                deleteMarcador(dioManager.panelBgiies.aceptBt3, dioManager.panelBgiies.bt3);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt3);
+                deleteMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt3, VisualizationManager.Instance.planeVisualization.panelBgiies.bt3);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.NegativeCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt3);
             }
 
             //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat3 ? "Select " : "Deselect ";
-            action = action + dioManager.panelBgiies.bt3.tag.ToString();
-            dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt3.tag.ToString();
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -328,22 +333,23 @@ namespace Memoria
             {
                 createClone(actualPitchGrabObject, listaCat4);
 
-                createMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
-                dioManager.panelBgiies.PositiveCatButton(dioManager.panelBgiies.bt4);
+                createMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt4, VisualizationManager.Instance.planeVisualization.panelBgiies.bt4);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.PositiveCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt4);
             }
             else
             {
                 destroyClone(actualPitchGrabObject, listaCat4);
 
-                deleteMarcador(dioManager.panelBgiies.aceptBt4, dioManager.panelBgiies.bt4);
-                dioManager.panelBgiies.NegativeCatButton(dioManager.panelBgiies.bt4);
+                deleteMarcador(VisualizationManager.Instance.planeVisualization.panelBgiies.aceptBt4, VisualizationManager.Instance.planeVisualization.panelBgiies.bt4);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.NegativeCatButton(VisualizationManager.Instance.planeVisualization.panelBgiies.bt4);
             }
 
             //dioManager.panelBgiies.interactableButtons(actualPitchGrabObject);
 
             var action = actualPitchGrabObject.isSelectedCat4 ? "Select " : "Deselect ";
-            action = action + dioManager.panelBgiies.bt4.tag.ToString();
-            dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt4.tag.ToString();
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -351,7 +357,7 @@ namespace Memoria
 
         public void createMarcador(Color color, Button boton)
         {
-            GameObject obj = Instantiate(dioManager.childPrefab) as GameObject;
+            GameObject obj = Instantiate(VisualizationManager.Instance.planeVisualization.childPrefab) as GameObject;
             obj.transform.parent = actualPitchGrabObject.transform;
 
             int i = actualPitchGrabObject.transform.childCount;
@@ -456,29 +462,29 @@ namespace Memoria
             actualListaCat = lista;
 
             zoomActive = false;
-            dioManager.rayCastingDetector.ResetActualPitchGrabObject();
+            InteractionManager.Instance.raycastingSpherePlane.ResetActualPitchGrabObject();
             
             if (lista.Count / (indexPhoto + 12f) > 1f)
-                dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.EnableButton(VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraInside3DButton, VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraInsideEventTrigger);
             else
-                dioManager.panelBgiies.DisableButton(dioManager.panelBgiies.moveCameraInside3DButton, dioManager.panelBgiies.moveCameraInsideEventTrigger);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.DisableButton(VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraInside3DButton, VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraInsideEventTrigger);
 
             if ((indexPhoto-12) >= 0)
-                dioManager.panelBgiies.EnableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
+                VisualizationManager.Instance.planeVisualization.panelBgiies.EnableButton(VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraOutside3DButton, VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraOutsideEventTrigger);
             else
-                dioManager.panelBgiies.DisableButton(dioManager.panelBgiies.moveCameraOutside3DButton, dioManager.panelBgiies.moveCameraOutsideEventTrigger);
-           
-            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-            
+                VisualizationManager.Instance.planeVisualization.panelBgiies.DisableButton(VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraOutside3DButton, VisualizationManager.Instance.planeVisualization.panelBgiies.moveCameraOutsideEventTrigger);
+
+            //listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            listaImagenes = VisualizationManager.Instance.planeVisualization.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
             int head;
-            if (dioManager.InLastVisualization)
+            if (VisualizationManager.Instance.planeVisualization.InLastVisualization)
             {
-                head = (dioManager.actualVisualization - 1) * 12;
-                dioManager.MovePlaneLastOutside(dioManager.initialPlaneAction, dioManager.finalPlaneAction);
+                head = (VisualizationManager.Instance.planeVisualization.actualVisualization - 1) * 12;
+                VisualizationManager.Instance.planeVisualization.MovePlaneLastOutside(VisualizationManager.Instance.planeVisualization.panelBgiies.initialPlaneAction, VisualizationManager.Instance.planeVisualization.panelBgiies.finalPlaneAction);
             }
             else
             {
-                head = dioManager.actualVisualization * 12;
+                head = VisualizationManager.Instance.planeVisualization.actualVisualization * 12;
             }
             int y = head;
             Debug.Log("indice de y " + y);
@@ -511,26 +517,28 @@ namespace Memoria
                 Debug.Log("foto " + lista[i].idName + " estado " + lista[i].gameObject.activeSelf + " posicion " + lista[i].transform.position);
             }
 
-            OcultarImagenes();
+            OcultarImagenes(VisualizationManager.Instance.planeVisualization.planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
             if (!eliminarFromCategoria)
             {
                 var action = "Ingresa a categoria ";
-                dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
+                //DELETE THIS tie to csv creator
+                //dioManager.csvCreator.AddLines(action, VisualizationManager.Instance.planeVisualization.panelBgiies.nombreCategoria);
             }
             eliminarFromCategoria = false;
         }
-        public void OcultarImagenes()
+        public void OcultarImagenes(List<DIOController> imageList)
         {
-            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            //listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            listaImagenes = imageList;
             foreach (var photo in listaImagenes)
             {
                 photo.pitchGrabObject.gameObject.SetActive(false);
             }
         }
-        public void MostrarImagenes(List<PitchGrabObject> listaOculta)
+        public void MostrarImagenes(List<PitchGrabObject> listaOculta, List<DIOController> imageList)
         {
-            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-
+            //listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            listaImagenes = imageList;
             foreach (var photo in listaImagenes)
             {
                 photo.pitchGrabObject.gameObject.SetActive(true);
@@ -548,23 +556,24 @@ namespace Memoria
             }
 
             var action = "Sale de categoria ";
-            dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
         }
 
         public void InsideCategoria(List<PitchGrabObject> lista)
         {
             indexPhoto = indexPhoto + 12;
             if (lista.Count / indexPhoto >= 1)
-                dioManager.panelBgiies.EnableMoveCameraInside();
+                VisualizationManager.Instance.planeVisualization.panelBgiies.EnableMoveCameraInside();
             else
-                dioManager.panelBgiies.DisableMoveCameraInside();
+                VisualizationManager.Instance.planeVisualization.panelBgiies.DisableMoveCameraInside();
 
             MostrarCategoria(lista, indexPhoto);
         }
 
         public void OutsideCategoria(List<PitchGrabObject> lista)
         {
-            dioManager.panelBgiies.EnableMoveCameraOutside();
+            VisualizationManager.Instance.planeVisualization.panelBgiies.EnableMoveCameraOutside();
             indexPhoto = indexPhoto - 12;
             MostrarCategoria(lista, indexPhoto);
         }
@@ -577,10 +586,10 @@ namespace Memoria
             }
         }
 
-        public void DeseleccionarFromCategoria(List<PitchGrabObject> lista, int categoriaActual, Button boton, Color color)
+        public void DeseleccionarFromCategoria(List<PitchGrabObject> lista, int categoriaActual, Button boton, Color color, List<DIOController> imageList)
         {
-            listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
-
+            //listaImagenes = dioManager.sphereControllers.Count > dioManager.planeControllers.Count ? dioManager.sphereControllers.SelectMany(sc => sc.dioControllerList).ToList() : dioManager.planeControllers.SelectMany(sc => sc.dioControllerList).ToList();
+            listaImagenes = imageList;
             if (actualPitchGrabObject == null)
             {
                 if (posibleActualPitchGrabObject == null)
@@ -609,8 +618,9 @@ namespace Memoria
             else
                 Debug.Log("Error al eliminar desde una categoria, categoria ingresada desde ButtonPanelBgiies inválida");
 
-            var action = "Deselect " + dioManager.panelBgiies.nombreCategoria;
-            dioManager.csvCreator.AddLines(action, imagen.idName);
+            var action = "Deselect " + VisualizationManager.Instance.planeVisualization.panelBgiies.nombreCategoria;
+            //DELETE THIS tie to csv creator
+            //dioManager.csvCreator.AddLines(action, imagen.idName);
 
             zoomActive = false;
             destroyClone(imagen, lista);

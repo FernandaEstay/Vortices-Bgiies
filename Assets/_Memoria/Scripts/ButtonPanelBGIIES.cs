@@ -7,7 +7,8 @@ using System;
 using UnityEngine.SceneManagement;
 using OpenGlove_API_C_Sharp_HL;
 using OpenGlove_API_C_Sharp_HL.ServiceReference1;
-
+using Gamelogic;
+using System.Linq;
 
 namespace Memoria
 {
@@ -73,7 +74,7 @@ namespace Memoria
             mostrarCategoria = false;
             primerMovimiento = false;
 
-            if (dioManager.mouseInput)
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope,"useMouse"))
                 posInicialMouse = Input.mousePosition;
 
             initialPlaneAction = () =>
@@ -87,6 +88,39 @@ namespace Memoria
                 EnableMoveCameraInside();
                 EnableMoveCameraOutside();
             };
+        }
+        
+        //initialization untied from dio manager
+        public void Initialize()
+        {
+            EnableMoveCameraInside();
+            EnableMoveCameraOutside();
+
+            bt1.name = "floraYfauna";
+            bt2.name = "superficies";
+            bt3.name = "mitigaciones";
+            bt4.name = "estructuras";
+
+            NegativeAllButtons();
+
+            mostrarCategoria = false;
+            primerMovimiento = false;
+
+            if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "useMouse"))
+                posInicialMouse = Input.mousePosition;
+
+            initialPlaneAction = () =>
+            {
+                DisableMoveCameraInside();
+                DisableMoveCameraOutside();
+            };
+
+            finalPlaneAction = () =>
+            {
+                EnableMoveCameraInside();
+                EnableMoveCameraOutside();
+            };
+
         }
 
         public void InitExperiment()
@@ -231,7 +265,7 @@ namespace Memoria
 
         public void SalirDeCategoria(List<PitchGrabObject> categoriaActual, Button[] botonesActive)
         {
-            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.MostrarImagenes(categoriaActual);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.MostrarImagenes(categoriaActual, VisualizationManager.Instance.planeVisualization.planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
             mostrarCategoria = false;
             ActiveDesactiveButtons(botonesActive, true);
             EnableMoveCameraInside();
@@ -240,7 +274,7 @@ namespace Memoria
 
         public void DeseleccionarFromCategoria(List<PitchGrabObject> listaActual, int nombreCategoria, Button botonCategoria, Color colorBotonEncendido)
         {
-            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.DeseleccionarFromCategoria(listaActual, nombreCategoria, botonCategoria, colorBotonEncendido);
+            InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.DeseleccionarFromCategoria(listaActual, nombreCategoria, botonCategoria, colorBotonEncendido, VisualizationManager.Instance.planeVisualization.planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
         }
         public void changeColor(GameObject obj, Color color)
         {

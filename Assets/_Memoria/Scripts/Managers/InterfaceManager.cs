@@ -12,6 +12,7 @@ public class InterfaceManager : MonoBehaviour {
     public EEGManager eegManager;
     public EyetrackerManager eyeTrackerManager;
     public LeapMotionManager leapMotionManager;
+    public MouseManager mouseManager;
 
     private void Awake()
     {
@@ -22,12 +23,31 @@ public class InterfaceManager : MonoBehaviour {
     public void CheckEEGInterfaces()
     {        
         Scope = ProfileManager.Instance.currentEvaluationScope;
-        if (GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight") || 
-            GLPlayerPrefs.GetBool(Scope, "UseNeuroSkyMindwave"))
+        if (GLPlayerPrefs.GetBool(Scope, "useEmotivInsight") || 
+            GLPlayerPrefs.GetBool(Scope, "useNeuroSkyMindwave"))
         {
             eegManager.gameObject.SetActive(true);
         }
     }
 
+    public void OnNewScene()
+    {
+        Scope = ProfileManager.Instance.currentEvaluationScope;
 
+        if (GLPlayerPrefs.GetBool(Scope, "useMouse"))
+        {
+            mouseManager.gameObject.SetActive(true);
+        }
+
+        if (GLPlayerPrefs.GetBool(Scope, "useLeapMotion"))
+        {
+            leapMotionManager.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnConfigScene()
+    {
+        mouseManager.gameObject.SetActive(false);
+        leapMotionManager.gameObject.SetActive(false);
+    }
 }

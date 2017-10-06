@@ -29,6 +29,11 @@ public class SphereVisualizationManager : GLMonoBehaviour
     public float alphaSpeed = 2.0f;
     public float alphaWaitTime = 0.8f;
 
+    public bool InLastVisualization
+    {
+        get { return actualVisualization == (sphereControllers.Count - 1 ); }
+    }
+
     Action[] visualizationActions;
 
     public bool AreAllDioOnSphere
@@ -87,7 +92,7 @@ public class SphereVisualizationManager : GLMonoBehaviour
             MOTIONSManager.Instance.CheckActionManagerInitialization();
 
             //DELETE THIS only for testing, awful way to do it
-            InterfaceManager.Instance.leapMotionManager.leapMotionRig.centerEyeAnchor.GetComponent<LookPointerRaycasting>().Initialize();
+            //InterfaceManager.Instance.leapMotionManager.leapMotionRig.centerEyeAnchor.GetComponent<LookPointerRaycasting>().Initialize();
         }        
         
     }
