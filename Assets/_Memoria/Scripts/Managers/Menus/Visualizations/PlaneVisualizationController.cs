@@ -12,10 +12,10 @@ public class PlaneVisualizationController : MonoBehaviour {
         "Select/Deselect topic 2",
         "Select/Deselect topic 3",
         "Select/Deselect topic 4",
-        "Show topic 1",
-        "Show topic 2",
-        "Show topic 3",
-        "Show topic 4",
+        "Show/hide topic 1",
+        "Show/hide topic 2",
+        "Show/hide topic 3",
+        "Show/hide topic 4",
         "Change to next plane",
         "Change to previous plane"
     };

@@ -119,7 +119,7 @@ namespace Memoria
                 var counter = 0;
                 while (true)
                 {
-                    pitchGrabObject.transform.position = Vector3.MoveTowards(pitchGrabObject.transform.position, Vector3.zero, 0.01f);
+                    pitchGrabObject.transform.position = Vector3.MoveTowards(pitchGrabObject.transform.position, Camera.main.transform.position, 0.01f);
 
                     if (counter >= closeRange)
                     {

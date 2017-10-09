@@ -20,7 +20,7 @@ public class SphereVisualizationLoader : MonoBehaviour {
         {
             InteractionManager.Instance.updateList.Add(() =>
                InteractionManager.Instance.raycastingSpherePlane.CreateRay(
-               InterfaceManager.Instance.mouseManager.raycast, VisualizationManager.Instance.sphereVisualization.actualVisualization)
+               InterfaceManager.Instance.mouseManager.screenPointToRay, VisualizationManager.Instance.sphereVisualization.actualVisualization)
                 );
         }
 

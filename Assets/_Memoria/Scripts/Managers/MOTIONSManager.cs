@@ -18,9 +18,13 @@ public class MOTIONSManager : MonoBehaviour {
     [HideInInspector]
     public bool informationObjectInitialized, visualizationInitialized;
 
+    [HideInInspector]
+    public bool instanced = false;
+
     private void Awake()
     {
         Instance = this;
+        instanced = true;
         DontDestroyOnLoad(this);
         GLPlayerPrefs.SetBool("ProfileManagerScope3", "SimulationStarted", false);
         interfacesWithInputNames = new string[]

@@ -13,6 +13,7 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
 
     public PlaneController planePrefab;
     public List<PlaneController> planeControllers;
+    public PlaneVisualizationLoader loader;
     //visual control panel with the categories
     public ButtonPanelBGIIES panelBgiies;
     public GameObject childPrefab;
@@ -50,7 +51,7 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
 
         movingPlane = false;
         string currentObject = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
-
+        loader.LoadInstances();
         //plane image behaviour
         if (currentObject.Equals("PlaneImage"))
         {
@@ -72,22 +73,34 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
                 visualizationIndex += 1;
             }
 
-            InformationObjectManager.Instance.planeImages.Initialize();
+            //DELETE THIS this is only because most actions are not tied to neither object nor visualization, but a
+            //      combination of both. So the function is a boolean that will always return true only to make sure
+            //      the look pointer instance is created first and then the actions are asigned.
+            if (!InformationObjectManager.Instance.planeImages.LoadLookPointerBGIIESActions(radiusAlphaVisualizationList))
+                return;
+
             InformationObjectManager.Instance.planeImages.LoadObjects(planeControllers.SelectMany(sc => sc.dioControllerList).ToList());
 
-            //Sphere actions are asigned to the action manager
+            //Plane actions are asigned to the action manager.
+            //They're mostly in the LookPointerBGIIES though, this is because refactor takes quite a while, and
+            //      the category-related actions should be in an "Interaction" by themselves, not a specific
+            //      visualization, but such configuration does not exist in the menu jet.
             visualizationActions = new Action[]
             {
-                null,
+                () => InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat1(),
+                () => InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat2(),
+                () => InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat3(),
+                () => InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.SelectCat4(),
+                () => panelBgiies.CategoryBt1(),
+                () => panelBgiies.CategoryBt2(),
+                () => panelBgiies.CategoryBt3(),
+                () => panelBgiies.CategoryBt4(),
                 () => panelBgiies.Inside(),
-                () => panelBgiies.Outside(),
-                () => panelBgiies.SelectBt1(),
-                () => panelBgiies.SelectBt2(),
-                () => panelBgiies.SelectBt3(),
-                () => panelBgiies.SelectBt4()
+                () => panelBgiies.Outside()
             };
-            ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
-            visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions, 0);
+            //ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
+            //visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions, 0);
+            ActionManager.Instance.ReloadVisualizationActions(visualizationActions);
 
             MOTIONSManager.Instance.visualizationInitialized = true;
             MOTIONSManager.Instance.CheckActionManagerInitialization();

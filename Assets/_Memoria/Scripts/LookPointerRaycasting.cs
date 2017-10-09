@@ -74,10 +74,13 @@ namespace Memoria
         }
 
         //called only if categories are being used
-        public void CreateRayCategories(int currentVisualization)
+        public void CreateRayCategories(Ray ray, int currentVisualization)
         {
-            if (_dioManager.lookPointerInstanceBgiies.zoomActive)
+            maxDistance = 1f;
+            if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.zoomActive)
                 return;
+            //DELETE THIS tie the function of the timer to the MOTIONSManager
+            /*
             if (_dioManager.mouseInput)
             {
                 if ((_dioManager.panelBgiies.posInicialMouse != Input.mousePosition) && !_dioManager.panelBgiies.primerMovimiento)
@@ -92,14 +95,15 @@ namespace Memoria
             {
                 if (_dioManager.lookPointerInstanceBgiies.zoomActive)
                     return;
+                //DELETE THIS remember to add this to the Kinect Manager
                 _ray = _dioManager.kinectFace.ray;
                 if ((_ray.direction != Vector3.zero) && !_dioManager.panelBgiies.primerMovimiento)
                 {
                     _dioManager.panelBgiies.primerMovimiento = true;
                     _dioManager.panelBgiies.InitExperiment();
                 }
-            }
-            CastRayCategories(_ray, currentVisualization);
+            }*/
+            CastRayCategories(ray, currentVisualization);
         }
 
         //This creates the ray
@@ -164,7 +168,7 @@ namespace Memoria
                 if (posiblePitcheGrabObject == null)
                     return;
                 
-                if (!_dioManager.panelBgiies.mostrarCategoria)
+                if (!VisualizationManager.Instance.planeVisualization.panelBgiies.mostrarCategoria)
                 {
                     if (posiblePitcheGrabObject.dioController.visualizationController.id != currentVisualizationId)
                     {

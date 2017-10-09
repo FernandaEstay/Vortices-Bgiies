@@ -5,7 +5,7 @@ using Gamelogic;
 
 public class MouseManager : MonoBehaviour {
 
-    public Ray raycast;
+    public Ray screenPointToRay;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,7 +13,7 @@ public class MouseManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
+        screenPointToRay = Camera.main.ScreenPointToRay(Input.mousePosition);
     }
 
     private void OnEnable()

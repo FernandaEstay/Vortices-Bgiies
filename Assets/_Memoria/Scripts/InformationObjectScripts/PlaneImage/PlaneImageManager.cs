@@ -76,14 +76,27 @@ public class PlaneImageManager : GLMonoBehaviour {
         MOTIONSManager.Instance.CheckActionManagerInitialization();
     }
 
-    public void LoadLookPointerBGIIESActions(List<Tuple<float, float>> radiusAlphaVisualizationListParam)
+    public bool LoadLookPointerBGIIESActions(List<Tuple<float, float>> radiusAlphaVisualizationListParam)
     {
         radiusAlphaVisualizationList = radiusAlphaVisualizationListParam;
         var lookPointerPosition = new Vector3(0.0f, 0.0f, radiusAlphaVisualizationList[1].First);
         lookPointerInstanceBGIIES = Instantiate(lookPointerBgiiesPrefab, InterfaceManager.Instance.leapMotionManager.leapMotionRig.centerEyeAnchor, lookPointerPosition, Quaternion.identity);
         lookPointerInstanceBGIIES.transform.localScale = lookPointerScale;
 
+        Action[] objectActions = new Action[]
+            {
+                //DELETE THIS the information object description will now never use the select/deselect because
+                //     it's not asigned to actually work in the plane visualization, so instead there's a null.
+                //It could be added thou, not much work in it
+                null,
+                () => lookPointerInstanceBGIIES.DirectZoomInCall(null),
+                () => lookPointerInstanceBGIIES.DirectZoomOutCall(null)
+            };
 
+        ActionManager.Instance.ReloadObjectActions(objectActions);
+        MOTIONSManager.Instance.informationObjectInitialized = true;
+        MOTIONSManager.Instance.CheckActionManagerInitialization();
+        return true;
     }
 
     public void LoadObjects(List<DIOController> listOfDio)

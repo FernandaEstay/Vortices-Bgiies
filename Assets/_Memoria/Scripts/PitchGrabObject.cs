@@ -95,10 +95,11 @@ namespace Memoria
                 //DELETE THIS untie bgiiesmode
                 if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
                 {
-                    DioManager.lookPointerInstanceBgiies.LookPointerEnter(this);
-                    if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.LookPointerEnter(this);
+                    if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.actualPitchGrabObject == null)
                     {
-                        DioManager.buttonPanel.EnableZoomIn();
+                        //DELETE THIS re-tie button panel
+                        //DioManager.buttonPanel.EnableZoomIn();
                     }
 
                 }
@@ -117,7 +118,7 @@ namespace Memoria
                 //DELETE THIS untie bgiies mode
                 if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
                 {
-                    DioManager.lookPointerInstanceBgiies.LookPointerStay(this);
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.LookPointerStay(this);
                 }
                 else
                 {
@@ -133,12 +134,12 @@ namespace Memoria
 			{
                 if (GLPlayerPrefs.GetBool(ProfileManager.Instance.currentEvaluationScope, "BGIIESMode"))
                 {
-                    DioManager.lookPointerInstanceBgiies.LookPointerExit(this);
-                    if (DioManager.lookPointerInstanceBgiies.actualPitchGrabObject == null)
+                    InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.LookPointerExit(this);
+                    if (InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.actualPitchGrabObject == null)
                     {
                         _isLookPointerOn = false;
                     }
-                    DioManager.buttonPanel.DisableZoomIn();
+                    //DioManager.buttonPanel.DisableZoomIn();
                 }
                 else
                 {

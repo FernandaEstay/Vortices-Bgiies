@@ -17,9 +17,29 @@ public class KeyboardMappingController : MonoBehaviour {
         "Q",
         "W",
         "E",
+        "R",
+        "T",
+        "Y",
+        "U",
+        "I",
+        "O",
+        "P",
         "A",
         "S",
-        "D"
+        "D",
+        "F",
+        "G",
+        "H",
+        "J",
+        "K",
+        "L",
+        "Z",
+        "X",
+        "C",
+        "V",
+        "B",
+        "N",
+        "M"
     };
 
     private void OnEnable()

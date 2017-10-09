@@ -12,9 +12,29 @@ public class KeyboardMappingLoader : MonoBehaviour {
         "Q",
         "W",
         "E",
+        "R",
+        "T",
+        "Y",
+        "U",
+        "I",
+        "O",
+        "P",
         "A",
         "S",
-        "D"
+        "D",
+        "F",
+        "G",
+        "H",
+        "J",
+        "K",
+        "L",
+        "Z",
+        "X",
+        "C",
+        "V",
+        "B",
+        "N",
+        "M"
     };
 
     int[] actionIndex;
@@ -40,14 +60,38 @@ public class KeyboardMappingLoader : MonoBehaviour {
         AddAction(0, KeyCode.Q);
         AddAction(1, KeyCode.W);
         AddAction(2, KeyCode.E);
-        AddAction(3, KeyCode.A);
-        AddAction(4, KeyCode.S);
-        AddAction(5, KeyCode.D);
+        AddAction(3, KeyCode.R);
+        AddAction(4, KeyCode.T);
+        AddAction(5, KeyCode.Y);
+        AddAction(6, KeyCode.U);
+        AddAction(7, KeyCode.I);
+        AddAction(8, KeyCode.O);
+        AddAction(9, KeyCode.P);
+        AddAction(10, KeyCode.A);
+        AddAction(11, KeyCode.S);
+        AddAction(12, KeyCode.D);
+        AddAction(13, KeyCode.F);
+        AddAction(14, KeyCode.G);
+        AddAction(15, KeyCode.H);
+        AddAction(16, KeyCode.J);
+        AddAction(17, KeyCode.K);
+        AddAction(18, KeyCode.L);
+        AddAction(19, KeyCode.Z);
+        AddAction(20, KeyCode.X);
+        AddAction(21, KeyCode.C);
+        AddAction(22, KeyCode.V);
+        AddAction(23, KeyCode.B);
+        AddAction(24, KeyCode.N);
+        AddAction(25, KeyCode.M);
 
     }
 
     void AddAction(int index, KeyCode key)
     {
+        //if the index is 0 it means the action is null, so no need to add it to the update.
+        if (actionIndex[index] == 0)
+            return;
+
         ActionManager.Instance.updateActionArrayList.Add( () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(key),
             ActionManager.Instance.currentActionList[actionIndex[index]])

@@ -201,6 +201,18 @@ namespace Memoria
             }
         }
 
+        public void CategoryBt1()
+        {
+            if (!mostrarCategoria)
+            {
+                IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat1, bt1, new Button[] { bt2, bt3, bt4 }, 0);
+            }
+            else
+            {
+                SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat1, new Button[] { bt2, bt3, bt4 });
+            }
+        }
+
         public void SelectBt2()
         {
             if (!mostrarCategoria)
@@ -218,6 +230,19 @@ namespace Memoria
                     SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, new Button[] { bt1, bt3, bt4 });
             }
         }
+
+        public void CategoryBt2()
+        {
+            if (!mostrarCategoria)
+            {
+                IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, bt2, new Button[] { bt1, bt3, bt4 }, 0);
+            }
+            else
+            {
+                SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat2, new Button[] { bt1, bt3, bt4 });
+            }
+        }
+
         public void SelectBt3()
         {
             if (!mostrarCategoria)
@@ -235,6 +260,19 @@ namespace Memoria
                     SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, new Button[] { bt1, bt2, bt4 });
             }
         }
+
+        public void CategoryBt3()
+        {
+            if (!mostrarCategoria)
+            {
+                IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, bt3, new Button[] { bt1, bt2, bt4 }, 0);
+            }
+            else
+            {
+                SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat3, new Button[] { bt1, bt2, bt4 });
+            }
+        }
+
         public void SelectBt4()
         {
             if (!mostrarCategoria)
@@ -250,6 +288,18 @@ namespace Memoria
                     DeseleccionarFromCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, (int)Categorias.Categoria4, bt4, aceptBt4);
                 else
                     SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, new Button[] { bt1, bt2, bt3 });
+            }
+        }
+
+        public void CategoryBt4()
+        {
+            if (!mostrarCategoria)
+            {
+                IngresarACategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, bt4, new Button[] { bt1, bt2, bt3 }, 0);
+            }
+            else
+            {
+                SalirDeCategoria(InformationObjectManager.Instance.planeImages.lookPointerInstanceBGIIES.listaCat4, new Button[] { bt1, bt2, bt3 });
             }
         }
 

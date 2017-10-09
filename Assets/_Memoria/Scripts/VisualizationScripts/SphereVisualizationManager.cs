@@ -50,7 +50,6 @@ public class SphereVisualizationManager : GLMonoBehaviour
     void Start () {
         movingSphere = false;
         string currentObject = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "CurrentInformationObject");
-        //DELETE THIS there should be an "if leap motion" or something
         loader.LoadInstances();
         //plane image behaviour
         if (currentObject.Equals("PlaneImage"))
@@ -81,12 +80,12 @@ public class SphereVisualizationManager : GLMonoBehaviour
             //Sphere actions are asigned to the action manager
             visualizationActions = new Action[]
             {
-                null,
                 () => MoveSphereInside(1, null, null),
-                () => MoveSphereOutside(1, null, null),
+                () => MoveSphereOutside(1, null, null)
             };
-            ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
-            visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions,0);
+            //ActionManager.Instance.currentVisualizationActions = new Action[visualizationActions.Length];
+            //visualizationActions.CopyTo(ActionManager.Instance.currentVisualizationActions,0);
+            ActionManager.Instance.ReloadVisualizationActions(visualizationActions);
 
             MOTIONSManager.Instance.visualizationInitialized = true;
             MOTIONSManager.Instance.CheckActionManagerInitialization();
