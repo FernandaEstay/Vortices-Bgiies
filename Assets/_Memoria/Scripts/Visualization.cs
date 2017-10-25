@@ -51,7 +51,6 @@ namespace Memoria
             CreateVisualization(createNewObjects, center);
         }
 
-        //DELETE THIS untie the diomanager
         public virtual void InitializeDioControllers( int Id, Vector3 center, int textureIndex, bool createNewObjects = false)
         {
             id = Id;

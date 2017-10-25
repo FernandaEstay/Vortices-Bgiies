@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Gamelogic;
 using UnityEngine.SceneManagement;
+using Memoria;
 
 public class MOTIONSManager : MonoBehaviour {
     public static MOTIONSManager Instance { set; get; }
@@ -20,6 +21,8 @@ public class MOTIONSManager : MonoBehaviour {
 
     [HideInInspector]
     public bool instanced = false;
+
+    CsvCreator currentCsv;
 
     private void Awake()
     {
@@ -57,6 +60,7 @@ public class MOTIONSManager : MonoBehaviour {
         visualizationInitialized = false;
         //DELETE THIS clean the action mapping list in the action manager, should be triggered by "returning" in the escape-menu
         ActionManager.Instance.updateActionArrayList = new List<System.Action>();
+        initializeCsv();
         //SceneManager.LoadScene("TestScenarioA");
         SceneManager.LoadScene("EmotivTraining");
         //SceneManager.LoadScene("FullScene");
@@ -73,6 +77,38 @@ public class MOTIONSManager : MonoBehaviour {
             ActionManager.Instance.InitializeManager();
         }
     }
+
+    /// <summary>
+    /// Adds line to CSV file named by inputName.
+    /// </summary>
+    /// <param name="inputName"></param>
+    /// <param name="action"></param>
+    /// <param name="objectId"></param>
+    public void AddLines(string inputName, string action, string objectId)
+    {
+        string subfolder = inputName + " data.csv";
+        currentCsv.AddLines(action, objectId, subfolder);
+    }
+
+    /// <summary>
+    /// Adds line to CSV file named "System"
+    /// </summary>
+    /// <param name="action"></param>
+    /// <param name="objectId"></param>
+    public void AddLines(string action, string objectId)
+    {
+        currentCsv.AddLines(action, objectId, "System data.csv");
+    }
+
+    void initializeCsv()
+    {
+        string outputPath = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "OutputFolderPath");
+        outputPath = outputPath + "\\" + ProfileManager.Instance.profiles[ProfileManager.Instance.currentProfile] + "\\" + ProfileManager.Instance.evaluations[ProfileManager.Instance.currentEvaluation] + "\\";
+        System.IO.Directory.CreateDirectory(outputPath);
+        currentCsv = new CsvCreator(outputPath);
+    }
+
+
 
     /*
      *                                      IMPORTANT:

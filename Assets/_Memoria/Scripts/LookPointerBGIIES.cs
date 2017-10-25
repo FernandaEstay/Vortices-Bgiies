@@ -113,8 +113,7 @@ namespace Memoria
         {
                 zoomingIn = true;
                 SetZoomInInitialStatus(pitchGrabObject);
-                //DELETE THIS tie to csv creator
-                //dioManager.csvCreator.AddLines("Zooming In", pitchGrabObject.idName);
+                MOTIONSManager.Instance.AddLines("Zooming In", pitchGrabObject.idName);
 
                 var counter = 0;
                 while (true)
@@ -145,8 +144,7 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-                //DELETE THIS tie to csv creator
-                //dioManager.csvCreator.AddLines("Zooming Out", actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines("Zooming Out", actualPitchGrabObject.idName);
                 zoomingOut = true;
 
                 var positionTargetReached = false;
@@ -227,8 +225,7 @@ namespace Memoria
 
             var action = actualPitchGrabObject.isSelectedCat1 ? "Select " : "Deselect ";
             action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt1.tag.ToString();
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -268,8 +265,7 @@ namespace Memoria
 
             var action = actualPitchGrabObject.isSelectedCat2 ? "Select " : "Deselect ";
             action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt2.tag.ToString();
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -308,8 +304,7 @@ namespace Memoria
 
             var action = actualPitchGrabObject.isSelectedCat3 ? "Select " : "Deselect ";
             action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt3.tag.ToString();
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -348,8 +343,7 @@ namespace Memoria
 
             var action = actualPitchGrabObject.isSelectedCat4 ? "Select " : "Deselect ";
             action = action + VisualizationManager.Instance.planeVisualization.panelBgiies.bt4.tag.ToString();
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
@@ -521,8 +515,7 @@ namespace Memoria
             if (!eliminarFromCategoria)
             {
                 var action = "Ingresa a categoria ";
-                //DELETE THIS tie to csv creator
-                //dioManager.csvCreator.AddLines(action, VisualizationManager.Instance.planeVisualization.panelBgiies.nombreCategoria);
+                MOTIONSManager.Instance.AddLines(action, VisualizationManager.Instance.planeVisualization.panelBgiies.nombreCategoria);
             }
             eliminarFromCategoria = false;
         }
@@ -556,8 +549,7 @@ namespace Memoria
             }
 
             var action = "Sale de categoria ";
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, dioManager.panelBgiies.nombreCategoria);
+            MOTIONSManager.Instance.AddLines(action, dioManager.panelBgiies.nombreCategoria);
         }
 
         public void InsideCategoria(List<PitchGrabObject> lista)
@@ -619,8 +611,7 @@ namespace Memoria
                 Debug.Log("Error al eliminar desde una categoria, categoria ingresada desde ButtonPanelBgiies inválida");
 
             var action = "Deselect " + VisualizationManager.Instance.planeVisualization.panelBgiies.nombreCategoria;
-            //DELETE THIS tie to csv creator
-            //dioManager.csvCreator.AddLines(action, imagen.idName);
+            MOTIONSManager.Instance.AddLines(action, imagen.idName);
 
             zoomActive = false;
             destroyClone(imagen, lista);

@@ -235,8 +235,7 @@ namespace Memoria
 
 		public override void EndAction()
 		{
-            //DELETE THIS needs untying
-			//dioManager.csvCreator.AddLines(test.ToString(), string.Empty);
+            MOTIONSManager.Instance.AddLines("System",test.ToString(), string.Empty);
 		}
 	}
 }

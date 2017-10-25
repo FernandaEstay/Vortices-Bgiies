@@ -242,8 +242,7 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
         }
 
         var actualRadiusFactor = radiusFactor * -1;
-        //DELETE THIS tie to csv creator
-        //csvCreator.AddLines("Changing Plane", (actualVisualization + 2).ToString());
+        MOTIONSManager.Instance.AddLines("Changing Plane", (actualVisualization + 2).ToString());
 
         if (initialAction != null)
             initialAction();
@@ -334,8 +333,7 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
         }
 
         planeControllers[actualVisualization - 1].gameObject.SetActive(true);
-        //DELETE THIS tie to csv creator
-        //csvCreator.AddLines("Changing Plane", actualVisualization.ToString());
+        MOTIONSManager.Instance.AddLines("Changing Plane", actualVisualization.ToString());
 
         if (initialAction != null)
             initialAction();
@@ -426,8 +424,7 @@ public class PlaneVisualizationManager : GLMonoBehaviour {
         }
 
         planeControllers[actualVisualization - 1].gameObject.SetActive(true);
-        //DELETE THIS tie to csv creator
-        //csvCreator.AddLines("Changing Plane", actualVisualization.ToString());
+        MOTIONSManager.Instance.AddLines("Changing Plane", actualVisualization.ToString());
 
         if (initialAction != null)
             initialAction();

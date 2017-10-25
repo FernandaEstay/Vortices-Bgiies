@@ -242,8 +242,7 @@ public class SphereVisualizationManager : GLMonoBehaviour
         }
 
         var actualRadiusFactor = radiusFactor * -1;
-        //DELETE THIS needs tie to the csvcreator
-        //csvCreator.AddLines("Changing Sphere", (actualVisualization + 2).ToString());
+        MOTIONSManager.Instance.AddLines("Changing Sphere", (actualVisualization + 2).ToString());
 
         if (initialAction != null)
             initialAction();
@@ -352,8 +351,7 @@ public class SphereVisualizationManager : GLMonoBehaviour
         }
 
         sphereControllers[actualVisualization - 1].gameObject.SetActive(true);
-        //DELETE THIS tie to csv creator
-        //csvCreator.AddLines("Changing Sphere", actualVisualization.ToString());
+        MOTIONSManager.Instance.AddLines("Changing Sphere", actualVisualization.ToString());
 
         if (initialAction != null)
             initialAction();

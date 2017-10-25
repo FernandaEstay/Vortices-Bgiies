@@ -30,6 +30,12 @@ namespace Memoria
             
 		}
 
+        /// <summary>
+        /// Adds a new line to the csv in the _filePath, defined on creation
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
 		public bool AddLines(string action, string objectId)
 		{
 			var csv = new StringBuilder();
@@ -50,5 +56,33 @@ namespace Memoria
 
 			return true;
 		}
+
+        /// <summary>
+        /// Adds line to specified subfolder file under _filePath
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="objectId"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool AddLines(string action, string objectId, string subfolderFile)
+        {
+            var csv = new StringBuilder();
+
+            var actualHour = DateTime.Now.TimeOfDay;
+            var actualTimestamp = DateTime.Now.Date.ToShortDateString();
+            var newLine = string.Format("{0},{1},{2},{3},{4}", _actualPersonId, actualHour, actualTimestamp, action, objectId);
+            csv.AppendLine(newLine);
+            string auxPath = _filePath + subfolderFile;
+            try
+            {
+                File.AppendAllText(auxPath, csv.ToString());
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+
+            return true;
+        }
 	}
 }

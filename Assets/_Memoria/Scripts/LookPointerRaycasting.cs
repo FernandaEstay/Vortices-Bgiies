@@ -38,8 +38,7 @@ namespace Memoria
         public void RegisterRay(PitchGrabObject foto)
         {
             var action = "Move ray vector";
-            //DELETE THIS tie to csv creator
-            //_dioManager.csvCreator.AddLines(action, foto.idName);
+            MOTIONSManager.Instance.AddLines(action, foto.idName);
         }
 
         public void ResetActualPitchGrabObject()
@@ -110,7 +109,7 @@ namespace Memoria
         public void CastRay(Ray ray, int currentVisualizationId)
         {
             //Debug.DrawLine(_ray.origin, _ray.direction * maxDistance, Color.red);
-            Debug.Log(ray.direction.ToString() + " " + currentVisualizationId.ToString());
+            //Debug.Log(ray.direction.ToString() + " " + currentVisualizationId.ToString());
             if (Physics.Raycast(ray, out _raycastHit, maxDistance, ignoredLayerMask))
             {
                 var posiblePitcheGrabObject = _raycastHit.transform.gameObject.GetComponent<PitchGrabObject>();

@@ -86,8 +86,7 @@ namespace Memoria
         {
             zoomingIn = true;
             SetZoomInInitialStatus(pitchGrabObject);
-            //DELETE THIS re tie to actual csv creator
-            //dioManager.csvCreator.AddLines("ZoomingIn", pitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines("ZoomingIn", pitchGrabObject.idName);
 
             var counter = 0;
             while (true)
@@ -126,8 +125,7 @@ namespace Memoria
 
         public override IEnumerator ZoomingOut(Action finalAction)
         {
-            //DELETE THIS re tie to actual csv creator
-            //dioManager.csvCreator.AddLines("ZoomingOut", actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines("ZoomingOut", actualPitchGrabObject.idName);
             zoomingOut = true;
 
             var positionTargetReached = false;
@@ -220,8 +218,7 @@ namespace Memoria
             }
 
             var action = actualPitchGrabObject.isSelected ? "Select" : "Deselect";
-            //DELETE THIS re tie to actual csv creator
-            //dioManager.csvCreator.AddLines(action, actualPitchGrabObject.idName);
+            MOTIONSManager.Instance.AddLines(action, actualPitchGrabObject.idName);
 
             if (unPitchedAccept)
                 actualPitchGrabObject = null;
