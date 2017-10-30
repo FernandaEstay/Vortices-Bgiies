@@ -16,7 +16,8 @@ public class ImmersionCanvasController : MonoBehaviour {
     string[] sceneName = new string[]
     {
         "Sci-Fi Scene",
-        "Farm Scene"
+        "Farm Scene",
+        "No Scene"
     };
 
     private void OnEnable()
@@ -27,27 +28,25 @@ public class ImmersionCanvasController : MonoBehaviour {
 
     public void SetImmersionConfigMenuValues()
     {
-        sceneSelector.value = GLPlayerPrefs.GetInt(scope, "Immersive Scene");
 
         SetImmersionValues(GLPlayerPrefs.GetInt(scope, "Visual Immersion Level"), visualSlider, visualText);
         SetImmersionValues(GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level"), auditiveSlider, auditiveText);
 
+        AddArrayToDropdown(sceneSelector, sceneName);
         sceneSelector.RefreshShownValue();
     }
 
     public void UpdateSceneDropdownValues()
     {
-        //int level = mentalLevelsDropdown.value;
-        //int action = mentalLevelActionsDropdow.value;
-        //ActionManager.Instance.SetMappedActionIndex(interfaceName, mentalLevelName[level], action);
-        //UpdateMappedActions(mentalLevelName);
+        int sceneIndex = sceneSelector.value;
+        GLPlayerPrefs.SetInt(scope, "Scene", sceneIndex);
+        Debug.Log(GLPlayerPrefs.GetInt(scope, "Scene"));
     }
     
     public void UpdateVisualValues()
     {
         int vLevel = (int)visualSlider.value;
         GLPlayerPrefs.SetInt(scope , "Visual Immersion Level", vLevel);
-        Debug.Log("VIS IMM LVL = " + GLPlayerPrefs.GetInt(scope, "Visual Immersion Level"));
         visualText.text = vLevel.ToString();
     }
 
@@ -55,11 +54,20 @@ public class ImmersionCanvasController : MonoBehaviour {
     {
         int aLevel = (int)auditiveSlider.value;
         GLPlayerPrefs.SetInt(scope, "Auditive Immersion Level", aLevel);
-        Debug.Log("AUD IMM LVL = " + GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level"));
         auditiveText.text = aLevel.ToString();
     }
 
     #region update values in UI methods
+
+    void AddArrayToDropdown(Dropdown availableInputDropdown, string[] scenesNames)
+    {
+        availableInputDropdown.ClearOptions();
+        foreach (string s in scenesNames)
+        {
+            availableInputDropdown.options.Add(new Dropdown.OptionData() { text = s });
+        }
+        availableInputDropdown.RefreshShownValue();
+    }
 
     void UpdateImmersionValues(int immersionlevel, Slider slider, Text text)
     {
@@ -82,7 +90,6 @@ public class ImmersionCanvasController : MonoBehaviour {
 
     void SetImmersionValues(int immersionlevel, Slider slider, Text text)
     {
-        Debug.Log("Immersion: " + immersionlevel.ToString());
         slider.value = immersionlevel;
         text.text = immersionlevel.ToString();
     }
