@@ -1,15 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Memoria;
+using Gamelogic;
 
-public class ImmersionController : MonoBehaviour {
+public class ImmersionManager : MonoBehaviour {
 
-    public int maxVisualImmersionLevel = 6;
-    public int maxAuditiveImmersionLevel = 6;
     public Camera m_camera;
+
+    private int maxVisualImmersionLevel = 6;
+    private int maxAuditiveImmersionLevel = 6;
 
     void Start ()
     {
+        VisualizationManager.Instance.LoadVisualization();
         int visualImmersionLevel = PlayerPrefs.GetInt("Visual Immersion");
         int auditiveImmersionlevel = PlayerPrefs.GetInt("Auditive Immersion");
 

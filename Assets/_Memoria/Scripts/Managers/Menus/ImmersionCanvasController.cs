@@ -40,7 +40,6 @@ public class ImmersionCanvasController : MonoBehaviour {
     {
         int sceneIndex = sceneSelector.value;
         GLPlayerPrefs.SetInt(scope, "Scene", sceneIndex);
-        Debug.Log(GLPlayerPrefs.GetInt(scope, "Scene"));
     }
     
     public void UpdateVisualValues()
