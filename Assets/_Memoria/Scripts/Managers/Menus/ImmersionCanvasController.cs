@@ -47,14 +47,46 @@ public class ImmersionCanvasController : MonoBehaviour {
     {
         int vLevel = (int)visualSlider.value;
         GLPlayerPrefs.SetInt(scope , "Visual Immersion Level", vLevel);
-        visualText.text = vLevel.ToString();
+        visualText.text = immersionToString(vLevel);
     }
 
     public void UpdateAuditiveValues()
     {
         int aLevel = (int)auditiveSlider.value;
         GLPlayerPrefs.SetInt(scope, "Auditive Immersion Level", aLevel);
-        auditiveText.text = aLevel.ToString();
+        auditiveText.text = immersionToString(aLevel);
+    }
+
+    string immersionToString(int intLevel)
+    {
+        string stringLevel;
+
+        switch (intLevel)
+        {
+            case 0:
+                stringLevel = "Min";
+                return stringLevel;
+            case 1:
+                stringLevel = "Very Low";
+                return stringLevel;
+            case 2:
+                stringLevel = "Low";
+                return stringLevel;
+            case 3:
+                stringLevel = "Medium";
+                return stringLevel;
+            case 4:
+                stringLevel = "High";
+                return stringLevel;
+            case 5:
+                stringLevel = "Very High";
+                return stringLevel;
+            case 6:
+                stringLevel = "Max";
+                return stringLevel;
+            default:
+                return "Error";
+        }
     }
 
     #region update values in UI methods
@@ -90,13 +122,13 @@ public class ImmersionCanvasController : MonoBehaviour {
     void SetImmersionValues(ref int immersionlevel, Slider slider, Text text)
     {
         slider.value = immersionlevel;
-        text.text = immersionlevel.ToString();
+        text.text = immersionToString(immersionlevel);
     }
 
     void SetImmersionValues(int immersionlevel, Slider slider, Text text)
     {
         slider.value = immersionlevel;
-        text.text = immersionlevel.ToString();
+        text.text = immersionToString(immersionlevel);
     }
 
     void SetImmersionValues(float immersionlevel, Slider slider, Text text)

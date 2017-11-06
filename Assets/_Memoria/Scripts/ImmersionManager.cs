@@ -9,6 +9,8 @@ using Gamelogic;
 public class ImmersionManager : MonoBehaviour {
 
     public Material skybox;
+    public GameObject structureObjects;
+    public GameObject scenarioObjects;
 
     private Camera m_camera;
     private int maxVisualImmersionLevel = 6;
@@ -23,13 +25,27 @@ public class ImmersionManager : MonoBehaviour {
         int auditiveImmersionlevel = GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level");
 
         m_camera = Camera.main;
-        LoadGameObjects(visualImmersionLevel, maxVisualImmersionLevel, "Immersion_");
-        LoadGameObjects(auditiveImmersionlevel, maxAuditiveImmersionLevel, "A_Immersion_");
+        //LoadGameObjects(visualImmersionLevel, maxVisualImmersionLevel, "Immersion_");
+        LoadGameObjects(visualImmersionLevel);
+        LoadGameObjectsByTag(auditiveImmersionlevel, maxAuditiveImmersionLevel, "A_Immersion_");
         RenderingPathConfig(visualImmersionLevel);        
         EnviromentLightiningConfig(visualImmersionLevel);
     }
 
-    void LoadGameObjects(int immersionLevel, int maxLevel,  string immersionType){
+    void LoadGameObjects(int immersionLevel)
+    {
+        if(immersionLevel <= 1)
+        {
+            structureObjects.SetActive(false);
+        }
+        if(immersionLevel <= 2)
+        {
+            scenarioObjects.SetActive(false);
+        }
+
+    }
+
+    void LoadGameObjectsByTag(int immersionLevel, int maxLevel,  string immersionType){
 
         GameObject[] objects;
 
@@ -48,7 +64,7 @@ public class ImmersionManager : MonoBehaviour {
     //AÑADIR UN COLOR PICKER PARA LA LUZ AMBIENTAL
     void EnviromentLightiningConfig(int immersionLevel) {
         Color color = new Color(0,0,0);
-        Debug.Log("EL INMERSION LEVEL ES: " + immersionLevel);
+        m_camera.clearFlags = CameraClearFlags.Skybox;
         switch (immersionLevel)
         {
             case 0:
