@@ -33,10 +33,11 @@ public class ImmersionCanvasController : MonoBehaviour {
         SetImmersionValues(GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level"), auditiveSlider, auditiveText);
 
         AddArrayToDropdown(sceneSelector, sceneName);
+        UpdateDropDownValues();
         sceneSelector.RefreshShownValue();
     }
 
-    public void UpdateSceneDropdownValues()
+    public void UpdateSceneOnSelection()
     {
         int sceneIndex = sceneSelector.value;
         GLPlayerPrefs.SetInt(scope, "Scene", sceneIndex);
@@ -57,6 +58,11 @@ public class ImmersionCanvasController : MonoBehaviour {
     }
 
     #region update values in UI methods
+
+    void UpdateDropDownValues()
+    {
+        sceneSelector.value = GLPlayerPrefs.GetInt(scope, "Scene");
+    }
 
     void AddArrayToDropdown(Dropdown availableInputDropdown, string[] scenesNames)
     {

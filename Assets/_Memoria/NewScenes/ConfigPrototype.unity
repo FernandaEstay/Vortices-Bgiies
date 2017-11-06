@@ -49912,7 +49912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4700bcb2723079469d96902e6eb4ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  video: {fileID: 15200000, guid: 89bfff07be2f002428cb96f86b377389, type: 3}
+  video: {fileID: 15200000, guid: 6ecf111cb78b88e4e8a421dd6f32169f, type: 3}
 --- !u!114 &1197702253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51087,7 +51087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4700bcb2723079469d96902e6eb4ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  video: {fileID: 15200000, guid: c19ebe4226a6eb34eb59b0fbad1c5e10, type: 3}
+  video: {fileID: 15200000, guid: ddad43e0465f8424ba550582513443ea, type: 3}
 --- !u!114 &1218194123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57600,7 +57600,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1877715826}
-        m_MethodName: UpdateSceneDropdownValues
+        m_MethodName: UpdateSceneOnSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
