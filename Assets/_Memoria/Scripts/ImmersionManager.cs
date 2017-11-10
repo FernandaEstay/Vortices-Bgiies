@@ -64,6 +64,7 @@ public class ImmersionManager : MonoBehaviour {
     //AÑADIR UN COLOR PICKER PARA LA LUZ AMBIENTAL
     void EnviromentLightiningConfig(int immersionLevel) {
         Color color = new Color(0,0,0);
+        RenderSettings.skybox = skybox;
         m_camera.clearFlags = CameraClearFlags.Skybox;
         switch (immersionLevel)
         {
