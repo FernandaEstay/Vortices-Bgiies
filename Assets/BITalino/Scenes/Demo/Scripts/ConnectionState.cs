@@ -4,13 +4,14 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ConnectionState : MonoBehaviour {
     public ManagerBITalino manager;
     public BITalinoReader reader;
     public BITalinoSerialPort serial;
-    public GUIText state;
-    public GUIText data;
+    public Text state;
+    public Text data;
 
 	// Use this for initialization
     void Start()

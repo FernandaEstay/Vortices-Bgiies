@@ -16,13 +16,15 @@ public class ActionMapingController : MonoBehaviour {
         "EMOTIV: Insight",
         "Microsoft Kinect",
         "NeuroSky Mindwave",
-        "Keyboard"
+        "Keyboard",
+        "BITalino"
     };
     /*
      * 0 = Emotiv
      * 1 = Kinect
      * 2 = NeuroSky
      * 4 = Keyboard
+     * 5 = BITalino
      */
 
     private void OnEnable()

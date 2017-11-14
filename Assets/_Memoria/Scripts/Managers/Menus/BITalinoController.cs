@@ -1,0 +1,60 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Gamelogic;
+using System;
+
+public class BITalinoController : MonoBehaviour {
+
+    public InputField m_comPort;
+    public InputField m_baudRate;
+    public InputField m_samplingRate;
+    public InputField m_buffSize;
+
+    private string scope;
+
+    private void OnEnable()
+    {
+        scope = ProfileManager.Instance.currentEvaluationScope;
+        SetBITalinoConfigMenuValues();
+    }
+
+    void SetBITalinoConfigMenuValues() {
+        m_comPort.text = GLPlayerPrefs.GetString(scope, "BITalino ComPort");
+        m_baudRate.text = GLPlayerPrefs.GetInt(scope, "BITalino BaudRate").ToString();
+        m_samplingRate.text = GLPlayerPrefs.GetInt(scope, "BITalino SamplingRate").ToString();
+        m_buffSize.text = GLPlayerPrefs.GetInt(scope, "BITalino BuffSize").ToString();
+    }
+
+    private bool ValidateInput()
+    {
+        return false;
+    }
+
+    #region update values in UI methods
+
+    public void UpdateBitalinoConfig()
+    {
+        //VALIDATE
+        if (ValidateInput())
+        {
+            return;
+        }
+        else
+        {
+            string comPort      = m_comPort.text;
+            int baudRate        = Int32.Parse(m_baudRate.text);
+            int samplingRate    = Int32.Parse(m_samplingRate.text);
+            int buffSize        = Int32.Parse(m_buffSize.text);
+
+            GLPlayerPrefs.SetString(scope, "BITalino ComPort", comPort);
+            GLPlayerPrefs.SetInt(scope, "BITalino BaudRate", baudRate);
+            GLPlayerPrefs.SetInt(scope, "BITalino SamplingRate", samplingRate);
+            GLPlayerPrefs.SetInt(scope, "BITalino BuffSize", buffSize);
+
+        }
+    }
+
+    # endregion
+}
