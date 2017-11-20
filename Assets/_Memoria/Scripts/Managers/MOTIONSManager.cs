@@ -35,7 +35,8 @@ public class MOTIONSManager : MonoBehaviour {
             "Emotiv",
             "Kinect",
             "NeuroSky",
-            "Keyboard"
+            "Keyboard",
+            "BITalino"
         };
 
         interfacesNames = new string[]
@@ -48,7 +49,8 @@ public class MOTIONSManager : MonoBehaviour {
             "OpenGlove",
             "LeapMotion",
             "Gamepad",
-            "Mouse"
+            "Mouse",
+            "BITalino"
         };
     }
 

@@ -11,7 +11,8 @@ public class BITalinoMappingLoader : MonoBehaviour {
       {
             "ECG",
             "EDM",
-            "EMG"
+            "EMG",
+            "EDA"
       };
 
     private void OnEnable()

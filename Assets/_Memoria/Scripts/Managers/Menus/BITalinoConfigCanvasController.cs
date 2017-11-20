@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Gamelogic;
-using System;
 
-public class BITalinoController : MonoBehaviour {
+public class BITalinoConfigCanvasController : MonoBehaviour {
 
     public InputField m_comPort;
     public InputField m_baudRate;
@@ -33,7 +32,7 @@ public class BITalinoController : MonoBehaviour {
     }
 
     #region update values in UI methods
-
+    
     public void UpdateBitalinoConfig()
     {
         //VALIDATE
@@ -44,15 +43,14 @@ public class BITalinoController : MonoBehaviour {
         else
         {
             string comPort      = m_comPort.text;
-            int baudRate        = Int32.Parse(m_baudRate.text);
-            int samplingRate    = Int32.Parse(m_samplingRate.text);
-            int buffSize        = Int32.Parse(m_buffSize.text);
+            int baudRate        = int.Parse(m_baudRate.text);
+            int samplingRate    = int.Parse(m_samplingRate.text);
+            int buffSize        = int.Parse(m_buffSize.text);
 
             GLPlayerPrefs.SetString(scope, "BITalino ComPort", comPort);
             GLPlayerPrefs.SetInt(scope, "BITalino BaudRate", baudRate);
             GLPlayerPrefs.SetInt(scope, "BITalino SamplingRate", samplingRate);
             GLPlayerPrefs.SetInt(scope, "BITalino BuffSize", buffSize);
-
         }
     }
 
