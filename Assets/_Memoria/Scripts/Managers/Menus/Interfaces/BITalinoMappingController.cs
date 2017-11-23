@@ -38,30 +38,33 @@ public class BITalinoMappingController : MonoBehaviour {
     string[] physicalResponse = new string[]
     {
         "ECG",
-        "EDM",
         "EMG",
+        "ACC",
         "EDA"
     };
 
     static string[] ecgTriggers = new string[] {
-        "Range"
-    };
-    static string[] edmTriggers = new string[] {
-        "Range"
+        "Range",
+        "Treshold"
     };
     static string[] emgTriggers = new string[] {
         "Range",
         "Treshold"
     };
+    static string[] accTriggers = new string[] {
+        "Range",
+        "Treshold"
+    };
     static string[] edaTriggers = new string[] {
-        "Range"
+        "Range",
+        "Treshold"
     };
 
     List<string[]> tresholds = new List<string[]>()
     {
         ecgTriggers,
-        edmTriggers,
         emgTriggers,
+        accTriggers,
         edaTriggers
     };
 
@@ -137,8 +140,14 @@ public class BITalinoMappingController : MonoBehaviour {
     public void UpdateTriggerWithDropdown()
     {
         int index = physicalResponseDropdown.value;
+
         AddArrayToDropdown(triggerWithDropdown, tresholds[index]);
+        actionDropdown.value = ActionManager.Instance.GetMappedActionIndex(interfaceName, physicalResponse[index]);
+        //FIX: This update (triggerWithDropdown value) must be implemented by a method based on the actual 
+        //physical response, and not a simple int (0, in this case)
+        triggerWithDropdown.value = 0;
         UpdateSettingsCanvas();
+        actionDropdown.RefreshShownValue();
     }
 
     public void UpdateSettingsCanvas()
@@ -147,8 +156,6 @@ public class BITalinoMappingController : MonoBehaviour {
 
         int physicalResponseIndex = physicalResponseDropdown.value;
         int triggerWithIndex = triggerWithDropdown.value;
-
-        Debug.Log("TRIGGER WITH INDEX = " + triggerWithIndex + " PHYSICAL RESPONSE INDEX = " + physicalResponseIndex);
 
         string treshold = tresholds[physicalResponseIndex][triggerWithIndex];
 

@@ -45,6 +45,18 @@ public class ConnectionState : MonoBehaviour {
         if (reader.asStart)
         {
             data.text = reader.getBuffer()[reader.BufferSize - 1].ToString();
+            /*
+             * BITalinoReader -> getBuffer() -----------------------------------------> .ToString() ---------------->
+             *                                  BITalinoFrame[reader.BufferSize - 1]                     string
+             *                                  
+             * NOTE: The string returned by this particular "ToString()" function is written on the format "Data_1;Data_2;....;Data_n", where
+             * the "Data_x" is driven by the array passed by argument, and the separator (";") is passed as argument too. Also, the string
+             * contains aditional info (SEQ, CRC and labels)                                  
+             *
+             * To get the particular physical responses data, use the funcitons GetAnalogValue() or GetDigitalValue() of the BITalinoFrame
+             * as follows: reader.getBuffer().GetAnalogValue(int id)  
+           
+         */
         }
-	}
+    }
 }

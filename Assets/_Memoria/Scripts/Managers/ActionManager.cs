@@ -615,7 +615,7 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
-    //kinect hand detectioj
+    //kinect hand detection
     public bool ActionConditionKinect(HandState gesture, bool isRightHand)
     {
         if (isRightHand)

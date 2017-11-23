@@ -9,10 +9,10 @@ public class BITalinoMappingLoader : MonoBehaviour {
 
     string[]  triggers = new string[]
       {
-            "ECG",
-            "EDM",
-            "EMG",
-            "EDA"
+        "ECG",
+        "EMG",
+        "ACC",
+        "EDA"
       };
 
     private void OnEnable()

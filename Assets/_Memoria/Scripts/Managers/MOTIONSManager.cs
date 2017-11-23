@@ -147,6 +147,7 @@ public class MOTIONSManager : MonoBehaviour {
      *  -LeapMotion
      *  -Gamepad
      *  -Mouse
+     *  -BITalino
      * 
      */
 
