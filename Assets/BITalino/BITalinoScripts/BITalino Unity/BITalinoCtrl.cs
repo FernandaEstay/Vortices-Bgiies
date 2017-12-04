@@ -4,49 +4,74 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class Line : MonoBehaviour {
+public class BITalinoCtrl : MonoBehaviour
+{
+    [HideInInspector]
+    public static BITalinoCtrl Instance { set; get; }
+    public ManagerBITalino manager;
     public BITalinoReader reader;
-    public int channelRead = 0;
-    public double divisor = 1;
+    public BITalinoSerialPort serial;
 
-    private LineRenderer line;
+    public float ecg, emg, acc, eda;
 
-	// Use this for initialization
-	void Start () {
-        
-        line = (LineRenderer) this.GetComponent("LineRenderer");
-        //line.SetVertexCount(reader.BufferSize);
-        //line.numPositions = 100;
-        line.SetVertexCount(100);
 
+    // Use this for initialization
+    public void InitializeBITalino()
+    {
+        StartCoroutine(start());
     }
-	
-	/// <summary>
-	/// Draw the new point of the line
-	/// </summary>
-	void Update () {
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+    /// <summary>
+    /// Initialise the connection
+    /// </summary>
+    private IEnumerator start()
+    {
+        while (!manager.IsReady)
+            yield return new WaitForSeconds(0.5f);
+        Debug.Log("BITalino Connected");
+        while ((int)manager.Acquisition_State != 0)
+            yield return new WaitForSeconds(0.5f);
+        Debug.Log("BITalino Acquisition start");
+    }
+
+    /// <summary>
+    /// Write the data read from the bitalino
+    /// </summary>
+    public void UpdateBITalino()
+    {
         if (reader.asStart)
         {
-            Debug.Log("Updating Values");
-            /*int i = 0;
-            foreach(BITalinoFrame f in reader.getBuffer())
-            {
-                float posX = (float) (-7.5f+15f*((1.0/reader.BufferSize)*i));
-                float posY = (float) ((f.GetAnalogValue(channelRead)) / divisor);
-                line.SetPosition(i, new Vector3(posX, posY, 0));
-                i++;
-            }*/
+            ecg = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(2);
+            emg = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(0);
+            acc = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(4);
+            eda = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(1);
         }
-        else
-        {
-            int counter = 0;
-            while(counter < 100)
-            {
-                Debug.Log("Waiting for Reader...");
-                line.SetPosition(counter, new Vector3(0.1f, 0.5f, 0.0f));
-                counter++;
-            }
-        }
-	}
+    }
+
+    # region Getters 
+
+    public float GetEcg()
+    {
+        return ecg;
+    }
+    public float GetEmg() {
+        return emg;
+    }
+
+    public float GetAcc()
+    {
+        return acc;
+    }
+    public float GetEda()
+    {
+        return eda;
+    }
+
+    # endregion
 }

@@ -60,7 +60,7 @@ public class BITalinoMappingController : MonoBehaviour {
         "Treshold"
     };
 
-    List<string[]> tresholds = new List<string[]>()
+    List<string[]> triggers = new List<string[]>()
     {
         ecgTriggers,
         emgTriggers,
@@ -76,7 +76,7 @@ public class BITalinoMappingController : MonoBehaviour {
 
         //Reload Dropdowns
         AddArrayToDropdown(physicalResponseDropdown, physicalResponse);
-        AddArrayToDropdown(triggerWithDropdown, tresholds[physicalResponseDropdown.value]);
+        AddArrayToDropdown(triggerWithDropdown, triggers[physicalResponseDropdown.value]);
         ActionManager.Instance.ReloadMappingActionsDropdown(actionDropdown);
 
         SetBITalinoMappingControllerValues();
@@ -94,38 +94,38 @@ public class BITalinoMappingController : MonoBehaviour {
 
     public void UpdateTresholdValues()
     {
-        int value = (int)tresholdSlider.value;
+        float value = (float)tresholdSlider.value;
         int physicalResponseIndex = physicalResponseDropdown.value;
 
-        tresholdNumber.text = value.ToString();
+        tresholdNumber.text = value.ToString("0.0");
 
-        GLPlayerPrefs.SetInt(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "Treshold", value);
+        GLPlayerPrefs.SetFloat(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "Treshold", value);
     }
 
     public void UpdateLowestRangeValues()
     {
-        int value = (int)lowestRangeSlider.value;
+        float value = (float)lowestRangeSlider.value;
         int physicalResponseIndex = physicalResponseDropdown.value;
 
-        lowestRangeNumber.text = value.ToString();
+        lowestRangeNumber.text = value.ToString("0.0");
 
-        GLPlayerPrefs.SetInt(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "LowestRange", value);
+        GLPlayerPrefs.SetFloat(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "LowestRange", value);
     }
 
     public void UpdateHighestRangeValues()
     {
-        int value = (int)highestRangeSlider.value;
+        float value = (float)highestRangeSlider.value;
         int physicalResponseIndex = physicalResponseDropdown.value;
 
-        highestRangeNumber.text = value.ToString();
+        highestRangeNumber.text = value.ToString("0.0");
 
-        GLPlayerPrefs.SetInt(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "HighestRange", value);
+        GLPlayerPrefs.SetFloat(scope, "BITalino" + physicalResponse[physicalResponseIndex] + "HighestRange", value);
     }
 
-    void SetTriggerValues(int trigger, Slider slider, Text text)
+    void SetTriggerValues(float trigger, Slider slider, Text text)
     {
         slider.value = trigger;
-        text.text = trigger.ToString();
+        text.text = trigger.ToString("0.0");
     }    
 
     public void UpdatePhysicalResponseActionDropdownValues()
@@ -141,7 +141,7 @@ public class BITalinoMappingController : MonoBehaviour {
     {
         int index = physicalResponseDropdown.value;
 
-        AddArrayToDropdown(triggerWithDropdown, tresholds[index]);
+        AddArrayToDropdown(triggerWithDropdown, triggers[index]);
         actionDropdown.value = ActionManager.Instance.GetMappedActionIndex(interfaceName, physicalResponse[index]);
         //FIX: This update (triggerWithDropdown value) must be implemented by a method based on the actual 
         //physical response, and not a simple int (0, in this case)
@@ -157,18 +157,18 @@ public class BITalinoMappingController : MonoBehaviour {
         int physicalResponseIndex = physicalResponseDropdown.value;
         int triggerWithIndex = triggerWithDropdown.value;
 
-        string treshold = tresholds[physicalResponseIndex][triggerWithIndex];
+        string treshold = triggers[physicalResponseIndex][triggerWithIndex];
 
         switch (treshold)
         {
             case "Range":
                 triggerWithSettings[0].SetActive(true);
-                SetTriggerValues(GLPlayerPrefs.GetInt(scope, interfaceName + physicalResponse[physicalResponseIndex] + "LowestRange"), lowestRangeSlider, lowestRangeNumber);
-                SetTriggerValues(GLPlayerPrefs.GetInt(scope, interfaceName + physicalResponse[physicalResponseIndex] + "HighestRange"), highestRangeSlider, highestRangeNumber);
+                SetTriggerValues(GLPlayerPrefs.GetFloat(scope, interfaceName + physicalResponse[physicalResponseIndex] + "LowestRange"), lowestRangeSlider, lowestRangeNumber);
+                SetTriggerValues(GLPlayerPrefs.GetFloat(scope, interfaceName + physicalResponse[physicalResponseIndex] + "HighestRange"), highestRangeSlider, highestRangeNumber);
                 break;
             case "Treshold":
                 triggerWithSettings[1].SetActive(true);
-                SetTriggerValues(GLPlayerPrefs.GetInt(scope, interfaceName + physicalResponse[physicalResponseIndex] + "Treshold"), tresholdSlider, tresholdNumber);
+                SetTriggerValues(GLPlayerPrefs.GetFloat(scope, interfaceName + physicalResponse[physicalResponseIndex] + "Treshold"), tresholdSlider, tresholdNumber);
                 break;
         }
     }

@@ -42,12 +42,41 @@ public class ConnectionState : MonoBehaviour {
 	/// </summary>
 	void Update () 
     {
+        float ecg;
+        float emg;
+        float acc;
+        float eda;
+
         if (reader.asStart)
         {
-            data.text = reader.getBuffer()[reader.BufferSize - 1].ToString();
-            /*
+            ecg = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(2);
+            emg = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(0);
+            acc = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(4);
+            eda = (float)reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(1);
+
+            if (emg > 1.0 || emg < -1.0)
+            {
+                Debug.Log("You monster! Your emg was: " + emg);
+            }
+
+            //data.text = reader.getBuffer()[reader.BufferSize - 1].ToString();
+            data.text = "Analog Values:"
+                        + "\n\nEMG: " + emg.ToString()
+                        + "\nEDA: " + eda.ToString()
+                        + "\nECG: " + ecg.ToString()
+                        + "\nLUX: " + reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(3).ToString()
+                        + "\nACC: " + acc.ToString()
+                        + "\nBATT: " + reader.getBuffer()[reader.BufferSize - 1].GetAnalogValue(5).ToString()
+                        + "\n\nDigital Values:"
+                        + "\n\nEMG: " + reader.getBuffer()[reader.BufferSize - 1].GetDigitalValue(0).ToString()
+                        + "\nEDA: " + reader.getBuffer()[reader.BufferSize - 1].GetDigitalValue(1).ToString()
+                        + "\nLUX: " + reader.getBuffer()[reader.BufferSize - 1].GetDigitalValue(2).ToString()
+                        + "\nECG: " + reader.getBuffer()[reader.BufferSize - 1].GetDigitalValue(3).ToString();
+            /*  
              * BITalinoReader -> getBuffer() -----------------------------------------> .ToString() ---------------->
              *                                  BITalinoFrame[reader.BufferSize - 1]                     string
+             *                          (The "BufferSize - 1" part is to read the last update
+             *                                  of the data adquisition)
              *                                  
              * NOTE: The string returned by this particular "ToString()" function is written on the format "Data_1;Data_2;....;Data_n", where
              * the "Data_x" is driven by the array passed by argument, and the separator (";") is passed as argument too. Also, the string

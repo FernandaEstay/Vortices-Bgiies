@@ -13,6 +13,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     public static EEGManager Instance { set; get; }
     private bool initialized = false;
     private string Scope = "Vortices2Config";
+
     #region Variable declaration
     /*
      * These are the input variables 
@@ -24,7 +25,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
      * NeuroSky variables
      * 
      */
-    public bool useNeuroSky;
+    public bool useNeuroSky; //*NOTE: EQUIVALENTES A LOS VALORES DE ECG, EMG, ACC y EDA 
     [HideInInspector]
     public int blinkStrength;
     [HideInInspector]
@@ -68,12 +69,12 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #endregion
 
     #region Initialization
-    public void InitializeManager()
+    public void InitializeManager() //*NOTE: INICIALIZA LOS SERVICIOS DE LA INTERAFAZ
     {
         Scope = ProfileManager.Instance.currentEvaluationScope;
         useEmotivInsight = GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight");
         Debug.Log("Use emotiv:"+GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight").ToString());
-        if (useEmotivInsight){
+        if (useEmotivInsight){  //*NOTE: CHEQUEA SI LA INTERFAZ EFECTIVAMENTE SE VA A UTILIZAR
             EmotivCtrl.Instance.StartEmotivInsight();            
         }else{
             NegateEmotivInsight();
@@ -119,7 +120,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
         if (!initialized || !useNeuroSky)
             return;
 
-        NeuroSkyData.Instance.ResetBlink();
+        NeuroSkyData.Instance.ResetBlink(); //*NOTE: AQUI TOMA LOS VALORES
         blinkStrength = NeuroSkyData.Instance.getBlink();
         attentionLevel = NeuroSkyData.Instance.getAttention();
         meditationLevel = NeuroSkyData.Instance.getMeditation();
@@ -132,11 +133,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
      * Neuro Sky functions
      * 
      */
-
     
-
-
-
     void NegateNeuroSky()
     {
         useNeuroSky = false;
@@ -149,8 +146,6 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     {
         useEmotivInsight = false;
     }
-
-
 
     #endregion
 }

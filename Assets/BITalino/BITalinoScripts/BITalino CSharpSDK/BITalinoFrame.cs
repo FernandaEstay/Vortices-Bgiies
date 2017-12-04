@@ -74,8 +74,7 @@ public class BITalinoFrame
     public override string ToString ( )
     {
         return "CRC " + CRC +
-            " SEQ " + Sequence +
-            " Analog values " + String.Join ( ";", new List<double> ( analog ).ConvertAll ( i => i.ToString ( ) ).ToArray ( ) ) +
+            " SEQ " + Sequence + " Analog values " + String.Join ( ";", new List<double> ( analog ).ConvertAll ( i => i.ToString ( ) ).ToArray ( ) ) +
             " Digital values " + String.Join ( ";", new List<int> ( digital ).ConvertAll ( i => i.ToString ( ) ).ToArray ( ) );
     }
 }
