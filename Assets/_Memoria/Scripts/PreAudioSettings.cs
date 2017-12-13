@@ -8,14 +8,7 @@ using Gamelogic;
 
 public class PreAudioSettings : MonoBehaviour
 {
-    private string scope;
-    void Start()
-    {
-        scope = ProfileManager.Instance.currentEvaluationScope;
-    }
-
-
-    public void AudioConfig()
+    public void AudioConfiguration(string scope)
     {
         int immersionLevel = GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level");
         AudioConfiguration audioConfig = AudioSettings.GetConfiguration();

@@ -66,7 +66,11 @@ public class MOTIONSManager : MonoBehaviour {
         ActionManager.Instance.updateActionArrayList = new List<System.Action>();
         initializeCsv();
 
-        if(scene == 0)
+        //Set audio Settings for immersion
+        PreAudioSettings audioSettings = new PreAudioSettings();
+        audioSettings.AudioConfiguration(scope);
+
+        if (scene == 0)
         {
             SceneManager.LoadScene("TestScenarioA");
         }
