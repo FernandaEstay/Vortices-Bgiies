@@ -25,6 +25,7 @@ public class LoadersManager : MonoBehaviour {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         for(int i = 0; i < MOTIONSManager.Instance.interfacesWithInputNames.Length; i++)
         {
+            Debug.Log("AQUI", interfacesWithInput[i]);
             if (GLPlayerPrefs.GetBool(Scope, "use" + MOTIONSManager.Instance.interfacesWithInputNames[i]))
             {
                 interfacesWithInput[i].SetActive(true);

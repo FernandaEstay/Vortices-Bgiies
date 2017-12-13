@@ -14,13 +14,9 @@ public class Line : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
         line = (LineRenderer) this.GetComponent("LineRenderer");
-        //line.SetVertexCount(reader.BufferSize);
-        //line.numPositions = 100;
-        line.SetVertexCount(100);
-
-    }
+        line.SetVertexCount(reader.BufferSize);
+	}
 	
 	/// <summary>
 	/// Draw the new point of the line
@@ -28,24 +24,13 @@ public class Line : MonoBehaviour {
 	void Update () {
         if (reader.asStart)
         {
-            Debug.Log("Updating Values");
-            /*int i = 0;
+            int i = 0;
             foreach(BITalinoFrame f in reader.getBuffer())
             {
                 float posX = (float) (-7.5f+15f*((1.0/reader.BufferSize)*i));
                 float posY = (float) ((f.GetAnalogValue(channelRead)) / divisor);
                 line.SetPosition(i, new Vector3(posX, posY, 0));
                 i++;
-            }*/
-        }
-        else
-        {
-            int counter = 0;
-            while(counter < 100)
-            {
-                Debug.Log("Waiting for Reader...");
-                line.SetPosition(counter, new Vector3(0.1f, 0.5f, 0.0f));
-                counter++;
             }
         }
 	}

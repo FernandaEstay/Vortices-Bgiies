@@ -15,6 +15,11 @@ public class BITalinoConfigCanvasController : MonoBehaviour {
 
     private void OnEnable()
     {
+        m_comPort.text = "COM4";
+        m_baudRate.text = "9600";
+        m_samplingRate.text = "1000";
+        m_buffSize.text = "100";
+
         scope = ProfileManager.Instance.currentEvaluationScope;
         SetBITalinoConfigMenuValues();
     }

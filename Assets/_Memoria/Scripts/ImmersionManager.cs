@@ -30,6 +30,7 @@ public class ImmersionManager : MonoBehaviour {
         LoadGameObjectsByTag(auditiveImmersionlevel, maxAuditiveImmersionLevel, "A_Immersion_");
         RenderingPathConfig(visualImmersionLevel);        
         EnviromentLightiningConfig(visualImmersionLevel);
+        QualitySettingsConfig(visualImmersionLevel);
     }
 
     void LoadGameObjects(int immersionLevel)
@@ -124,6 +125,31 @@ public class ImmersionManager : MonoBehaviour {
        else
         {
             m_camera.renderingPath = RenderingPath.Forward;               //Medium Quality Rendering Path
+        }
+    }
+
+    void QualitySettingsConfig(int immersionLevel)
+    {
+        switch (immersionLevel)
+        {
+            case 0:
+                QualitySettings.SetQualityLevel(0, true);
+                break;
+            case 1:
+                QualitySettings.SetQualityLevel(1, true);
+                break;
+            case 2:
+                QualitySettings.SetQualityLevel(2, true);
+                break;
+            case 3:
+                QualitySettings.SetQualityLevel(3, true);
+                break;
+            case 4:
+                QualitySettings.SetQualityLevel(4, true);
+                break;
+            case 5:
+                QualitySettings.SetQualityLevel(5, true);
+                break;
         }
     }
 }

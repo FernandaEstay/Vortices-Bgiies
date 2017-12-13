@@ -6,20 +6,21 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class ConnectionState : MonoBehaviour {
+public class ConnectionState : MonoBehaviour
+{
     public ManagerBITalino manager;
     public BITalinoReader reader;
     public BITalinoSerialPort serial;
     public Text state;
     public Text data;
 
-	// Use this for initialization
+    // Use this for initialization
     void Start()
     {
         state.text = "";
         data.text = "";
         StartCoroutine(start());
-	}
+    }
 
     /// <summary>
     /// Initialise the connection
@@ -36,11 +37,11 @@ public class ConnectionState : MonoBehaviour {
 
 
     }
-	
-	/// <summary>
-	/// Write the data read from the bitalino
-	/// </summary>
-	void Update () 
+
+    /// <summary>
+    /// Write the data read from the bitalino
+    /// </summary>
+    void Update()
     {
         float ecg;
         float emg;
@@ -56,7 +57,11 @@ public class ConnectionState : MonoBehaviour {
 
             if (emg > 1.0 || emg < -1.0)
             {
-                Debug.Log("You monster! Your emg was: " + emg);
+                Debug.Log("YOU REACH THE TRESHOLD! Your EMG was: " + emg);
+            }
+            else
+            {
+                Debug.Log("Your EMG was: " + emg);
             }
 
             //data.text = reader.getBuffer()[reader.BufferSize - 1].ToString();
@@ -89,3 +94,4 @@ public class ConnectionState : MonoBehaviour {
         }
     }
 }
+
