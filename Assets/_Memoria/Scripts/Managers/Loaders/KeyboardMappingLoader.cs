@@ -92,9 +92,12 @@ public class KeyboardMappingLoader : MonoBehaviour {
         if (actionIndex[index] == 0)
             return;
 
+        //CAMBIAR ESTAS DE ABAJITO
         ActionManager.Instance.updateActionArrayList.Add( () => ActionManager.Instance.ActionPairing(
-            ActionManager.Instance.ActionConditionButtons(key),
-            ActionManager.Instance.currentActionList[actionIndex[index]])
+            ActionManager.Instance.ActionConditionButtons(key), //mal
+            ActionManager.Instance.currentActionList[actionIndex[index]]) //bien
             );
     }
+
+    //El action pairing tiene una condicion y bool, si es verdadero gg
 }

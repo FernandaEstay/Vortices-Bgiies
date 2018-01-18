@@ -605,6 +605,16 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
+    //Adds a condition that is an int value that has to be greater than the second value
+    public bool ActionConditionDoubleValueGreaterThan(ref double value, ref double threshold)
+    {
+        if (value > threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
     //Adds a condition that is a key button, to be used with ActionPairing function
     public bool ActionConditionButtons(KeyCode button){
         if (Input.GetKeyDown(button))
@@ -615,7 +625,7 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
-    //kinect hand detectioj
+    //kinect hand detection
     public bool ActionConditionKinect(HandState gesture, bool isRightHand)
     {
         if (isRightHand)

@@ -36,6 +36,7 @@ public class MOTIONSManager : MonoBehaviour {
             "Kinect",
             "NeuroSky",
             "Keyboard"
+            ,"BITalino"
         };
 
         interfacesNames = new string[]
@@ -48,21 +49,38 @@ public class MOTIONSManager : MonoBehaviour {
             "OpenGlove",
             "LeapMotion",
             "Gamepad",
-            "Mouse"
+            "Mouse" 
+            ,"BITalino"
         };
     }
 
 
     public void StartEvaluation()
     {
-        GLPlayerPrefs.SetInt(ProfileManager.Instance.currentEvaluationScope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
+        string scope = ProfileManager.Instance.currentEvaluationScope;
+        int scene = GLPlayerPrefs.GetInt(scope, "Scene");
+        GLPlayerPrefs.SetInt(scope, "LastUserIDUsed", GLPlayerPrefs.GetInt(ProfileManager.Instance.currentEvaluationScope, "CurrentUserID"));
         informationObjectInitialized = false;
         visualizationInitialized = false;
         //DELETE THIS clean the action mapping list in the action manager, should be triggered by "returning" in the escape-menu
         ActionManager.Instance.updateActionArrayList = new List<System.Action>();
         initializeCsv();
-        //SceneManager.LoadScene("TestScenarioA");
-        SceneManager.LoadScene("EmotivTraining");
+
+        //Set audio Settings for immersion
+        AudioPreSettings audioSettings = new AudioPreSettings();
+        audioSettings.AudioConfiguration(scope);
+
+        if (scene == 0)
+        {
+            SceneManager.LoadScene("TestScenarioA");
+        }
+        else if (scene == 1) {
+            SceneManager.LoadScene("TestScenarioB");
+        }
+        else
+        {
+            SceneManager.LoadScene("EmotivTraining");
+        }
         //SceneManager.LoadScene("FullScene");
     }
 
@@ -133,6 +151,7 @@ public class MOTIONSManager : MonoBehaviour {
      *  -LeapMotion
      *  -Gamepad
      *  -Mouse
+     *  -BITalino
      * 
      */
 

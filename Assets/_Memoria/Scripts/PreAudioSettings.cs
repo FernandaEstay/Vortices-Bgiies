@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Memoria;
+using Gamelogic;
 
-public class PreAudioSettings : MonoBehaviour
+public class AudioPreSettings : MonoBehaviour
 {
-
-    public void AudioConfig()
+    public void AudioConfiguration(string scope)
     {
-        int immersionLevel = PlayerPrefs.GetInt("Auditive Immersion");
+        int immersionLevel = GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level");
         AudioConfiguration audioConfig = AudioSettings.GetConfiguration();
 
         switch (immersionLevel)
