@@ -15,13 +15,16 @@ public class BITalinoConfigCanvasController : MonoBehaviour {
 
     private void OnEnable()
     {
-        m_comPort.text = "COM4";
-        m_baudRate.text = "9600";
-        m_samplingRate.text = "1000";
-        m_buffSize.text = "100";
-
         scope = ProfileManager.Instance.currentEvaluationScope;
         SetBITalinoConfigMenuValues();
+        //If there is no configuration, print the default values.
+        if (m_comPort.text == "")
+        {
+            m_comPort.text = "COM4";
+            m_baudRate.text = "9600";
+            m_samplingRate.text = "1000";
+            m_buffSize.text = "100";
+        }
     }
 
     void SetBITalinoConfigMenuValues() {
@@ -33,7 +36,7 @@ public class BITalinoConfigCanvasController : MonoBehaviour {
 
     private bool ValidateInput()
     {
-        return false;
+        return true;
     }
 
     #region update values in UI methods
@@ -41,7 +44,7 @@ public class BITalinoConfigCanvasController : MonoBehaviour {
     public void UpdateBitalinoConfig()
     {
         //VALIDATE
-        if (ValidateInput())
+        if (!ValidateInput())
         {
             return;
         }

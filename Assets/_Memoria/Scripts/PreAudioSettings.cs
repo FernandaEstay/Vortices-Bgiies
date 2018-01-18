@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Memoria;
 using Gamelogic;
 
-public class PreAudioSettings : MonoBehaviour
+public class AudioPreSettings : MonoBehaviour
 {
     public void AudioConfiguration(string scope)
     {

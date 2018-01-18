@@ -67,7 +67,7 @@ public class MOTIONSManager : MonoBehaviour {
         initializeCsv();
 
         //Set audio Settings for immersion
-        PreAudioSettings audioSettings = new PreAudioSettings();
+        AudioPreSettings audioSettings = new AudioPreSettings();
         audioSettings.AudioConfiguration(scope);
 
         if (scene == 0)

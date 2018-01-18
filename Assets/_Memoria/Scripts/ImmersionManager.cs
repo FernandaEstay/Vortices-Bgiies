@@ -25,7 +25,6 @@ public class ImmersionManager : MonoBehaviour {
         int auditiveImmersionlevel = GLPlayerPrefs.GetInt(scope, "Auditive Immersion Level");
 
         m_camera = Camera.main;
-        //LoadGameObjects(visualImmersionLevel, maxVisualImmersionLevel, "Immersion_");
         LoadGameObjects(visualImmersionLevel);
         LoadGameObjectsByTag(auditiveImmersionlevel, maxAuditiveImmersionLevel, "A_Immersion_");
         RenderingPathConfig(visualImmersionLevel);        
@@ -61,6 +60,15 @@ public class ImmersionManager : MonoBehaviour {
             }
         }
     }
+
+    /*Things modified by this manager:
+     *  Color = RGB Color;                  Format: (int, int, int)
+     *  Default reflection resolution;      Format: int
+     *  Camera Rendering Path;              Format: int (as a switch)
+     *  
+         */
+      
+
 
     //AÑADIR UN COLOR PICKER PARA LA LUZ AMBIENTAL
     void EnviromentLightiningConfig(int immersionLevel) {
