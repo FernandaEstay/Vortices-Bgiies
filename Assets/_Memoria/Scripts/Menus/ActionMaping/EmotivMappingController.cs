@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Gamelogic;
 
-public class EmotivConfigMenu : MonoBehaviour {
+public class EmotivMappingController : MonoBehaviour {
 
     //Ticking scripts
     public ActionMapingController actionMapController;
@@ -27,29 +27,12 @@ public class EmotivConfigMenu : MonoBehaviour {
         "Left"
     };
 
-    Emotiv.EdkDll.IEE_MentalCommandAction_t[] mentalCommandCode = new Emotiv.EdkDll.IEE_MentalCommandAction_t[]
-    {
-        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PUSH,
-        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PULL,
-        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LIFT,
-        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_DROP,
-        Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT
-    };
-
     string[] facialExpresionName = new string[]
     {
         "LeftWink",
         "RightWink",
-        "AnyWink",
+        "AnyBlink",
         "Smile"
-    };
-
-    Emotiv.EdkDll.IEE_FacialExpressionAlgo_t[] facialExpresionCode = new Emotiv.EdkDll.IEE_FacialExpressionAlgo_t[]
-    {
-        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_LEFT,
-        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_WINK_RIGHT,
-        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_BLINK,
-        Emotiv.EdkDll.IEE_FacialExpressionAlgo_t.FE_SMILE
     };
 
     bool[] facilExpresionIsUpperFace = new bool[]
@@ -69,7 +52,7 @@ public class EmotivConfigMenu : MonoBehaviour {
         "Left",
         "LeftWink",
         "RightWink",
-        "AnyWink",
+        "AnyBlink",
         "Smile"
     };
 

@@ -400,34 +400,6 @@ public class ActionManager : MonoBehaviour, IAwake
         return result;
     }
 
-    // Update is called once per frame
-    /*
-     * Here is where the actions should be added with keys or any other input (like Emotiv Mental Commands, Neurosky values or Keyboard).
-     * 
-     * useful functions or codes for reference:
-     Input.GetKey(KeyCode.keyboardkey )
-     Input.GetKeyDown(Keycode)
-     Input.GetButton("ButtonName")
-     Input.GetButtonDown("ButtonName")
-     */
-
-    /*
-     * Emotiv neural commands for the Emotiv functions are:
-     MC_NEUTRAL
-     MC_PUSH
-     MC_PULL
-     MC_LIFT
-     MC_DROP 
-     MC_LEFT 
-     MC_RIGHT 
-     MC_ROTATE_LEFT
-     MC_ROTATE_RIGHT 
-     MC_ROTATE_CLOCKWISE
-     MC_ROTATE_COUNTER_CLOCKWISE
-     MC_ROTATE_FORWARDS 
-     MC_ROTATE_REVERSE
-     MC_DISAPPEAR
-     */
     void Update()
     {
         if (!initialized)
@@ -599,6 +571,16 @@ public class ActionManager : MonoBehaviour, IAwake
     public bool ActionConditionIntValueGreaterThan(ref int value, ref int threshold)
     {
         if(value > threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //Overload so the treshold isn't a reference
+    public bool ActionConditionIntValueGreaterThan(ref int value, int threshold)
+    {
+        if (value > threshold)
         {
             return true;
         }
