@@ -327,7 +327,7 @@ namespace Memoria
             };
 
             ActionManager.Instance.InitializeManager(this);
-            EEGManager.Instance.InitializeManager();
+            EEGManager.Instance.CheckInterfaces();
             EyetrackerManager.Instance.InitializeManager(this);
         }
 

@@ -6,6 +6,6 @@ public class OfflineConnectionMenu : MonoBehaviour {
 
     private void OnEnable()
     {
-        EmotivCtrl.Instance.CheckUserStorageDataPaths();
+        InterfaceManager.Instance.eegManager.emotivControl.CheckUserStorageDataPaths();
     }
 }

@@ -11,7 +11,6 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
 
     [HideInInspector]
     public static EEGManager Instance { set; get; }
-    private bool initialized = false;
     private string Scope = "Vortices2Config";
 
     #region Variable declaration
@@ -25,7 +24,9 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
      * NeuroSky variables
      * 
      */
-    public bool useNeuroSky; //*NOTE: EQUIVALENTES A LOS VALORES DE ECG, EMG, ACC y EDA 
+    public NeuroSkyData neuroSkyControl;
+    [HideInInspector]
+    public bool useNeuroSky = false; //*NOTE: EQUIVALENTES A LOS VALORES DE ECG, EMG, ACC y EDA 
     [HideInInspector]
     public int blinkStrength;
     [HideInInspector]
@@ -44,7 +45,9 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
      * Emotiv Insight variables
      * 
      */
-    public bool useEmotivInsight;
+    public EmotivCtrl emotivControl;
+    [HideInInspector]
+    public bool useEmotivInsight = false;
     [HideInInspector]
     public EdkDll.IEE_MentalCommandAction_t MentalCommandCurrentAction;
     [HideInInspector]
@@ -69,15 +72,17 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #endregion
 
     #region Initialization
-    public void InitializeManager() //*NOTE: INICIALIZA LOS SERVICIOS DE LA INTERAFAZ
+    public void CheckInterfaces() //*NOTE: INICIALIZA LOS SERVICIOS DE LA INTERAFAZ
     {
         Scope = ProfileManager.Instance.currentEvaluationScope;
         useEmotivInsight = GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight");
         Debug.Log("Use emotiv:"+GLPlayerPrefs.GetBool(Scope, "UseEmotivInsight").ToString());
         if (useEmotivInsight){  //*NOTE: CHEQUEA SI LA INTERFAZ EFECTIVAMENTE SE VA A UTILIZAR
-            EmotivCtrl.Instance.StartEmotivInsight();            
+            emotivControl.gameObject.SetActive(true);
+            emotivControl.StartEmotivInsight();            
         }else{
             NegateEmotivInsight();
+            emotivControl.gameObject.SetActive(false);
         }
 
         useNeuroSky = GLPlayerPrefs.GetBool(Scope, "UseNeuroSkyMindwave");
@@ -85,12 +90,32 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
 
         if (useNeuroSky)
         {
-            NeuroSkyData.Instance.StartNeuroSkyData();
+            neuroSkyControl.gameObject.SetActive(true);
+            neuroSkyControl.StartNeuroSkyData();
         }else{
             NegateNeuroSky();
+            neuroSkyControl.gameObject.SetActive(false);
         }
+    }
 
-        initialized = true;
+    //Use this for configuration
+    public void StartEmotivInsight()
+    {
+        //this check is to avoid re-enable if already started.
+        if (useEmotivInsight)
+            return;
+
+        emotivControl.StartEmotivInsight();
+        useEmotivInsight = true;
+    }
+
+    public void StartNeuroSky()
+    {
+        if (useNeuroSky)
+            return;
+
+        neuroSkyControl.StartNeuroSkyData();
+        useNeuroSky = true;
     }
 
     // Use this for initialization
@@ -103,13 +128,10 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     #region Update functions
     // Update is called once per frame
     void Update () {
-        //Debug.Log("update triggered");
-        if (!initialized)
-            return;
 
         if (useEmotivInsight)
         {
-            EmotivCtrl.Instance.UpdateEmotivInsight();
+            emotivControl.UpdateEmotivInsight();
 
         }
 
@@ -117,13 +139,13 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
 
     public void FixedUpdate()
     {
-        if (!initialized || !useNeuroSky)
+        if (!useNeuroSky)
             return;
 
-        NeuroSkyData.Instance.ResetBlink(); //*NOTE: AQUI TOMA LOS VALORES
-        blinkStrength = NeuroSkyData.Instance.getBlink();
-        attentionLevel = NeuroSkyData.Instance.getAttention();
-        meditationLevel = NeuroSkyData.Instance.getMeditation();
+        neuroSkyControl.ResetBlink(); //*NOTE: AQUI TOMA LOS VALORES
+        blinkStrength = neuroSkyControl.getBlink();
+        attentionLevel = neuroSkyControl.getAttention();
+        meditationLevel = neuroSkyControl.getMeditation();
     }
 
     #endregion
@@ -137,6 +159,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     void NegateNeuroSky()
     {
         useNeuroSky = false;
+        neuroSkyControl.gameObject.SetActive(false);
     }
 
     #endregion
@@ -145,6 +168,7 @@ public class EEGManager : MonoBehaviour, IAwake, IFixedUpdate {
     void NegateEmotivInsight()
     {
         useEmotivInsight = false;
+        emotivControl.gameObject.SetActive(false);
     }
 
     #endregion

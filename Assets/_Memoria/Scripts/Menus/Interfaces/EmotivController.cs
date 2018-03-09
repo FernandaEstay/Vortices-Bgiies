@@ -16,11 +16,13 @@ public class EmotivController : MonoBehaviour {
 
     public void ShowLogin()
     {
+        InterfaceManager.Instance.eegManager.StartEmotivInsight();
         emotivConfigCanvas.SetActive(true);
     }
 
     public void ShowTraining()
     {
+        InterfaceManager.Instance.eegManager.StartEmotivInsight();
         interfacesInstance.gameObject.SetActive(false);
         emotivTrainingCanvas.SetActive(true);
     }

@@ -9,8 +9,6 @@ using Gamelogic;
 
 public class EmotivCtrl : MonoBehaviour {
 
-    [HideInInspector]
-    public static EmotivCtrl Instance { set; get; }
     public string dataLogPath;
     public InputField userSaveDataPath, userLoadDataPath, userOfflineID;
     string profileNameForSavingUser, profileNameForLoadingUser;
@@ -42,7 +40,7 @@ public class EmotivCtrl : MonoBehaviour {
 	*/
     public void Awake()
     {
-        Instance = this;
+
     }
 
 	public void StartEmotivInsight () 
