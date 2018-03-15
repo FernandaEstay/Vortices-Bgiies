@@ -16,4 +16,9 @@ public class ScrolldownContent : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
+    public void AddToScrolldown(string text)
+    {
+        scrolldownContentText.text = scrolldownContentText.text + "\n" + text;
+    }
+
 }

@@ -118,10 +118,10 @@ public class MOTIONSManager : MonoBehaviour {
         currentCsv.AddLines(action, objectId, "System data.csv");
     }
 
-    void initializeCsv()
+    public void initializeCsv()
     {
         string outputPath = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "OutputFolderPath");
-        outputPath = outputPath + "\\" + ProfileManager.Instance.profiles[ProfileManager.Instance.currentProfile] + "\\" + ProfileManager.Instance.evaluations[ProfileManager.Instance.currentEvaluation] + "\\";
+        outputPath = outputPath + ProfileManager.Instance.profiles[ProfileManager.Instance.currentProfile] + "\\" + ProfileManager.Instance.evaluations[ProfileManager.Instance.currentEvaluation] + "\\";
         System.IO.Directory.CreateDirectory(outputPath);
         currentCsv = new CsvCreator(outputPath);
     }

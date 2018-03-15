@@ -15,14 +15,10 @@ public class EmotivCtrl : MonoBehaviour {
     public Text statusOfflineText;
     int state;
     uint userOfflineStoredID;
-    public CsvCreator csvCreator;
     public GameObject modal;
 	public InputField userName;
 	public InputField password;
 	public InputField profileName;
-    public Text statusText, trainingStatusText;
-    string[] trainingStatusTextLines = new string[5];
-    int trainingStatusTextLinesIndex = 0;
     public bool use_giro_as_camera = false;
 
 	public static EmoEngine engine;
@@ -30,8 +26,13 @@ public class EmotivCtrl : MonoBehaviour {
 	public static int userCloudID = 0;
 	static int version	= -1;
 
+    public Action<string> textOutputFunction;
+
+    string Scope;
+
+    string inputName = "EmotivInsight";
+
     private int currentPersonId;
-    private string Scope = "Vortices2Config";
 
     /*
 	 * Create instance of EmoEngine and set up his handlers for 
@@ -66,27 +67,6 @@ public class EmotivCtrl : MonoBehaviour {
 
 
         engine.Connect ();
-
-        /*
-         * Initialices variables to store user data locally
-         */
-        currentPersonId = GLPlayerPrefs.GetInt("Config", "UserID");
-
-
-        /*
-         * Initializes the CvsCreator to store data in a log
-         */
-        dataLogPath = GLPlayerPrefs.GetString(Scope, "EmotivInsightDataPath");
-        
-        Debug.Log("emotiv path: " + GLPlayerPrefs.GetString(Scope, "EmotivInsightDataPath"));
-        if (dataLogPath.Equals(""))
-        {
-            csvCreator = new CsvCreator("EMOTIVDataLog\\data.csv");
-        }
-        else
-        {
-            csvCreator = new CsvCreator(dataLogPath);
-        }
         
 	}
 
@@ -156,33 +136,33 @@ public class EmotivCtrl : MonoBehaviour {
     public void TrainingCompleted(object sender, EmoEngineEventArgs e)
     {
         Debug.Log("Training completed!!");
-        csvCreator.AddLines("Training completed", "");
+        MOTIONSManager.Instance.AddLines(inputName,"Training completed", "");
         //engine.MentalCommandSetTrainingControl((uint)engineUserID, EdkDll.IEE_MentalCommandTrainingControl_t.MC_ACCEPT);
     }
 
     public void TrainingRejected(object sender, EmoEngineEventArgs e)
     {
         Debug.Log("Trainig rejected");
-        csvCreator.AddLines("Training rejected", "");
+        MOTIONSManager.Instance.AddLines(inputName,"Training rejected", "");
     }
 
     public void TrainingSucceeded(object sender, EmoEngineEventArgs e)
     {
         Debug.Log("Training Succeeded!!");
         engine.MentalCommandSetTrainingControl((uint)engineUserID, EdkDll.IEE_MentalCommandTrainingControl_t.MC_ACCEPT);
-        csvCreator.AddLines("Training succeeded", "");
+        MOTIONSManager.Instance.AddLines(inputName,"Training succeeded", "");
     }
 
     public void TrainingReset(object sender, EmoEngineEventArgs e)
     {
         Debug.Log("Command reseted");
-        csvCreator.AddLines("Training reseted", "");
+        MOTIONSManager.Instance.AddLines(inputName, "Training reseted", "");
     }
 
     #endregion
 
     public void Close(){
-        csvCreator.AddLines("Application closed", "");
+        MOTIONSManager.Instance.AddLines(inputName,"Application closed", "");
         Application.Quit ();
 	}
 
@@ -221,51 +201,24 @@ public class EmotivCtrl : MonoBehaviour {
         EEGManager.Instance.FacialExpressionLowerFaceAction = e.emoState.FacialExpressionGetLowerFaceAction();
         EEGManager.Instance.FacialExpressionUpperFaceAction = e.emoState.FacialExpressionGetUpperFaceAction();
         //All actions below are for the Log
-        csvCreator.AddLines("Clench Extent: "+e.emoState.FacialExpressionGetClenchExtent().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Eyebrow Extent: " + e.emoState.FacialExpressionGetEyebrowExtent().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Lower Face Action: " + e.emoState.FacialExpressionGetLowerFaceAction().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Lower Face Action Power:  " + e.emoState.FacialExpressionGetLowerFaceActionPower().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Upper Face Action: " + e.emoState.FacialExpressionGetUpperFaceAction().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Upper Face Action Power: " + e.emoState.FacialExpressionGetUpperFaceActionPower().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Smile Extent: " + e.emoState.FacialExpressionGetSmileExtent().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Time since start: " + e.emoState.GetTimeFromStart().ToString(), "Time");
-        csvCreator.AddLines(" Current Action: " + e.emoState.MentalCommandGetCurrentAction().ToString(), "Mental Command");
-        csvCreator.AddLines(" Current Action Power: " + e.emoState.MentalCommandGetCurrentActionPower().ToString(), "Mental Command");
-        csvCreator.AddLines(" Is blinking? " + e.emoState.FacialExpressionIsBlink().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Are eyes open? " + e.emoState.FacialExpressionIsEyesOpen().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is left winking? " + e.emoState.FacialExpressionIsLeftWink().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is right winking? " + e.emoState.FacialExpressionIsRightWink().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is looking down? " + e.emoState.FacialExpressionIsLookingDown().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is looking left? " + e.emoState.FacialExpressionIsLookingLeft().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is looking right? " + e.emoState.FacialExpressionIsLookingRight().ToString(), "Facial Expression");
-        csvCreator.AddLines(" Is looking up? " + e.emoState.FacialExpressionIsLookingUp().ToString(), "Facial Expression");        
-    }
-
-    void MoveTrainingStatusTextArray()
-    {
-        for(int i=0; i < 4; i++)
-        {
-            trainingStatusTextLines[i] = trainingStatusTextLines[i + 1];
-        }
-    }
-
-    public void AddTrainingStatusUpdate(string statusUpdate)
-    {
-        if (trainingStatusTextLinesIndex < 4)
-        {
-            trainingStatusTextLines[trainingStatusTextLinesIndex] = statusUpdate;
-            trainingStatusTextLinesIndex++;
-        }
-        else
-        {
-            MoveTrainingStatusTextArray();
-            trainingStatusTextLines[trainingStatusTextLinesIndex] = statusUpdate;
-        }
-        trainingStatusText.text = trainingStatusTextLines[0] + "\n" +
-            trainingStatusTextLines[1] + "\n" +
-            trainingStatusTextLines[2] + "\n" +
-            trainingStatusTextLines[3] + "\n" +
-            trainingStatusTextLines[4];
+        MOTIONSManager.Instance.AddLines(inputName, "Clench Extent: " + e.emoState.FacialExpressionGetClenchExtent().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Eyebrow Extent: " + e.emoState.FacialExpressionGetEyebrowExtent().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Lower Face Action: " + e.emoState.FacialExpressionGetLowerFaceAction().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Lower Face Action Power:  " + e.emoState.FacialExpressionGetLowerFaceActionPower().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Upper Face Action: " + e.emoState.FacialExpressionGetUpperFaceAction().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Upper Face Action Power: " + e.emoState.FacialExpressionGetUpperFaceActionPower().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Smile Extent: " + e.emoState.FacialExpressionGetSmileExtent().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Time since start: " + e.emoState.GetTimeFromStart().ToString(), "Time");
+        MOTIONSManager.Instance.AddLines(inputName, " Current Action: " + e.emoState.MentalCommandGetCurrentAction().ToString(), "Mental Command");
+        MOTIONSManager.Instance.AddLines(inputName, " Current Action Power: " + e.emoState.MentalCommandGetCurrentActionPower().ToString(), "Mental Command");
+        MOTIONSManager.Instance.AddLines(inputName, " Is blinking? " + e.emoState.FacialExpressionIsBlink().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Are eyes open? " + e.emoState.FacialExpressionIsEyesOpen().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is left winking? " + e.emoState.FacialExpressionIsLeftWink().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is right winking? " + e.emoState.FacialExpressionIsRightWink().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is looking down? " + e.emoState.FacialExpressionIsLookingDown().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is looking left? " + e.emoState.FacialExpressionIsLookingLeft().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is looking right? " + e.emoState.FacialExpressionIsLookingRight().ToString(), "Facial Expression");
+        MOTIONSManager.Instance.AddLines(inputName, " Is looking up? " + e.emoState.FacialExpressionIsLookingUp().ToString(), "Facial Expression");
     }
 
     public void GetActiveActions()
@@ -327,26 +280,26 @@ public class EmotivCtrl : MonoBehaviour {
 	public bool CloudConnected()
 	{
 		if (EmotivCloudClient.EC_Connect () == EdkDll.EDK_OK) {
-			statusText.text = "Status: Connection to server OK";
+			textOutputFunction("Status: Connection to server OK");
             Debug.Log("Status: Connection to server OK");
 			if (EmotivCloudClient.EC_Login (userName.text, password.text)== EdkDll.EDK_OK) {
-				statusText.text = "Status: Login as " + userName.text;
+                textOutputFunction("Status: Login as " + userName.text);
                 Debug.Log("Status: Login as " + userName.text);
 				if (EmotivCloudClient.EC_GetUserDetail (ref userCloudID) == EdkDll.EDK_OK) {
-					statusText.text = "Status: CloudID: " + userCloudID;
+                    textOutputFunction("Status: CloudID: " + userCloudID);
                     Debug.Log("Status: CloudID: " + userCloudID);
                     return true;
 				}
 			} 
 			else 
 			{
-				statusText.text = "Status: Cant login as " + userName.text+", check password is correct";
+                textOutputFunction("Status: Cant login as " + userName.text+", check password is correct");
                 Debug.Log("Status: Cant login as " + userName.text + ", check password is correct");
             }
 		} 
 		else 
 		{
-			statusText.text = "Status: Cant connect to server";
+            textOutputFunction("Status: Cant connect to server");
             Debug.Log("Status: Cant connect to server");
         }
 		return false;
@@ -358,20 +311,20 @@ public class EmotivCtrl : MonoBehaviour {
 			profileId = EmotivCloudClient.EC_GetProfileId (userCloudID, profileName.text, ref profileId);
 			if (profileId >= 0) {
 				if (EmotivCloudClient.EC_UpdateUserProfile (userCloudID, (int)engineUserID, profileId) == EdkDll.EDK_OK) {
-					statusText.text = "Status: Profile updated";
+                    textOutputFunction("Status: Profile updated");
                     Debug.Log("Status: Profile updated");
                 } else {
-					statusText.text = "Status: Error saving profile, aborting";
+                    textOutputFunction("Status: Error saving profile, aborting");
                     Debug.Log("Status: Error saving profile, aborting");
                 }
 			} else {
 				if (EmotivCloudClient.EC_SaveUserProfile (
 					userCloudID, engineUserID, profileName.text, 
 					EmotivCloudClient.profileFileType.TRAINING) == EdkDll.EDK_OK) {
-					statusText.text = "Status: Profiled saved successfully";
+                    textOutputFunction("Status: Profiled saved successfully");
                     Debug.Log("Status: Profiled saved successfully");
                 } else {
-					statusText.text = "Status: Error saving profile, aborting";
+                    textOutputFunction("Status: Error saving profile, aborting");
                     Debug.Log("Status: Error saving profile, aborting");
                 }
 			}
@@ -386,11 +339,11 @@ public class EmotivCtrl : MonoBehaviour {
                 userCloudID, (int)engineUserID,                
 				EmotivCloudClient.EC_GetProfileId(userCloudID, profileName.text, ref profileId), 
 				(int)version) == EdkDll.EDK_OK) {
-				statusText.text = "Status: Load finished";
+                textOutputFunction("Status: Load finished");
                 Debug.Log("Status: Load finished");
             } 
 			else {
-				statusText.text = "Status: Problem loading";
+                textOutputFunction("Status: Problem loading");
                 Debug.Log("Status: Problem loading");
             }
 		}

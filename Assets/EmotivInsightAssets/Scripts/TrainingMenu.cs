@@ -13,14 +13,15 @@ public class TrainingMenu : MonoBehaviour {
     public GameObject lightMinus;
     public GameObject[] rotatingFigures;
     public GameObject rotatingFigureCamera;
+    public ScrolldownContent statusViewScrolldown;
 
     EmotivCtrl emotivController;
     Vector3 rotatingFigureOriginalPosition;
     int activeRotatingFigure;
     bool loopFigureInitiated = false;
     public Dropdown rotatingFiguresDropdown, pickTrainingDropdown;
-    
 
+    string inputName = "EmotivInsight";
     
     private Emotiv.EdkDll.IEE_MentalCommandAction_t[] mentalCommands = new Emotiv.EdkDll.IEE_MentalCommandAction_t[6];
     private bool addedPush = false, addedPull = false, addedLift = false, addedDrop = false, addedLeft = false;
@@ -42,6 +43,8 @@ public class TrainingMenu : MonoBehaviour {
         mentalCommands[5] = Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT;
         //ActivateEmotivCommands();
         rotatingFigureOriginalPosition = rotatingFigures[0].transform.position;
+        emotivController.textOutputFunction = statusViewScrolldown.AddToScrolldown;
+        InterfaceManager.Instance.eegManager.StartEmotivInsight();
     }
 
     void OnDisable()
@@ -117,15 +120,15 @@ public class TrainingMenu : MonoBehaviour {
     void AddNeutralTraining()
     {
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_NEUTRAL);
-        emotivController.csvCreator.AddLines("Training set for Neutral", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Neutral");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for Neutral", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Neutral");
     }
 
     void SetNoTraining()
     {
         emotivController.NoneTrainingControlCommand();
-        emotivController.csvCreator.AddLines("Training set for None", "");
-        emotivController.AddTrainingStatusUpdate("Training set for None");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for None", "");
+        statusViewScrolldown.AddToScrolldown("Training set for None");
     }
 
     void AddPushTraining()
@@ -136,8 +139,8 @@ public class TrainingMenu : MonoBehaviour {
             emotivController.AddActiveCommand(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PUSH);
         }
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PUSH);
-        emotivController.csvCreator.AddLines("Training set for Push", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Push");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for Push", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Push");
     }
 
     void AddPullTraining()
@@ -147,8 +150,8 @@ public class TrainingMenu : MonoBehaviour {
             emotivController.AddActiveCommand(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PULL);
         }
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_PULL);
-        emotivController.csvCreator.AddLines("Training set for Pull", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Pull");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for Pull", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Pull");
     }
 
     void AddLiftTraining()
@@ -159,8 +162,8 @@ public class TrainingMenu : MonoBehaviour {
             emotivController.AddActiveCommand(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LIFT);
         }
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LIFT);
-        emotivController.csvCreator.AddLines("Training set for Lift", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Lift");
+        MOTIONSManager.Instance.AddLines(inputName,"Training set for Lift", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Lift");
 
     }
 
@@ -172,8 +175,8 @@ public class TrainingMenu : MonoBehaviour {
             emotivController.AddActiveCommand(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_DROP);
         }
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_DROP);
-        emotivController.csvCreator.AddLines("Training set for Drop", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Drop");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for Drop", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Drop");
     }
 
     void AddLeftTraining()
@@ -184,8 +187,8 @@ public class TrainingMenu : MonoBehaviour {
             emotivController.AddActiveCommand(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT);
         }
         emotivController.SetTraining(Emotiv.EdkDll.IEE_MentalCommandAction_t.MC_LEFT);
-        emotivController.csvCreator.AddLines("Training set for Left", "");
-        emotivController.AddTrainingStatusUpdate("Training set for Left");
+        MOTIONSManager.Instance.AddLines(inputName, "Training set for Left", "");
+        statusViewScrolldown.AddToScrolldown("Training set for Left");
     }
 
     private IEnumerator ResetTrainingCoroutine()

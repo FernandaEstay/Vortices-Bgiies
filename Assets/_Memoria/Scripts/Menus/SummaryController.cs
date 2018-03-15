@@ -194,6 +194,7 @@ public class SummaryController : MonoBehaviour
     {
         string Scope = ProfileManager.Instance.currentEvaluationScope;
         GLPlayerPrefs.SetString(Scope, "OutputFolderPath", outputPath);
+        MOTIONSManager.Instance.initializeCsv();
     }
 
     public void ReloadOutputPath()

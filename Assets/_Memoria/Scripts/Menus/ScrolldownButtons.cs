@@ -18,6 +18,7 @@ public class ScrolldownButtons : MonoBehaviour {
         button.GetComponent<Button>().onClick.AddListener(() => functionToTrigger());//Setting what button does when clicked
                                                                    //Next line assumes button has child with text as first gameobject like button created from GameObject->UI->Button
         button.transform.GetChild(0).GetComponent<Text>().text = buttonText;//Changing text
+        buttonList.Add(button);
         return button;
     }
 
@@ -39,6 +40,7 @@ public class ScrolldownButtons : MonoBehaviour {
         foreach(GameObject button in buttonList)
         {
             Destroy(button);
+            Debug.Log("button destroyed");
         }
     }
 

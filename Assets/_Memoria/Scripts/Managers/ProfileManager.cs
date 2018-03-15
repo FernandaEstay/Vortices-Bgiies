@@ -42,6 +42,7 @@ public class ProfileManager : MonoBehaviour {
         currentEvaluation = GLPlayerPrefs.GetInt(profileScope, "CurrentEvaluation");
         evaluations = GLPlayerPrefs.GetStringArray(profileScope, "EvaluationNamesList");
         currentEvaluationScope = profileScope + evaluations[currentEvaluation];
+        MOTIONSManager.Instance.initializeCsv();
     }
 
     public bool UpdateCurrentProfile(int lastProfileUsedNumber)
