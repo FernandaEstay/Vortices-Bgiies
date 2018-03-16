@@ -206,6 +206,21 @@ public class TrainingMenu : MonoBehaviour {
         StartCoroutine("ResetTrainingCoroutine");
     }
 
+    public void StartTraining()
+    {
+        emotivController.StartTraining();
+    }
+
+    public void EraseTraining()
+    {
+        emotivController.EraseTraining();
+    }
+
+    public void RejectTraining()
+    {
+        emotivController.RejectTraining();
+    }
+
     void RemoveVorticesControlEmotivConfig()
     {
         ActionManager.Instance.updateActionsVorticesEmotivConfig.Clear();

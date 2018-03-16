@@ -118,6 +118,15 @@ public class MOTIONSManager : MonoBehaviour {
         currentCsv.AddLines(action, objectId, "System data.csv");
     }
 
+    /// <summary>
+    /// Adds line to CSV file named filename in "subfolder" folder
+    /// </summary>
+    public void AddLines(string subfolder, string filename, string action, string objectId)
+    {
+        string subfoldername = subfolder + "\\"+filename + ".csv";
+        currentCsv.AddLines(action, objectId, subfoldername);
+    }
+
     public void initializeCsv()
     {
         string outputPath = GLPlayerPrefs.GetString(ProfileManager.Instance.currentEvaluationScope, "OutputFolderPath");
