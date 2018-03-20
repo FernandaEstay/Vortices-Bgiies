@@ -13,10 +13,12 @@ EditorBuildSettings:
     path: Assets/_Memoria/NewScenes/FullScene.unity
   - enabled: 1
     path: Assets/EyeTribeAssets/Scenes/calib_scene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/EmotivInsightAssets/EmotivTraining.unity
   - enabled: 1
     path: Assets/_Memoria/ImmersionScenes/MainMenuScene.unity
+  - enabled: 1
+    path: Assets/_Memoria/NewScenes/EmotivTraining.unity
   - enabled: 1
     path: Assets/_Memoria/ImmersionScenes/TestScenarioA.unity
   - enabled: 1

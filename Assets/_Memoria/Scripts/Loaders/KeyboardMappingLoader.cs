@@ -47,7 +47,9 @@ public class KeyboardMappingLoader : MonoBehaviour {
 
     public void LoadActions()
     {
+        //First, create a new array by the length of the amount of inputs
         actionIndex = new int[keyName.Length];
+        //The, have the asociated actions in the index
         //Unfortunately, this can't be done with a "for" cicle as delegates only work with references, and all indexes would use a reference to the "i" value, which would
         //      be then the same for every array, and out of index every time.
         //On the bright side this only has to be done once, as the actions and indexes they reference are given and modified by the ActionManager.
@@ -56,7 +58,7 @@ public class KeyboardMappingLoader : MonoBehaviour {
         {
             actionIndex[i] = ActionManager.Instance.GetMappedActionIndex(interfaceName, keyName[i]);
         }
-
+        //Proceed to add the actions to the update function
         AddAction(0, KeyCode.Q);
         AddAction(1, KeyCode.W);
         AddAction(2, KeyCode.E);
@@ -97,6 +99,13 @@ public class KeyboardMappingLoader : MonoBehaviour {
             ActionManager.Instance.ActionConditionButtons(key), //condicion bool
             ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
             );
+        //For debug purposes
+        PrintAddedAction(keyName[index], ActionManager.Instance.currentActionListNames[actionIndex[index]]);
+    }
+
+    void PrintAddedAction(string inputName, string pairedActionName)
+    {
+        Debug.Log("Paired: " +inputName + " to "+pairedActionName);
     }
 
     //El action pairing tiene una condicion bool y una accion, si bool = true se ejecuta la acción

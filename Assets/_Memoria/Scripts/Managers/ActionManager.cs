@@ -16,6 +16,7 @@ public class ActionManager : MonoBehaviour, IAwake
     public static ActionManager Instance { set; get; }
     [HideInInspector]
     public bool initialized = false;
+    public ActionsLimitations actionsLimitations;
     //delete this
     public DIOManager dioManager;
     #region Variable declaration
@@ -98,23 +99,6 @@ public class ActionManager : MonoBehaviour, IAwake
          * possitive accept and nevative accept do not work
          * The null action exist ease the use of the pairing function while taking parameters of dropdown lists of vortices actions, look NeuroSkuConfigMenu and EmotivConfigMenu
          */
-        vorticesActionList = new Action[] {
-            null,
-            () => dioManager.lookPointerInstance.AcceptObject(),
-            () => dioManager.MoveSphereInside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),
-            () => dioManager.MoveSphereOutside(1, dioManager.initialSphereAction, dioManager.finalSphereAction),
-            () => dioManager.lookPointerInstance.DirectZoomInCall(null),
-            () => dioManager.lookPointerInstance.DirectZoomOutCall(null),
-            () => dioManager.buttonPanel.PositiveAcceptButton(),
-            () => dioManager.buttonPanel.NegativeAcceptButton()};
-
-        vorticesActionListNames = new string[] {
-            "No action",
-            "Select/Deselect image",
-            "Change to next plane",
-            "Change to previous plane",
-            "Zoom in image",
-            "Zoom out image"};
 
         bgiiesActionList = new Action[]
         {

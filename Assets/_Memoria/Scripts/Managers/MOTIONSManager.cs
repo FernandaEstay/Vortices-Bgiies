@@ -90,7 +90,14 @@ public class MOTIONSManager : MonoBehaviour {
         {
             if (ActionManager.Instance.ReloadMappingActions())
             {
-                LoadersManager.Instance.LoadInterfaces();
+                if(ActionManager.Instance.actionsLimitations.AddLimitationToAction(
+                    ActionManager.Instance.ActionConditionButtons(KeyCode.O),
+                    0))
+                {
+                    LoadersManager.Instance.LoadInterfaces();
+                }
+                
+
             }
             ActionManager.Instance.InitializeManager();
         }

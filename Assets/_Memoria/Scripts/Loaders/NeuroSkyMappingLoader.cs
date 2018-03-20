@@ -45,6 +45,7 @@ public class NeuroSkyMappingLoader : MonoBehaviour {
         if (actionIndex[index] == 0)
             return;
         
+        //They are different because they all hold a reference to a different constantly changing value in the EEG Manager
         if(index == 0)
         {
            //Attention Level
@@ -67,5 +68,27 @@ public class NeuroSkyMappingLoader : MonoBehaviour {
            ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
             );
         }
+
+        //For debug purposes
+        PrintAddedAction(index, " threshold: "+triggerLevelIndex[index]);
+    }
+
+    /// <summary>
+    /// shows input + action paired with
+    /// </summary>
+    /// <param name="index"></param>
+    void PrintAddedAction(int index)
+    {
+        Debug.Log("Paired: " + keyName[index] + " to " + ActionManager.Instance.currentActionListNames[actionIndex[index]]);
+    }
+
+    /// <summary>
+    /// input + action + string with extra data like levels or thresholds
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="text"></param>
+    void PrintAddedAction(int index, string text)
+    {
+        Debug.Log("Paired: " + keyName[index] + " to " + ActionManager.Instance.currentActionListNames[actionIndex[index]] + text);
     }
 }

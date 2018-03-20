@@ -79,6 +79,7 @@ public class EmotivMappingLoader : MonoBehaviour {
         //Obtaining mental commands ticks, mistakes and trigger level
         ticksIndex = new int[mentalCommandName.Length];
         mistakesIndex = new int[mentalCommandName.Length];
+        commandTriggerLevelIndex = new float[mentalCommandName.Length];
 
         for (int i = 0; i < mentalCommandName.Length; i++)
         {
@@ -118,6 +119,8 @@ public class EmotivMappingLoader : MonoBehaviour {
            ActionManager.Instance.ActionConditionEmotiv(key, ticksIndex[index], mistakesIndex[index], commandTriggerLevelIndex[index]), //condicion bool
            ActionManager.Instance.currentActionList[actionIndexMental[index]]) //accion que se ejecuta
             );
+
+        PrintAddedAction(mentalCommandName[index], actionIndexMental[index], " ticks: " + ticksIndex[index] + " mistakes: " + mistakesIndex[index] + " triggerLevel: " + commandTriggerLevelIndex[index]);
     }
 
     void AddAction(int index, Emotiv.EdkDll.IEE_FacialExpressionAlgo_t key)
@@ -130,6 +133,18 @@ public class EmotivMappingLoader : MonoBehaviour {
            ActionManager.Instance.ActionConditionEmotiv(key, facilExpresionIsUpperFace[index], faceTriggerLevelIndex[index]), //condicion bool
            ActionManager.Instance.currentActionList[actionIndexFacial[index]]) //accion que se ejecuta
             );
+
+        PrintAddedAction(facialExpresionName[index], actionIndexFacial[index], " triggerLevel: " + faceTriggerLevelIndex[index]);
+    }
+
+    /// <summary>
+    /// input + action + string with extra data like levels or thresholds
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="text"></param>
+    void PrintAddedAction(string inputName, int index, string text)
+    {
+        Debug.Log("Paired: " + inputName + " to " + ActionManager.Instance.currentActionListNames[index] + text);
     }
 
 
