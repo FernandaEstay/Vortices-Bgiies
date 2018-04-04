@@ -63,11 +63,7 @@ public class ActionManager : MonoBehaviour, IAwake
     [HideInInspector]
     public List<Action> updateActionsVorticesEmotivConfig = new List<Action>();
     [HideInInspector]
-    public Action[] updateActionsEmotivInsight;
-    [HideInInspector]
     public Action[] updateActionsKinectGestures;
-    [HideInInspector]
-    public Action[] updateActionsNeuroSky;
     [HideInInspector]
     public float endTime = 1f;
     float tickTimer = 0f;
@@ -124,10 +120,6 @@ public class ActionManager : MonoBehaviour, IAwake
         "Zoom in image",
             "Zoom Out image"
             };
-
-        updateActionsNeuroSky = new Action[3];
-        updateActionsEmotivInsight = new Action[9];
-        updateActionsKinectGestures = new Action[13];
     }
 
     public void InitializeManager(DIOManager fatherDioManager)
@@ -167,7 +159,6 @@ public class ActionManager : MonoBehaviour, IAwake
     {
         //deletes the previous action list and names by forming them again from the visualization and object arrays
         currentActionList = new Action[currentObjectActions.Length + currentVisualizationActions.Length - 1];
-        //For this to work propperly, the first action (index 0) of every array of Visualization/Objects actions MUST BE NULL
         currentVisualizationActions.CopyTo(currentActionList, 0);
         int actionListLen = currentVisualizationActions.Length;
         Action[] aux = new Action[currentObjectActions.Length - 1];
@@ -176,6 +167,7 @@ public class ActionManager : MonoBehaviour, IAwake
             aux[i - 1] = currentObjectActions[i];
         }
         aux.CopyTo(currentActionList, actionListLen);
+        actionsLimitations.ReloadActionLimitations();
         return true;
     }
 
@@ -189,6 +181,7 @@ public class ActionManager : MonoBehaviour, IAwake
         }
         currentVisualizationActions = new Action[actions.Length + 1];
         aux.CopyTo(currentVisualizationActions, 0);
+        actionsLimitations.ReloadVisualizationActionsLimitations();
     }
 
     public void ReloadObjectActions(Action[] actions)
@@ -201,6 +194,7 @@ public class ActionManager : MonoBehaviour, IAwake
         }
         currentObjectActions = new Action[actions.Length + 1];
         aux.CopyTo(currentObjectActions, 0);
+        actionsLimitations.ReloadObjectActionsLimitations();
     }
 
     /// <summary>
@@ -393,21 +387,8 @@ public class ActionManager : MonoBehaviour, IAwake
             function();
         }
 
-        foreach(var action in updateActionArrayList)
-        {
-            action();
-        }
-        //currentActionList[1]();
+        CheckActions();
         /*
-        if (EEGManager.Instance.useNeuroSky)
-        {
-            foreach (Action function in updateActionsNeuroSky)
-            {
-                if (function != null)
-                    function();
-            }
-        }
-
         if (dioManager.kinectInput)
         {
             foreach (Action function in updateActionsKinectGestures)
@@ -417,6 +398,14 @@ public class ActionManager : MonoBehaviour, IAwake
             }
         }
         */
+    }
+
+    public void CheckActions()
+    {
+        foreach (var action in updateActionArrayList)
+        {
+            action();
+        }
     }
 
     //This function is called every time the emo state is updated. The tickTimer is there so that the functions are not all called every single update, but rather only
@@ -483,11 +472,9 @@ public class ActionManager : MonoBehaviour, IAwake
                 else
                 {   emoStateTicksMistakes++;    }
             }
-            
-            foreach (var function in updateActionsEmotivInsight)
-            {
-                function();
-            }            
+
+            //Not completely sure this works fine without the update until tested, so leaving this as reference as how it was
+            //CheckActions();
             previousCommand = EEGManager.Instance.MentalCommandCurrentAction;
             startTime = Time.unscaledTime;
             tickTimer = endTime;
@@ -502,6 +489,8 @@ public class ActionManager : MonoBehaviour, IAwake
                 function();
         }
     }
+
+
 
     //Adds a condition that is a mental command in Emotiv, to be used with ActionPairing function
     public bool ActionConditionEmotiv(EdkDll.IEE_MentalCommandAction_t condition){
@@ -591,6 +580,16 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
+    public bool ActionConditionButtonsHeld(KeyCode button)
+    {
+        if (Input.GetKey(button))
+        {
+            Debug.Log("key held");
+            return true;
+        }
+        return false;
+    }
+
     //kinect hand detection
     public bool ActionConditionKinect(HandState gesture, bool isRightHand)
     {
@@ -626,30 +625,62 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
+
     //A simple condition->function template to be used with an action condition and any function, meant to be added to any updateActions lists.
+    /// <summary>
+    /// If condition is met, triggers action in index
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
+    public void ActionPairing(bool condition, int actionIndex){
+        if (condition && ActionValidation(actionsLimitations.currentActionListLimitations[actionIndex]))
+            currentActionList[actionIndex]();
+    }
+
     /// <summary>
     /// If condition is met, triggers function
     /// </summary>
     /// <param name="condition"></param>
     /// <param name="function"></param>
-    public void ActionPairing(bool condition, Action function){
+    public void ActionPairing(bool condition, Action function)
+    {
         if (condition)
             function();
     }
 
     //An overload to allow the bool to be a reference to a variable
     /// <summary>
-    /// if condition is met, triggers function
+    /// if condition is met, triggers action in index
     /// </summary>
     /// <param name="condition"></param>
     /// <param name="function"></param>
-    public void ActionPairing(ref bool condition, Action function)
+    public void ActionPairing(ref bool condition, int actionIndex)
     {
-        if (condition)
-            function();
+        if (condition && ActionValidation(actionsLimitations.currentActionListLimitations[actionIndex]))
+            currentActionList[actionIndex]();
     }
 
+
     //An overload of ActionPairing meant to add a function as a consequence of the condition being false, in case it's needed.
+    /// <summary>
+    /// if condition is met, triggers action in index, if not, triggers consequence
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="function"></param>
+    /// <param name="consequence"></param>
+    public void ActionPairing(bool condition, int actionIndex, Action consequence)
+    {
+        if (condition && ActionValidation(actionsLimitations.currentActionListLimitations[actionIndex]))
+        {
+            currentActionList[actionIndex]();
+        }
+        else
+        {
+            consequence();
+        }
+            
+    }
+
     /// <summary>
     /// if condition is met, triggers function, if not, triggers consequence
     /// </summary>
@@ -666,7 +697,7 @@ public class ActionManager : MonoBehaviour, IAwake
         {
             consequence();
         }
-            
+
     }
 
     /// <summary>
@@ -675,13 +706,13 @@ public class ActionManager : MonoBehaviour, IAwake
     /// <param name="condition"></param>
     /// <param name="function"></param>
     /// <param name="validation"></param>
-    public void ActionPairing(bool condition, Action function, bool validation)
+    public void ActionPairing(bool condition, int actionIndex, bool validation)
     {
         if (condition)
         {
             if (validation)
             {
-                function();
+                currentActionList[actionIndex]();
             }
         }
     }
@@ -714,6 +745,7 @@ public class ActionManager : MonoBehaviour, IAwake
         bool isValid = true;
         foreach (bool condition in conditions)
         {
+            Debug.Log(condition);
             if (!condition)
             {
                 isValid = false;

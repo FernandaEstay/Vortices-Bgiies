@@ -51,21 +51,21 @@ public class NeuroSkyMappingLoader : MonoBehaviour {
            //Attention Level
            ActionManager.Instance.updateActionArrayList.Add(() => ActionManager.Instance.ActionPairing(
            ActionManager.Instance.ActionConditionIntValueGreaterThan(ref EEGManager.Instance.attentionLevel, triggerLevelIndex[index]), //condicion bool
-           ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
+           actionIndex[index]) //accion que se ejecuta
             );
         }else if(index == 1)
         {
            //Blink Strength
            ActionManager.Instance.updateActionArrayList.Add(() => ActionManager.Instance.ActionPairing(
            ActionManager.Instance.ActionConditionIntValueGreaterThan(ref EEGManager.Instance.blinkStrength, triggerLevelIndex[index]), //condicion bool
-           ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
+           actionIndex[index]) //accion que se ejecuta
             );
         }else if(index == 2)
         {
            //Meditation
            ActionManager.Instance.updateActionArrayList.Add(() => ActionManager.Instance.ActionPairing(
            ActionManager.Instance.ActionConditionIntValueGreaterThan(ref EEGManager.Instance.meditationLevel, triggerLevelIndex[index]), //condicion bool
-           ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
+           actionIndex[index]) //accion que se ejecuta
             );
         }
 

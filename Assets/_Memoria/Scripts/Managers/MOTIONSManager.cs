@@ -90,13 +90,8 @@ public class MOTIONSManager : MonoBehaviour {
         {
             if (ActionManager.Instance.ReloadMappingActions())
             {
-                if(ActionManager.Instance.actionsLimitations.AddLimitationToAction(
-                    ActionManager.Instance.ActionConditionButtons(KeyCode.O),
-                    0))
-                {
-                    LoadersManager.Instance.LoadInterfaces();
-                }
-                
+                //ActionManager.Instance.actionsLimitations.AddActionLimitation(3,ActionManager.Instance.ActionConditionButtonsHeld(KeyCode.P));            
+                LoadersManager.Instance.LoadInterfaces();               
 
             }
             ActionManager.Instance.InitializeManager();

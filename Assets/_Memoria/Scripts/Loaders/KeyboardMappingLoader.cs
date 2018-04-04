@@ -97,10 +97,10 @@ public class KeyboardMappingLoader : MonoBehaviour {
         //CAMBIAR ESTAS DE ABAJITO
         ActionManager.Instance.updateActionArrayList.Add( () => ActionManager.Instance.ActionPairing(
             ActionManager.Instance.ActionConditionButtons(key), //condicion bool
-            ActionManager.Instance.currentActionList[actionIndex[index]]) //accion que se ejecuta
+            actionIndex[index]) //accion que se ejecuta
             );
         //For debug purposes
-        PrintAddedAction(keyName[index], ActionManager.Instance.currentActionListNames[actionIndex[index]]);
+        PrintAddedAction(keyName[index], ActionManager.Instance.currentActionListNames[actionIndex[index]] + " index: " + actionIndex[index]);
     }
 
     void PrintAddedAction(string inputName, string pairedActionName)

@@ -117,7 +117,7 @@ public class EmotivMappingLoader : MonoBehaviour {
 
         ActionManager.Instance.updateActionArrayList.Add(() => ActionManager.Instance.ActionPairing(
            ActionManager.Instance.ActionConditionEmotiv(key, ticksIndex[index], mistakesIndex[index], commandTriggerLevelIndex[index]), //condicion bool
-           ActionManager.Instance.currentActionList[actionIndexMental[index]]) //accion que se ejecuta
+           actionIndexMental[index]) //accion que se ejecuta
             );
 
         PrintAddedAction(mentalCommandName[index], actionIndexMental[index], " ticks: " + ticksIndex[index] + " mistakes: " + mistakesIndex[index] + " triggerLevel: " + commandTriggerLevelIndex[index]);
@@ -131,7 +131,7 @@ public class EmotivMappingLoader : MonoBehaviour {
 
         ActionManager.Instance.updateActionArrayList.Add(() => ActionManager.Instance.ActionPairing(
            ActionManager.Instance.ActionConditionEmotiv(key, facilExpresionIsUpperFace[index], faceTriggerLevelIndex[index]), //condicion bool
-           ActionManager.Instance.currentActionList[actionIndexFacial[index]]) //accion que se ejecuta
+           actionIndexFacial[index]) //accion que se ejecuta
             );
 
         PrintAddedAction(facialExpresionName[index], actionIndexFacial[index], " triggerLevel: " + faceTriggerLevelIndex[index]);

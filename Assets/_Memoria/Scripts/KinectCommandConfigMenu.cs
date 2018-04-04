@@ -222,7 +222,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[0] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Open, true),
-                ActionManager.Instance.currentActionList[openHandRightAssignedActionIndex]
+                openHandRightAssignedActionIndex
                 );
         }
         else
@@ -234,7 +234,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[1] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Open, false),
-                ActionManager.Instance.currentActionList[openHandLeftAssignedActionIndex]
+                openHandLeftAssignedActionIndex
                 );
         }
         else
@@ -246,7 +246,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[2] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Closed, true),
-                ActionManager.Instance.currentActionList[closeHandRightAssignedActionIndex]
+                closeHandRightAssignedActionIndex
                 );
         }
         else
@@ -258,7 +258,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[3] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Closed, false),
-                ActionManager.Instance.currentActionList[closeHandLeftAssignedActionIndex]
+                closeHandLeftAssignedActionIndex
                 );
         }
         else
@@ -271,7 +271,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[4] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, true),
                 //ActionManager.Instance.currentActionList[lassoHandRightAssignedActionIndex]
-                ActionManager.Instance.currentActionList[1]
+                1
                 );
         }
         else
@@ -284,7 +284,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[5] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(Windows.Kinect.HandState.Lasso, false),
                 //ActionManager.Instance.currentActionList[lassoHandLeftAssignedActionIndex]
-                ActionManager.Instance.currentActionList[2]
+                    2
                 );
         }
         else
@@ -301,7 +301,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[6] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(0, gesture1TriggerLevel),
                 //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
-                ActionManager.Instance.currentActionList[3]
+                3
                 );
         }
         else
@@ -314,7 +314,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[7] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(1, gesture2TriggerLevel),
                 //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
-                ActionManager.Instance.currentActionList[4]
+                4
                 );
         }
         else
@@ -327,7 +327,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[8] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(2, gesture3TriggerLevel),
                 //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
-                ActionManager.Instance.currentActionList[5]
+                5
                 );
         }
         else
@@ -340,7 +340,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
             ActionManager.Instance.updateActionsKinectGestures[9] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(3, gesture4TriggerLevel),
                 //ActionManager.Instance.currentActionList[gesture1AssignedActionIndex]
-                ActionManager.Instance.currentActionList[6]
+                6
                 );
         }
         else
@@ -352,7 +352,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[10] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(4, gesture5TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture5AssignedActionIndex]
+                gesture5AssignedActionIndex
                 );
         }
         else
@@ -364,7 +364,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[11] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(5, gesture6TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture6AssignedActionIndex]
+                gesture6AssignedActionIndex
                 );
         }
         else
@@ -376,7 +376,7 @@ public class KinectCommandConfigMenu : MonoBehaviour {
         {
             ActionManager.Instance.updateActionsKinectGestures[12] = () => ActionManager.Instance.ActionPairing(
                 ActionManager.Instance.ActionConditionKinect(6, gesture7TriggerLevel),
-                ActionManager.Instance.currentActionList[gesture7AssignedActionIndex]
+                gesture7AssignedActionIndex
                 );
         }
         else
