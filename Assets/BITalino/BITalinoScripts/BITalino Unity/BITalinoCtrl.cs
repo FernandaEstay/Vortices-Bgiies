@@ -13,7 +13,10 @@ public class BITalinoCtrl : MonoBehaviour
     public ManagerBITalino manager;
     public BITalinoReader reader;
     public BITalinoSerialPort serial;
+    public Text state;
+    public Text data;
 
+    [HideInInspector]
     public float ecg, emg, acc, eda;
 
 

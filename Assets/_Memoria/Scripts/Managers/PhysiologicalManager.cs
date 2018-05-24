@@ -18,6 +18,15 @@ public class PhysiologicalManager : MonoBehaviour { //*NOTE: NO HEREDA DE LOS MI
      * These are the input variables 
      */
 
+    /*
+     * 
+     * BITalino variables
+     * 
+     */
+    public BITalinoCtrl bitalinoController;
+    public GameObject canvas;
+    public GameObject bitalinoExtras;
+    [HideInInspector]
     public bool useBITalino;    
     [HideInInspector]
     public float ecg;
@@ -39,22 +48,27 @@ public class PhysiologicalManager : MonoBehaviour { //*NOTE: NO HEREDA DE LOS MI
     #endregion
 
     #region Initialization
-    
-    public void InitializeManager() 
+
+    public void CheckInterfaces() 
     {
         scope = ProfileManager.Instance.currentEvaluationScope;
-        useBITalino = GLPlayerPrefs.GetBool(scope, "UseBITalino");
-        Debug.Log("Use BITalino:" + GLPlayerPrefs.GetBool(scope, "UseBITalino").ToString());
+        useBITalino = GLPlayerPrefs.GetBool(scope, "useBITalino");
+        Debug.Log("Use BITalino:" + GLPlayerPrefs.GetBool(scope, "useBITalino").ToString());
+
         if (useBITalino)
-        {  
-            BITalinoCtrl.Instance.InitializeBITalino();
+        {
+            canvas.SetActive(true);
+            bitalinoExtras.SetActive(true);
+            bitalinoController.gameObject.SetActive(true);
+            bitalinoController.InitializeBITalino();
         }
         else
         {
             NegateBITalino();
+            canvas.SetActive(false);
+            bitalinoExtras.SetActive(false);
+            bitalinoController.gameObject.SetActive(false);
         }
-
-        initialized = true;
     }
 
     // Use this for initialization
@@ -69,15 +83,15 @@ public class PhysiologicalManager : MonoBehaviour { //*NOTE: NO HEREDA DE LOS MI
     // Update is called once per frame
     void Update()
     {
-        if (!initialized || !useBITalino)
+        if (!useBITalino)
             return;
         else
         {
-            BITalinoCtrl.Instance.UpdateBITalino();
-            ecg = BITalinoCtrl.Instance.GetEcg();
-            emg = BITalinoCtrl.Instance.GetEmg();
-            acc = BITalinoCtrl.Instance.GetAcc();
-            eda = BITalinoCtrl.Instance.GetEda();
+            bitalinoController.UpdateBITalino();
+            ecg = bitalinoController.GetEcg();
+            emg = bitalinoController.GetEmg();
+            acc = bitalinoController.GetAcc();
+            eda = bitalinoController.GetEda();
         }
     }
 

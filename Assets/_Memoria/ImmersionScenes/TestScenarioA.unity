@@ -6412,7 +6412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa72c6f94d272504dab8ba6dbc6d9c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skybox: {fileID: 2100000, guid: 88ec9a13802800449aaf825aff3aadc7, type: 2}
+  m_skybox: {fileID: 0}
   structureObjects: {fileID: 918183580}
   scenarioObjects: {fileID: 1583954444}
 --- !u!1 &689548840
@@ -7822,7 +7822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &884628006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9878,6 +9878,7 @@ MonoBehaviour:
   - {fileID: 2120883464}
   - {fileID: 1344561242}
   - {fileID: 915197024}
+  - {fileID: 1681567778}
 --- !u!4 &1107849182
 Transform:
   m_ObjectHideFlags: 0
@@ -17310,7 +17311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1958353678
 Transform:
   m_ObjectHideFlags: 0

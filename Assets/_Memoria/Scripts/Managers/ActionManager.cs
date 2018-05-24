@@ -540,6 +540,7 @@ public class ActionManager : MonoBehaviour, IAwake
         return false;
     }
 
+    #region Action Condition = Greater Than INT
     //Adds a condition that is an int value that has to be greater than the second value
     public bool ActionConditionIntValueGreaterThan(ref int value, ref int threshold)
     {
@@ -559,8 +560,10 @@ public class ActionManager : MonoBehaviour, IAwake
         }
         return false;
     }
+    #endregion
 
-    //Adds a condition that is an int value that has to be greater than the second value
+    #region Action Condition = Greater Than DOUBLE
+    //Adds a condition that is an double value that has to be greater than the second value
     public bool ActionConditionDoubleValueGreaterThan(ref double value, ref double threshold)
     {
         if (value > threshold)
@@ -569,6 +572,51 @@ public class ActionManager : MonoBehaviour, IAwake
         }
         return false;
     }
+    #endregion
+
+    #region Action Condition = Greater Than FLOAT
+    //Adds a condition that is an float value that has to be greater than the second value
+    public bool ActionConditionFloatValueGreaterThan(ref float value, ref float threshold)
+    {
+        if (value > threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //Overload so the treshold isn't a reference
+    public bool ActionConditionFloatValueGreaterThan(ref float value, float threshold)
+    {
+        if (value > threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
+    #region Action Condition = Lower Than FLOAT
+    //Adds a condition that is an float value that has to be greater than the second value
+    public bool ActionConditionFloatValueLowerThan(ref float value, ref float threshold)
+    {
+        if (value < threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //Overload so the treshold isn't a reference
+    public bool ActionConditionFloatValueLowerThan(ref float value, float threshold)
+    {
+        if (value < threshold)
+        {
+            return true;
+        }
+        return false;
+    }
+    #endregion
 
     //Adds a condition that is a key button, to be used with ActionPairing function
     public bool ActionConditionButtons(KeyCode button){

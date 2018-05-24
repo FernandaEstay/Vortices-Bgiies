@@ -10,8 +10,7 @@ public class InterfaceManager : MonoBehaviour {
     string Scope;
     //These are not game objects but components. In the inspector you must drag-n-drop the game object that holds the scripts you want and to access
     public EEGManager eegManager;
-
-    //AQUI AGREGAR REFERENCIA AL BITALINO MANAGER; PARA QUE SEA GLOBAL 
+    public PhysiologicalManager physiologicalManager;
 
     public EyetrackerManager eyeTrackerManager;
     public LeapMotionManager leapMotionManager;
@@ -49,10 +48,10 @@ public class InterfaceManager : MonoBehaviour {
         {
             leapMotionManager.gameObject.SetActive(true);
         }
-
+        
         //List of groups of devices that are asked to check
         eegManager.CheckInterfaces();
-
+        physiologicalManager.CheckInterfaces();
     }
 
     public void OnConfigScene()
