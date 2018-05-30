@@ -4897,6 +4897,7 @@ MonoBehaviour:
   - {fileID: 1769370087}
   - {fileID: 1529605770}
   - {fileID: 723172820}
+  - {fileID: 723172820}
 --- !u!4 &612868108
 Transform:
   m_ObjectHideFlags: 0
@@ -5716,7 +5717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa72c6f94d272504dab8ba6dbc6d9c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skybox: {fileID: 2100000, guid: c6009c518b3fa764d960a012396d76fb, type: 2}
+  m_skybox: {fileID: 0}
   structureObjects: {fileID: 1017908883}
   scenarioObjects: {fileID: 151604450}
 --- !u!1001 &679407555

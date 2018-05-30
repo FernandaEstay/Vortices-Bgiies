@@ -52786,7 +52786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bitalinoController: {fileID: 391122619}
   canvas: {fileID: 546383316}
-  bitalinoExtras: {fileID: 0}
+  bitalinoExtras: {fileID: 1248890357}
   useBITalino: 0
   ecg: 0
   ecgTrigger: 0
